@@ -178,6 +178,13 @@ app.use(
 );
 app.use(express.json({ limit: '2mb' }));
 app.use('/api', rateLimitApi);
+
+// Serve admin.html before static middleware to avoid redirect to /admin/
+// Apply rate limiting to prevent abuse
+app.get('/admin', rateLimitApi, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 app.use(express.static('public'));
 
 function timingSafeEqualString(a, b) {
@@ -1264,13 +1271,6 @@ app.get(
   '/',
   asyncHandler(async (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  }),
-);
-
-app.get(
-  '/admin',
-  asyncHandler(async (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
   }),
 );
 
