@@ -171,6 +171,7 @@ This will provide detailed console output with timestamps and structured logging
 - `python src/process_data.py` – Run Python worker standalone
 - `python admin_console.py` – Run system audit
 - `python src/process_data.py qa` – Test QA interface
+- `./heady-sync.sh` – Smart sync & squash: Scans changes, pulls remote updates, commits, and pushes
 
 ### Testing
 ```bash
@@ -180,6 +181,29 @@ echo '{"question":"What is Heady?","context":"Heady is a system"}' | python src/
 # Run system audit
 python admin_console.py --output audit.json
 ```
+
+### Repository Synchronization
+
+The `heady-sync.sh` script provides intelligent repository synchronization with squash merging:
+
+```bash
+# Make the script executable (first time only)
+chmod +x heady-sync.sh
+
+# Run the sync script
+./heady-sync.sh
+```
+
+**Features:**
+- Automatically detects and stages all local changes (warns about sensitive files)
+- Generates descriptive commit messages with timestamps and file lists (truncates long lists)
+- Commits local changes before syncing
+- Safely rebases with remote repository (allows unrelated histories)
+- Combines local commits with remote changes while maintaining history
+- Pushes changes to GitHub with comprehensive error handling
+- Provides helpful recovery instructions if conflicts occur
+
+**Note:** The script defaults to the `main` branch. Edit the `BRANCH` variable in the script to use a different branch. Always ensure your `.gitignore` properly excludes sensitive files before running.
 
 ## GitHub Copilot Integration
 
