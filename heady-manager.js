@@ -1,3 +1,5 @@
+require('dotenv').config({ override: true });
+
 const express = require('express');
 const cors = require('cors');
 const Docker = require('dockerode');
@@ -1104,7 +1106,7 @@ app.post(
 
     const scriptArgs = [];
     if (mode) scriptArgs.push(String(mode));
-    scriptArgs.push(targetPath);
+    scriptArgs.push('--project-root', targetPath);
 
     if (Array.isArray(args)) {
       args.forEach((arg) => {
@@ -1136,7 +1138,7 @@ app.post(
 
     const scriptArgs = [];
     if (mode) scriptArgs.push(String(mode));
-    scriptArgs.push(targetPath);
+    scriptArgs.push('--project-root', targetPath);
 
     if (Array.isArray(args)) {
       args.forEach((arg) => {
