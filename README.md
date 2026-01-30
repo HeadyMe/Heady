@@ -8,6 +8,8 @@ A hybrid Node.js/Python system for the HeadyConnection ecosystem, featuring a we
 
 **🤖 GitHub Copilot Coding Agent Enabled** - This repository is configured to work with GitHub Copilot's Coding Agent for automated fixes and improvements. See [Copilot Setup Guide](.github/COPILOT_SETUP.md) for details.
 
+**🔗 Connected Apps & APIs Orchestrator** - Includes a custom Copilot agent for orchestrating multi-tool workflows across GitHub, Notion, Slack, and other connected systems. See [Connected Apps Orchestrator](docs/connected-apps-orchestrator.md) for details.
+
 ## Architecture
 
 | Component | Technology | Purpose |
