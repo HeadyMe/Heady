@@ -1,0 +1,132 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "metadata": {
+    "webUrl": "https://headysystems.com/buddy"
+  },
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://headysystems.com/assets/buddy-avatar-idle.png",
+                  "size": "Small",
+                  "style": "Person",
+                  "altText": "HeadyBuddy"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "HeadyBuddy — Expanded View",
+                  "weight": "Bolder",
+                  "color": "Accent"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "overviewSection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Overview",
+          "weight": "Bolder",
+          "size": "Medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            { "title": "Current Task", "value": "${currentTask}" },
+            { "title": "Progress", "value": "${progress}" },
+            { "title": "Time Focused", "value": "${timeFocused}" },
+            { "title": "Next Break", "value": "${nextBreak}" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "stepsSection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Workflow Steps",
+          "weight": "Bolder",
+          "size": "Medium",
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${workflowSteps}",
+          "wrap": true,
+          "size": "Small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "conversationSection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Conversation",
+          "weight": "Bolder",
+          "size": "Medium",
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${conversationHistory}",
+          "wrap": true,
+          "size": "Small",
+          "maxLines": 20
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Input.Text",
+          "id": "userMessage",
+          "placeholder": "Continue the conversation…",
+          "isMultiline": true
+        }
+      ],
+      "spacing": "Small"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Send",
+      "data": { "action": "chat" },
+      "style": "positive"
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Collapse",
+      "data": { "action": "collapse" }
+    }
+  ]
+}

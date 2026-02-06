@@ -1,0 +1,199 @@
+{
+  "metadata": {
+    "last_updated": "2026-02-06T15:27:00.000Z",
+    "version": "3.0.0",
+    "environment": "development"
+  },
+  "nodes": {
+    "BRIDGE": {
+      "name": "BRIDGE",
+      "role": "The Connector",
+      "primary_tool": "mcp_server",
+      "trigger_on": ["mcp", "connect", "network"],
+      "tool_path": "HeadyAcademy/Tools/MCP/Server.py",
+      "status": "available"
+    },
+    "MUSE": {
+      "name": "MUSE",
+      "role": "The Brand Architect",
+      "primary_tool": "Content_Generator",
+      "trigger_on": ["generate_content", "marketing"],
+      "tool_path": "HeadyAcademy/Tools/Content_Generator.py",
+      "status": "available"
+    },
+    "SENTINEL": {
+      "name": "SENTINEL",
+      "role": "The Guardian",
+      "primary_tool": "Heady_Chain",
+      "trigger_on": ["grant_auth", "verify_auth", "audit_ledger"],
+      "tool_path": "HeadyAcademy/Tools/Heady_Chain.py",
+      "status": "available"
+    },
+    "NOVA": {
+      "name": "NOVA",
+      "role": "The Expander",
+      "primary_tool": "Gap_Scanner",
+      "trigger_on": ["scan_gaps"],
+      "tool_path": "HeadyAcademy/Tools/Gap_Scanner.py",
+      "status": "available"
+    },
+    "OBSERVER": {
+      "name": "OBSERVER",
+      "role": "The Natural Observer",
+      "primary_tool": "Natural_Observer",
+      "trigger_on": ["monitor"],
+      "tool_path": "HeadyAcademy/Tools/Daemons/Natural_Observer.py",
+      "status": "available"
+    },
+    "JANITOR": {
+      "name": "JANITOR",
+      "role": "The Custodian",
+      "primary_tool": "Clean_Sweep",
+      "trigger_on": ["clean"],
+      "tool_path": "HeadyAcademy/Tools/Clean_Sweep.py",
+      "status": "available"
+    },
+    "JULES": {
+      "name": "JULES",
+      "role": "The Hyper-Surgeon",
+      "primary_tool": "Optimizer",
+      "trigger_on": ["optimization"],
+      "tool_path": "HeadyAcademy/Tools/Optimizer.py",
+      "status": "available"
+    },
+    "SOPHIA": {
+      "name": "SOPHIA",
+      "role": "The Matriarch",
+      "primary_tool": "Tool_Learner",
+      "trigger_on": ["learn_tool"],
+      "tool_path": "HeadyAcademy/Tools/Tool_Learner.py",
+      "status": "available"
+    },
+    "CIPHER": {
+      "name": "CIPHER",
+      "role": "The Cryptolinguist",
+      "primary_tool": "Heady_Crypt",
+      "trigger_on": ["obfuscate"],
+      "tool_path": "HeadyAcademy/Tools/Heady_Crypt.py",
+      "status": "available"
+    },
+    "ATLAS": {
+      "name": "ATLAS",
+      "role": "The Auto-Archivist",
+      "primary_tool": "Auto_Doc",
+      "trigger_on": ["documentation"],
+      "tool_path": "HeadyAcademy/Tools/Auto_Doc.py",
+      "status": "available"
+    },
+    "MURPHY": {
+      "name": "MURPHY",
+      "role": "The Inspector",
+      "primary_tool": "Security_Audit",
+      "trigger_on": ["security_audit"],
+      "tool_path": "HeadyAcademy/Tools/Security_Audit.py",
+      "status": "available"
+    },
+    "SASHA": {
+      "name": "SASHA",
+      "role": "The Dreamer",
+      "primary_tool": "Brainstorm",
+      "trigger_on": ["brainstorming"],
+      "tool_path": "HeadyAcademy/Tools/Brainstorm.py",
+      "status": "available"
+    },
+    "SCOUT": {
+      "name": "SCOUT",
+      "role": "The Hunter",
+      "primary_tool": "Github_Scanner",
+      "trigger_on": ["scan_github"],
+      "tool_path": "HeadyAcademy/Tools/Github_Scanner.py",
+      "status": "available"
+    },
+    "OCULUS": {
+      "name": "OCULUS",
+      "role": "The Visualizer",
+      "primary_tool": "Visualizer",
+      "trigger_on": ["visualize"],
+      "tool_path": "HeadyAcademy/Tools/Visualizer.py",
+      "status": "available"
+    },
+    "BUILDER": {
+      "name": "BUILDER",
+      "role": "The Constructor",
+      "primary_tool": "Hydrator",
+      "trigger_on": ["new_project"],
+      "tool_path": "HeadyAcademy/Tools/Hydrator.py",
+      "status": "available"
+    },
+    "PYTHIA": {
+      "name": "PYTHIA",
+      "role": "The Oracle",
+      "primary_tool": "HuggingFace_Tool",
+      "trigger_on": ["huggingface", "predict", "infer", "ask_oracle"],
+      "tool_path": "HeadyAcademy/Tools/HuggingFace_Tool.py",
+      "status": "available"
+    }
+  },
+  "workflows": {
+    "hc-full-pipeline": {
+      "name": "hc-full-pipeline",
+      "description": "HCFullPipeline - Archive current repos to pre-production and rebuild from scratch",
+      "file_path": ".windsurf/workflows/hc-full-pipeline.md",
+      "slash_command": "/hc-full-pipeline",
+      "status": "active"
+    },
+    "heady-sync": {
+      "name": "heady-sync",
+      "description": "HeadySync - Push to all configured remotes",
+      "file_path": ".windsurf/workflows/heady-sync.md",
+      "slash_command": "/heady-sync",
+      "status": "active"
+    },
+    "autobuild": {
+      "name": "autobuild",
+      "description": "HCAutoBuild - Discover and build all projects",
+      "file_path": ".windsurf/workflows/autobuild.md",
+      "slash_command": "/autobuild",
+      "status": "active"
+    }
+  },
+  "skills": {
+    "hc": {
+      "name": "hc",
+      "description": "Heady Conductor orchestration",
+      "category": "orchestration",
+      "status": "active"
+    }
+  },
+  "services": {
+    "heady-manager": {
+      "name": "heady-manager",
+      "type": "api",
+      "endpoint": "http://localhost:3300",
+      "port": 3300,
+      "status": "available",
+      "health_check_url": "http://localhost:3300/api/health"
+    }
+  },
+  "tools": {
+    "Auto_Doc": { "name": "Auto_Doc", "file_path": "HeadyAcademy/Tools/Auto_Doc.py", "category": "general", "status": "available" },
+    "Brainstorm": { "name": "Brainstorm", "file_path": "HeadyAcademy/Tools/Brainstorm.py", "category": "general", "status": "available" },
+    "Clean_Sweep": { "name": "Clean_Sweep", "file_path": "HeadyAcademy/Tools/Clean_Sweep.py", "category": "general", "status": "available" },
+    "Content_Generator": { "name": "Content_Generator", "file_path": "HeadyAcademy/Tools/Content_Generator.py", "category": "general", "status": "available" },
+    "Gap_Scanner": { "name": "Gap_Scanner", "file_path": "HeadyAcademy/Tools/Gap_Scanner.py", "category": "general", "status": "available" },
+    "Github_Scanner": { "name": "Github_Scanner", "file_path": "HeadyAcademy/Tools/Github_Scanner.py", "category": "general", "status": "available" },
+    "Heady_Chain": { "name": "Heady_Chain", "file_path": "HeadyAcademy/Tools/Heady_Chain.py", "category": "general", "status": "available" },
+    "Heady_Crypt": { "name": "Heady_Crypt", "file_path": "HeadyAcademy/Tools/Heady_Crypt.py", "category": "general", "status": "available" },
+    "HuggingFace_Tool": { "name": "HuggingFace_Tool", "file_path": "HeadyAcademy/Tools/HuggingFace_Tool.py", "category": "ml", "status": "available" },
+    "Hydrator": { "name": "Hydrator", "file_path": "HeadyAcademy/Tools/Hydrator.py", "category": "general", "status": "available" },
+    "Optimizer": { "name": "Optimizer", "file_path": "HeadyAcademy/Tools/Optimizer.py", "category": "general", "status": "available" },
+    "Security_Audit": { "name": "Security_Audit", "file_path": "HeadyAcademy/Tools/Security_Audit.py", "category": "security", "status": "available" },
+    "Tool_Learner": { "name": "Tool_Learner", "file_path": "HeadyAcademy/Tools/Tool_Learner.py", "category": "general", "status": "available" },
+    "Visualizer": { "name": "Visualizer", "file_path": "HeadyAcademy/Tools/Visualizer.py", "category": "general", "status": "available" },
+    "Natural_Observer": { "name": "Natural_Observer", "file_path": "HeadyAcademy/Tools/Daemons/Natural_Observer.py", "category": "daemon", "status": "available" },
+    "MCP_Client": { "name": "MCP_Client", "file_path": "HeadyAcademy/Tools/MCP/Client.py", "category": "mcp", "status": "available" },
+    "MCP_Server": { "name": "MCP_Server", "file_path": "HeadyAcademy/Tools/MCP/Server.py", "category": "mcp", "status": "available" },
+    "Auth_Protocol": { "name": "Auth_Protocol", "file_path": "HeadyAcademy/Tools/Security/Auth_Protocol.py", "category": "security", "status": "available" },
+    "Key_Manager": { "name": "Key_Manager", "file_path": "HeadyAcademy/Tools/Security/Key_Manager.py", "category": "security", "status": "available" }
+  }
+}

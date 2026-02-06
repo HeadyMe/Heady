@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  heady-manager:
+    build: .
+    container_name: heady-manager
+    ports:
+      - "3300:3300"
+    environment:
+      - NODE_ENV=production
+      - PORT=3300
+      - HEADY_TARGET=Docker
+      - HEADY_VERSION=3.0.0
+    volumes:
+      - heady-data:/app/.heady-memory
+    networks:
+      - heady-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3300/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  heady-redis:
+    image: redis:7-alpine
+    container_name: heady-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - heady-redis:/data
+    networks:
+      - heady-net
+    restart: unless-stopped
+
+  heady-postgres:
+    image: postgres:16-alpine
+    container_name: heady-postgres
+    environment:
+      - POSTGRES_DB=heady
+      - POSTGRES_USER=heady
+      - POSTGRES_PASSWORD=heady_secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - heady-postgres:/var/lib/postgresql/data
+    networks:
+      - heady-net
+    restart: unless-stopped
+
+volumes:
+  heady-data:
+  heady-redis:
+  heady-postgres:
+
+networks:
+  heady-net:
+    driver: bridge

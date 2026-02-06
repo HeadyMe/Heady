@@ -1,0 +1,52 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                 ║
+# ║  ━━━━━━━━━━━━━━                                                ║
+# ║  ∞ Sacred Geometry Architecture ∞                              ║
+# ║                                                                ║
+# ║  docker-compose.desktop.yml - Distributable Heady Desktop      ║
+# ║  HeadyBuddy + HeadyAutoIDE in a browser-accessible desktop     ║
+# ║                                                                ║
+# ║  Usage:                                                        ║
+# ║    docker compose -f docker-compose.desktop.yml up --build     ║
+# ║    Open: http://localhost:6080                                  ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+version: '3.8'
+
+services:
+  heady-desktop:
+    build:
+      context: .
+      dockerfile: headybuddy/docker/Dockerfile.desktop
+    container_name: heady-desktop
+    ports:
+      - "6080:6080"   # noVNC — browser desktop access
+      - "3300:3300"   # heady-manager API
+      - "3400:3400"   # HeadyBuddy widget
+    environment:
+      - VNC_RESOLUTION=1920x1080
+      - VNC_DEPTH=24
+      - NODE_ENV=production
+      - HEADY_TARGET=DockerDesktop
+      - HEADY_VERSION=3.0.0
+    volumes:
+      - heady-desktop-data:/home/heady/Documents
+      - heady-desktop-projects:/home/heady/Projects
+    networks:
+      - heady-desktop-net
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:6080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  heady-desktop-data:
+    driver: local
+  heady-desktop-projects:
+    driver: local
+
+networks:
+  heady-desktop-net:
+    driver: bridge
