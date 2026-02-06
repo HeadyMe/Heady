@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Build output
+dist/
+build/
+.next/
+
+# Environment
+.env
+.env.local
+.env.production
+.heady_secrets
+
+# Logs
+*.log
+logs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+.pytest_cache/
+*.egg-info/
+
+# Generated
+heady-manifest.json
+HeadyAcademy/Content_Forge/Visualizations/
+pipeline-output/
+.heady_cache/

@@ -1,0 +1,24 @@
+# Heady Pipeline Configuration
+pipeline:
+  version: "3.0.0"
+  stages:
+    - id: health-check
+      name: Health Check
+      timeout: 10000
+    - id: code-analysis
+      name: Code Analysis
+      timeout: 30000
+      depends_on: [health-check]
+    - id: build
+      name: Build
+      timeout: 60000
+      depends_on: [code-analysis]
+    - id: deploy
+      name: Deploy
+      timeout: 120000
+      depends_on: [build]
+
+circuit_breakers:
+  default:
+    failure_threshold: 3
+    reset_timeout: 30000
