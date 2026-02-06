@@ -15,6 +15,7 @@ build/
 .env.local
 .env.production
 .heady_secrets
+.heady/memory.db
 
 # Logs
 *.log
