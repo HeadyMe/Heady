@@ -1,0 +1,164 @@
+/**
+ * ╔═══════════════════════════════════════════════════════════════╗
+ * ║  HEADY SYSTEMS                                                 ║
+ * ║  ━━━━━━━━━━━━━━                                                ║
+ * ║  ∞ Sacred Geometry Architecture ∞                              ║
+ * ║                                                                ║
+ * ║  App.jsx - HeadyBuddy Root Component                           ║
+ * ╚═══════════════════════════════════════════════════════════════╝
+ */
+
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import CollapsedPill from "./components/CollapsedPill";
+import MainWidget from "./components/MainWidget";
+import ExpandedView from "./components/ExpandedView";
+
+const HEADY_API = import.meta.env.VITE_HEADY_API || "http://localhost:3300";
+const RESOURCE_POLL_MS = 5000;
+const ORCHESTRATOR_POLL_MS = 8000;
+
+// ─── Resource Health Hook ──────────────────────────────────────────────────
+
+function useResourceHealth() {
+  const [resourceData, setResourceData] = useState(null);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    async function poll() {
+      try {
+        const res = await fetch(`${HEADY_API}/api/resources/health`);
+        if (res.ok) setResourceData(await res.json());
+      } catch (_) { /* endpoint may not be running yet */ }
+    }
+    poll();
+    timerRef.current = setInterval(poll, RESOURCE_POLL_MS);
+    return () => clearInterval(timerRef.current);
+  }, []);
+
+  return resourceData;
+}
+
+// ─── Pipeline State Hook ───────────────────────────────────────────────────
+
+function usePipelineState(enabled) {
+  const [pipelineState, setPipelineState] = useState({});
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (!enabled) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+    async function poll() {
+      try {
+        const res = await fetch(`${HEADY_API}/api/buddy/orchestrator`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const cont = data.pipeline?.continuous || {};
+        setPipelineState({
+          currentTask: cont.running ? `Cycle ${cont.cycleCount}` : null,
+          currentStage: cont.running ? "build_integrate" : "",
+          cycleCount: cont.cycleCount || 0,
+          continuousMode: cont.running || false,
+          nodesActive: data.nodes?.active || 0,
+          nodesTotal: data.nodes?.total || 0,
+          gates: cont.gates || {},
+          exitReason: cont.exitReason || null,
+        });
+      } catch (_) { /* not connected */ }
+    }
+    poll();
+    timerRef.current = setInterval(poll, ORCHESTRATOR_POLL_MS);
+    return () => clearInterval(timerRef.current);
+  }, [enabled]);
+
+  return pipelineState;
+}
+
+// ─── App ───────────────────────────────────────────────────────────────────
+
+export default function App() {
+  const [viewState, setViewState] = useState("pill"); // pill | main | expanded
+  const [messages, setMessages] = useState([]);
+  const [status, setStatus] = useState("idle"); // idle | listening | thinking | success | error
+  const resourceData = useResourceHealth();
+  const pipelineState = usePipelineState(viewState === "expanded");
+
+  const handleSend = useCallback(async (text) => {
+    if (!text.trim()) return;
+
+    const userMsg = { role: "user", content: text, ts: Date.now() };
+    setMessages((prev) => [...prev, userMsg]);
+    setStatus("thinking");
+
+    try {
+      const res = await fetch(`${HEADY_API}/api/buddy/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history: messages.slice(-10) }),
+      });
+
+      if (!res.ok) throw new Error(`API ${res.status}`);
+
+      const data = await res.json();
+      const assistantMsg = {
+        role: "assistant",
+        content: data.reply || data.message || "I'm here to help!",
+        ts: Date.now(),
+      };
+      setMessages((prev) => [...prev, assistantMsg]);
+      setStatus("success");
+      setTimeout(() => setStatus("idle"), 2000);
+    } catch (err) {
+      const errMsg = {
+        role: "assistant",
+        content: `Connection issue — I'll keep trying. (${err.message})`,
+        ts: Date.now(),
+        isError: true,
+      };
+      setMessages((prev) => [...prev, errMsg]);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+    }
+  }, [messages]);
+
+  const handleSuggestion = useCallback((chip) => {
+    handleSend(chip);
+  }, [handleSend]);
+
+  if (viewState === "expanded") {
+    return (
+      <ExpandedView
+        status={status}
+        messages={messages}
+        onSend={handleSend}
+        onCollapse={() => setViewState("main")}
+        resourceData={resourceData}
+        pipelineState={pipelineState}
+      />
+    );
+  }
+
+  if (viewState === "main") {
+    return (
+      <MainWidget
+        status={status}
+        messages={messages}
+        onSend={handleSend}
+        onCollapse={() => setViewState("pill")}
+        onExpand={() => setViewState("expanded")}
+        onSuggestion={handleSuggestion}
+        resourceData={resourceData}
+      />
+    );
+  }
+
+  return (
+    <CollapsedPill
+      status={status}
+      onExpand={() => setViewState("main")}
+      onSuggestion={handleSuggestion}
+      resourceData={resourceData}
+    />
+  );
+}

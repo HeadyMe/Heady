@@ -1,0 +1,53 @@
+{
+  "name": "headybuddy-desktop",
+  "version": "3.0.0",
+  "description": "HeadyBuddy Desktop Overlay — Always-on AI Companion Widget",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build:widget": "cd ../headybuddy && npm run build",
+    "package:win": "electron-builder --win",
+    "package:mac": "electron-builder --mac",
+    "package:linux": "electron-builder --linux"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.headysystems.headybuddy",
+    "productName": "HeadyBuddy",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "tray.js",
+      "icons/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../headybuddy/dist",
+        "to": "widget",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "icons/icon.ico"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "icon": "icons/icon.icns"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "icon": "icons/icon.png"
+    }
+  }
+}

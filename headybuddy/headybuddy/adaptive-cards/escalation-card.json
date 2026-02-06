@@ -1,0 +1,95 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "warning",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Resource Alert",
+          "weight": "Bolder",
+          "size": "Medium",
+          "color": "Warning"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "${alertSummary}",
+          "wrap": true,
+          "size": "Small"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Primary Contributors:",
+          "weight": "Bolder",
+          "size": "Small",
+          "spacing": "Small"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${contributors}",
+          "wrap": true,
+          "size": "Small",
+          "spacing": "None"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Impact: ${impactDescription}",
+          "wrap": true,
+          "size": "Small",
+          "spacing": "Small",
+          "color": "Attention"
+        }
+      ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Recommended",
+          "data": {
+            "action": "resource_action",
+            "command": "recommended",
+            "description": "Pause low-priority jobs, protect IDE and core tasks"
+          },
+          "style": "positive"
+        },
+        {
+          "type": "Action.Submit",
+          "title": "Continue All",
+          "data": {
+            "action": "resource_action",
+            "command": "continue_all",
+            "description": "Accept risk of slowness and OOM"
+          }
+        },
+        {
+          "type": "Action.Submit",
+          "title": "Safe Mode",
+          "data": {
+            "action": "resource_action",
+            "command": "safe_mode",
+            "description": "Stop all non-essential AI workloads until < 70%"
+          }
+        },
+        {
+          "type": "Action.Submit",
+          "title": "Manual Control",
+          "data": {
+            "action": "resource_action",
+            "command": "manual_control",
+            "description": "Show detailed job list for manual pause/stop"
+          }
+        }
+      ]
+    }
+  ]
+}

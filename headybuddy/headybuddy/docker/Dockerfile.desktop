@@ -1,0 +1,164 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                 ║
+# ║  ━━━━━━━━━━━━━━                                                ║
+# ║  ∞ Sacred Geometry Architecture ∞                              ║
+# ║                                                                ║
+# ║  Dockerfile.desktop - Distributable Linux desktop with         ║
+# ║  HeadyBuddy overlay + HeadyAutoIDE                             ║
+# ╚═══════════════════════════════════════════════════════════════╝
+#
+# Build:  docker build -f headybuddy/docker/Dockerfile.desktop -t heady/desktop:latest .
+# Run:    docker run --rm -p 6080:6080 -p 3300:3300 heady/desktop:latest
+# Access: http://localhost:6080
+
+FROM ubuntu:22.04
+
+LABEL maintainer="HeadySystems <dev@headysystems.com>"
+LABEL description="HeadyBuddy Desktop — Full Linux desktop with AI companion overlay and HeadyAutoIDE"
+
+# ─── Environment ──────────────────────────────────────────────────
+ENV DEBIAN_FRONTEND=noninteractive \
+    USER=heady \
+    HOME=/home/heady \
+    VNC_PORT=5901 \
+    NOVNC_PORT=6080 \
+    VNC_RESOLUTION=1920x1080 \
+    VNC_DEPTH=24 \
+    DISPLAY=:1 \
+    NODE_VERSION=20 \
+    HEADY_API=http://localhost:3300
+
+# ─── 1. System packages ──────────────────────────────────────────
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Desktop environment
+    xfce4 xfce4-goodies xfce4-terminal dbus-x11 \
+    # VNC + noVNC
+    tigervnc-standalone-server tigervnc-common \
+    novnc websockify \
+    # Process management
+    supervisor \
+    # Utilities
+    wget curl git ca-certificates gnupg lsb-release \
+    sudo nano less htop unzip \
+    # Browser (for HeadyBuddy overlay)
+    chromium-browser \
+    # Audio (optional, for completeness)
+    pulseaudio \
+    # Fonts
+    fonts-liberation fonts-noto-color-emoji \
+    && rm -rf /var/lib/apt/lists/*
+
+# ─── 2. Node.js (for heady-manager) ──────────────────────────────
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+# ─── 3. Create non-root user ─────────────────────────────────────
+RUN useradd -m -s /bin/bash -G sudo ${USER} && \
+    echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/${USER}
+
+# ─── 4. HeadyAutoIDE (VS Code) ───────────────────────────────────
+RUN wget -qO /tmp/code.deb "https://update.code.visualstudio.com/latest/linux-deb-x64/stable" && \
+    apt-get update && apt-get install -y /tmp/code.deb && \
+    rm /tmp/code.deb && rm -rf /var/lib/apt/lists/*
+
+# ─── 5. Copy Heady project ───────────────────────────────────────
+COPY --chown=${USER}:${USER} . /opt/heady
+WORKDIR /opt/heady
+
+# Install heady-manager dependencies
+RUN npm ci --only=production 2>/dev/null || npm install --only=production
+
+# Build HeadyBuddy widget
+RUN cd headybuddy && npm install && npm run build
+
+# ─── 6. Configure user environment ───────────────────────────────
+USER ${USER}
+WORKDIR ${HOME}
+
+# Desktop launcher for HeadyAutoIDE
+RUN mkdir -p ${HOME}/Desktop ${HOME}/.local/share/applications && \
+    printf '%s\n' \
+      '[Desktop Entry]' \
+      'Type=Application' \
+      'Name=HeadyAutoIDE' \
+      'Comment=Heady Auto IDE — Sacred Geometry Development' \
+      'Exec=code --no-sandbox --user-data-dir=/home/heady/.headyautoide /opt/heady' \
+      'Icon=code' \
+      'Terminal=false' \
+      'Categories=Development;' \
+      'StartupNotify=true' \
+    > ${HOME}/.local/share/applications/headyautoide.desktop && \
+    chmod +x ${HOME}/.local/share/applications/headyautoide.desktop && \
+    cp ${HOME}/.local/share/applications/headyautoide.desktop ${HOME}/Desktop/
+
+# HeadyBuddy overlay autostart (Chromium kiosk to built widget)
+RUN mkdir -p ${HOME}/.config/autostart && \
+    printf '%s\n' \
+      '[Desktop Entry]' \
+      'Type=Application' \
+      'Name=HeadyBuddy' \
+      'Comment=HeadyBuddy — Perfect Day AI Companion' \
+      'Exec=/usr/bin/chromium-browser --no-sandbox --disable-gpu --app=http://localhost:3400 --window-size=400,600 --window-position=1500,400' \
+      'Terminal=false' \
+      'X-GNOME-Autostart-enabled=true' \
+      'StartupNotify=false' \
+    > ${HOME}/.config/autostart/headybuddy.desktop && \
+    chmod +x ${HOME}/.config/autostart/headybuddy.desktop
+
+# Desktop launcher for HeadyBuddy
+RUN printf '%s\n' \
+      '[Desktop Entry]' \
+      'Type=Application' \
+      'Name=HeadyBuddy' \
+      'Comment=HeadyBuddy — Perfect Day AI Companion' \
+      'Exec=/usr/bin/chromium-browser --no-sandbox --disable-gpu --app=http://localhost:3400 --window-size=400,600' \
+      'Icon=dialog-information' \
+      'Terminal=false' \
+      'Categories=Utility;' \
+    > ${HOME}/Desktop/headybuddy.desktop && \
+    chmod +x ${HOME}/Desktop/headybuddy.desktop
+
+# VNC password (default: heady)
+RUN mkdir -p ${HOME}/.vnc && \
+    echo "heady" | vncpasswd -f > ${HOME}/.vnc/passwd && \
+    chmod 600 ${HOME}/.vnc/passwd
+
+# VNC startup config
+RUN printf '%s\n' \
+      '#!/bin/sh' \
+      'xrdb $HOME/.Xresources 2>/dev/null' \
+      'startxfce4 &' \
+    > ${HOME}/.vnc/xstartup && \
+    chmod +x ${HOME}/.vnc/xstartup
+
+# ─── 7. Branding assets ──────────────────────────────────────────
+RUN mkdir -p ${HOME}/Pictures && \
+    mkdir -p ${HOME}/.config/xfce4/xfconf/xfce-perchannel-xml
+
+# Xfce panel config (dark theme)
+RUN mkdir -p ${HOME}/.config/xfce4 && \
+    printf '%s\n' \
+      '# Heady Desktop Configuration' \
+      'Net/ThemeName "Adwaita-dark"' \
+      'Net/IconThemeName "Adwaita"' \
+    > ${HOME}/.config/xfce4/xfce4-settings.conf
+
+# ─── 8. Supervisor & startup (run as root) ────────────────────────
+USER root
+
+COPY headybuddy/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY headybuddy/docker/startup.sh /usr/local/bin/startup.sh
+RUN chmod +x /usr/local/bin/startup.sh
+
+# ─── 9. Expose ports ─────────────────────────────────────────────
+# 6080 = noVNC (browser desktop access)
+# 3300 = heady-manager API
+# 3400 = HeadyBuddy widget dev server (inside container)
+EXPOSE 6080 3300 3400
+
+# ─── 10. Health check ────────────────────────────────────────────
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD curl -sf http://localhost:6080/ || exit 1
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

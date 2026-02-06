@@ -1,0 +1,70 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../../.cache"
+		},
+		{
+			"path": "../../../../AMD"
+		},
+		{
+			"path": "../../../../Assets"
+		},
+		{
+			"path": "../../../../Config"
+		},
+		{
+			"path": "../../../../Docs"
+		},
+		{
+			"path": "../../../../Heady"
+		},
+		{
+			"path": "../../../../inetpub"
+		},
+		{
+			"path": "../../../../Logs"
+		},
+		{
+			"path": "../../../../OneDriveTemp"
+		},
+		{
+			"path": "../../../../PerfLogs"
+		},
+		{
+			"path": "../../../../Plans"
+		},
+		{
+			"path": "../../../../Program Files"
+		},
+		{
+			"path": "../../../../Program Files (x86)"
+		},
+		{
+			"path": "../../../../ProgramData"
+		},
+		{
+			"path": "../../../../Python314"
+		},
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../VirtualMachines"
+		},
+		{
+			"path": "../../../../Windows"
+		},
+		{
+			"path": "F:/"
+		},
+		{
+			"path": "../../CrossDevice/E's OnePlus Open"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "Heady"
+	}
+}

@@ -1,0 +1,122 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                 ║
+# ║  ━━━━━━━━━━━━━━                                                ║
+# ║  ∞ Sacred Geometry Architecture ∞                              ║
+# ║                                                                ║
+# ║  heady-auto-ide.yaml - HeadyAutoIDE Specification              ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+principles:
+  - id: spec-driven
+    name: Spec-Driven Development
+    description: >
+      Code always flows from an explicit spec (natural language + structured),
+      not raw prompts and ad-hoc snippets.
+  - id: agentic
+    name: Agentic Collaboration
+    description: >
+      Multiple agents collaborate inside the IDE to plan, code, refactor,
+      run, and test.
+  - id: stateful-reproducible
+    name: Stateful and Reproducible
+    description: >
+      Everything important (specs, plans, decisions, prompts) lives in the
+      repo alongside code. Same input + config = same plan and outcome.
+  - id: pipeline-integrated
+    name: HCFullPipeline Integration
+    description: >
+      Tasks, patterns, and plans are visible straight in the IDE.
+
+features:
+  specWorkspace:
+    name: Spec Workspace Panel
+    description: >
+      Dedicated, versioned area for functional/technical specs, user stories,
+      acceptance criteria, and architecture decisions.
+    artifacts: [SUCCESS_CRITERIA.md, FUNCTIONAL_SPEC.md, ARCHITECTURE_DECISIONS.md]
+
+  agenticWorkflowsPanel:
+    name: Agentic Workflows Panel
+    description: >
+      Visual view of active agent tracks with pause/resume/inspect.
+    capabilities: [visualTrackView, pauseResumeInspect, parallelBranchView, diffReviewBeforeCommit]
+
+  patternCatalog:
+    name: Integrated Pattern Catalog
+    description: >
+      Sidebar listing Heady patterns with apply-pattern commands.
+    commands: [applyPattern, insertDefaults, addDocs]
+    categories: [architecture, errorHandling, security, testing, observability, deployment]
+
+  contextAwareAgents:
+    name: Context-Aware Code Agents
+    description: >
+      Agents that read the project, generate consistent code, run tests,
+      iterate until green, and know resource tiers.
+
+  testingSupport:
+    name: First-Class Testing and Error Handling
+    commands: [generateTests, generateErrorStrategy, simulateErrors]
+    autoActions: [proposeErrorStates, addTests, wireLoggingAndMetrics]
+
+  promptManagement:
+    name: Prompt and Agent Management
+    capabilities: [versionedPromptEditing, abExperiments, templateLibrary]
+
+  buddyIntegration:
+    name: HeadyBuddy and HCFullPipeline Integration
+    capabilities: [showPipelineTasks, askSystemQuestions, optimizeResourceUsage]
+
+agentRoles:
+  - id: planner
+    name: Planner Agent
+    permissions: [read_spec, create_plan, create_subtasks]
+    tier: M
+  - id: implementer
+    name: Implementer Agent
+    permissions: [read_spec, read_plan, write_code, read_patterns]
+    tier: M
+  - id: test_writer
+    name: Test Writer Agent
+    permissions: [read_spec, read_code, write_tests, run_tests]
+    tier: M
+  - id: refactorer
+    name: Refactorer Agent
+    permissions: [read_code, write_code, run_tests]
+    tier: M
+  - id: documenter
+    name: Documenter Agent
+    permissions: [read_code, read_spec, write_docs]
+    tier: S
+  - id: evaluator
+    name: Evaluator Agent
+    permissions: [read_code, read_tests, read_plan, flag_issues]
+    tier: L
+  - id: security_checker
+    name: Security Checker Agent
+    permissions: [read_code, read_deps, flag_issues]
+    tier: M
+
+workflowLoops:
+  standard:
+    name: Standard Agentic Loop
+    steps: [plan, implement, test, review, refine]
+    exitConditions: [allTestsPass, evaluatorApproves, maxIterationsReached]
+  specDriven:
+    name: Spec-Driven Loop
+    steps: [specReview, contractGen, implement, validate, document]
+    exitConditions: [allContractsSatisfied, docsGenerated]
+
+resourceAwareness:
+  interactiveOperations:
+    model: S-tier
+    maxLatencyMs: 500
+    examples: [inlineCompletion, quickFix, symbolRename]
+  backgroundOperations:
+    model: M-tier
+    examples: [fullModuleRefactor, testGeneration, docGeneration]
+  criticalReview:
+    model: L-tier
+    examples: [securityAudit, architectureReview, finalCritique]

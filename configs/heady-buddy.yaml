@@ -1,0 +1,275 @@
+# HEADY_BRAND:BEGIN
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  █╗  █╗███████╗ █████╗ ██████╗ █╗   █╗                     ║
+# ║  █║  █║█╔════╝█╔══█╗█╔══█╗╚█╗ █╔╝                     ║
+# ║  ███████║█████╗  ███████║█║  █║ ╚████╔╝                      ║
+# ║  █╔══█║█╔══╝  █╔══█║█║  █║  ╚█╔╝                       ║
+# ║  █║  █║███████╗█║  █║██████╔╝   █║                        ║
+# ║  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝                        ║
+# ║                                                                  ║
+# ║  ∞ SACRED GEOMETRY ∞  Organic Systems · Breathing Interfaces    ║
+# ║  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
+# ║  FILE: configs/heady-buddy.yaml                                  ║
+# ║  LAYER: root                                                     ║
+# ╚══════════════════════════════════════════════════════════════════╝
+# HEADY_BRAND:END
+
+#
+# Heady Buddy — Seamless Cross-Device Companion + Admin/IDE Launcher
+# The front door into the entire Heady ecosystem on any device.
+#
+
+version: "1.0.0"
+
+# ─── IDENTITY ───────────────────────────────────────────────────────────────
+identity:
+  name: "Heady Buddy"
+  role: >
+    The user's always-available companion for the Heady ecosystem.
+    A thin, friendly shell around the deeper Heady OS: HeadyServices,
+    HeadyLans, IDE integrations, and the full HCFullPipeline.
+    A persistent presence that remembers the user, their projects,
+    their modes, and their device preferences.
+  personality:
+    tone: "warm, competent, proactive"
+    style: "Sacred Geometry aesthetics — rounded, organic, breathing"
+    principle: "Minimal friction, maximum context awareness"
+
+# ─── INSTALLATION & PRESENCE ────────────────────────────────────────────────
+installation:
+  description: >
+    Install once per device. Single sign-in. Heady Buddy runs in the
+    background or is always a quick click/tap away.
+  friction: "minimal — install, sign in, ready"
+  platforms:
+    desktop:
+      types: ["Windows", "macOS", "Linux"]
+      presence: ["system_tray", "dock_icon", "taskbar"]
+      implementation: "electron_app"
+      features:
+        - background_process
+        - os_shortcuts
+        - file_system_access
+        - local_ide_integration
+    mobile:
+      types: ["iOS", "Android"]
+      presence: ["home_screen_icon", "notification_shade"]
+      implementation: "pwa_or_native"
+      features:
+        - push_notifications
+        - quick_checks
+        - dashboards
+        - light_edits
+        - deep_links
+    browser:
+      types: ["Chrome", "Firefox", "Edge", "Safari"]
+      presence: ["toolbar_icon", "pinned_tab"]
+      implementation: "browser_extension_or_pwa"
+      features:
+        - web_tool_integration
+        - admin_ui_access
+        - inline_page_helpers
+
+# ─── LAUNCH MODES ──────────────────────────────────────────────────────────
+launchModes:
+  admin_ide:
+    label: "Admin + IDE"
+    icon: "heady_studio_icon"
+    alternateLabels: ["Control Room", "Heady Studio"]
+    description: >
+      Full cockpit: Admin UI (dashboards, service configs, monitoring)
+      with embedded or connected IDE surface. Power workspace for
+      configuration plus hands-on coding.
+    includes:
+      - admin_ui
+      - ide_surface
+      - heady_services
+      - monitoring_dashboards
+      - pipeline_controls
+    behavior:
+      - open_unified_workspace
+      - pass_current_project_context
+      - pass_user_role
+      - pass_active_environment
+      - enable_cross_navigation
+    crossNavigation:
+      admin_to_ide: "From Admin UI panels → relevant code in IDE"
+      ide_to_admin: "From IDE → Admin UI (service pages, logs, metrics)"
+
+  ide_only:
+    label: "IDE Only"
+    icon: "heady_dev_icon"
+    alternateLabels: ["Code Workspace", "Heady Dev"]
+    description: >
+      Direct IDE experience without the full Admin UI. Heady services
+      quietly integrated: command palette, side panel, inline hints.
+      For users who just want to code.
+    includes:
+      - ide_surface
+      - heady_services
+    behavior:
+      - open_ide_directly
+      - pass_repo_and_project
+      - pass_last_file_or_workspace
+      - enable_heady_services_in_ide
+    ideFeatures:
+      - command_palette_entries
+      - side_panel_chat
+      - inline_hints_and_actions
+      - heady_corrections
+      - heady_prioritizer
+      - monte_carlo_plan_info
+
+# ─── HEADY BUDDY CONTROL PANEL ─────────────────────────────────────────────
+controlPanel:
+  description: >
+    Clicking the Heady Buddy icon opens a small, elegant control panel
+    with primary launch actions and quick status info.
+  layout:
+    primaryActions:
+      - label: "Admin + IDE"
+        icon: "dashboard_code"
+        action: "launch_admin_ide"
+        style: "primary_button"
+      - label: "IDE Only"
+        icon: "code_editor"
+        action: "launch_ide_only"
+        style: "secondary_button"
+    quickInfo:
+      - current_project
+      - active_environment
+      - system_health_indicator
+      - last_activity_summary
+    shortcuts:
+      - label: "Open Last Workspace"
+        action: "resume_last_workspace"
+      - label: "Check Metrics"
+        action: "open_metrics_dashboard"
+      - label: "Run Pipeline"
+        action: "trigger_hcfullpipeline"
+      - label: "HeadyBuddy Chat"
+        action: "open_buddy_chat"
+  pinnableShortcuts:
+    enabled: true
+    description: >
+      User can pin separate OS-level icons for Admin+IDE and IDE-only
+      on desktop/mobile for direct one-tap access.
+
+# ─── CROSS-DEVICE SYNC ─────────────────────────────────────────────────────
+crossDeviceSync:
+  enabled: true
+  description: >
+    Single identity across all devices. Preferences, projects, and
+    recent activity sync automatically. Moving between devices feels
+    seamless: "Resume where you left off."
+  syncedData:
+    - account_and_identity
+    - preferences:
+        - theme
+        - default_ide
+        - default_mode
+        - language
+    - active_projects
+    - recent_workspaces
+    - last_active_file
+    - role_and_permissions
+  resumeBehavior:
+    enabled: true
+    prompt: "You were last working on {project} in {mode}. Open it here?"
+    autoResume: false
+
+# ─── CHANNEL ROUTING (via HeadyLans) ───────────────────────────────────────
+channelRouting:
+  description: >
+    Heady Buddy sits above HeadyLans (orchestrator) and Heady Services.
+    Any action triggered via Heady Buddy routes through HeadyLans to
+    determine which services need to be ready and set up internal context.
+  layers:
+    face: "Heady Buddy"
+    orchestrator: "HeadyLans"
+    services:
+      - HeadyStrategy
+      - HeadyCorrections
+      - HeadyPrioritizer
+      - HeadyImpact
+      - HeadyFocusCoach
+      - MonteCarloPlanScheduler
+      - PatternEngine
+      - SelfCritiqueEngine
+    channels:
+      - ide_extensions
+      - admin_ui
+      - web_chat
+      - mobile_app
+      - email_helpers
+      - voice
+      - messaging
+  serviceConsistency: >
+    HeadyCorrections, HeadyStrategy, etc. behave consistently whether
+    invoked from Admin UI, IDE, or Heady Buddy. No channel-specific
+    behavioral divergence.
+
+# ─── PUBLIC DOMAIN INSPIRATIONS ─────────────────────────────────────────────
+publicDomainInspirations:
+  description: >
+    Heady Buddy draws concepts from best-in-class public systems.
+    We abstract patterns, never copy proprietary designs.
+  sources:
+    crossDeviceAssistants:
+      examples: ["Siri", "Google Assistant", "Alexa", "Microsoft Copilot"]
+      concepts:
+        - seamless_multi_device_continuity
+        - simple_wake_entry_points
+        - deep_ecosystem_integration
+        - ambient_awareness
+    aiCodingTools:
+      examples: ["GitHub Copilot", "Cursor", "Windsurf", "Cody", "Tabnine"]
+      concepts:
+        - inline_completions_with_context
+        - chat_with_codebase_understanding
+        - workspace_indexing
+        - command_palette_as_hub
+        - diff_preview_before_apply
+    aiPersonalAssistants:
+      examples: ["ChatGPT app", "Claude app", "Perplexity", "Notion AI", "Otter.ai"]
+      concepts:
+        - persistent_conversation_memory
+        - cross_platform_continuity
+        - task_tracking_and_reminders
+        - voice_to_text_integration
+        - proactive_suggestions
+    multiAgentOrchestrators:
+      examples: ["LangGraph", "CrewAI", "AutoGen", "Semantic Kernel"]
+      concepts:
+        - clear_agent_role_boundaries
+        - orchestrator_routing_pattern
+        - robust_inter_agent_logging
+        - safe_failure_and_fallback
+    monitoringDashboards:
+      examples: ["Grafana", "Datadog", "Tableau", "Vercel Analytics"]
+      concepts:
+        - kpi_cards_with_sparklines
+        - drill_down_from_overview
+        - real_time_streaming_updates
+        - configurable_alert_thresholds
+  adaptationRule: >
+    Abstract these concepts and make them uniquely Heady: more coherent,
+    more mission-aligned (wealth redistribution, impact, behavior change),
+    and more owner-friendly. Sacred Geometry aesthetics throughout.
+
+# ─── SEAMLESSNESS REQUIREMENTS ──────────────────────────────────────────────
+seamlessness:
+  description: >
+    The user should move between Heady Buddy → Admin UI → IDE → back
+    without jarring changes in context or capability.
+  requirements:
+    - shared_identity_and_preferences_across_all_channels
+    - shared_project_and_task_context_via_hcfullpipeline
+    - consistent_service_behavior_regardless_of_channel
+    - no_redundant_re_entry_of_information
+    - graceful_transitions_between_modes
+  optimizationMandate: >
+    Treat "perfect programs" as a continuous improvement goal.
+    For each subsystem, look for friction, bugs, or poor UX patterns.
+    Every "this feels slow/clunky" signal is a bug to be addressed.
+    Think: what would make this feel perfect to this user?
