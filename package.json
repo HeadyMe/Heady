@@ -1,0 +1,36 @@
+{
+  "name": "heady-systems",
+  "version": "3.0.0",
+  "description": "Heady Systems - Sacred Geometry :: Organic Systems :: Breathing Interfaces",
+  "main": "heady-manager.js",
+  "scripts": {
+    "start": "node heady-manager.js",
+    "dev": "nodemon heady-manager.js",
+    "build": "npm run build --prefix frontend",
+    "frontend": "npm run dev --prefix frontend",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint . --fix",
+    "sync": "powershell -File ./scripts/Heady-Sync.ps1",
+    "benchmark": "node benchmarks/hc-benchmark-suite.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.1",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "js-yaml": "^4.1.1",
+    "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "eslint": "^9.18.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

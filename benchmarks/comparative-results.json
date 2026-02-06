@@ -1,0 +1,1949 @@
+{
+  "runId": "comp_1770382873042_de1c48",
+  "timestamp": "2026-02-06T13:01:13.538Z",
+  "totalTimeMs": 494,
+  "agents": {
+    "challenge-code-quality": {
+      "name": "Code Quality Analysis",
+      "category": "analysis",
+      "agents": {
+        "claude-code": {
+          "score": {
+            "mean": 94.655,
+            "median": 95.009,
+            "p95": 100,
+            "min": 87.766,
+            "max": 100,
+            "stddev": 4.238,
+            "n": 50
+          },
+          "latency": {
+            "mean": 2396.171,
+            "median": 2459.471,
+            "p95": 3134.975,
+            "min": 1702.51,
+            "max": 3217.585,
+            "stddev": 457.494,
+            "n": 50
+          },
+          "totalCost": 0.75,
+          "avgCost": 0.015,
+          "grade": "A",
+          "costEfficiency": 6.31
+        },
+        "auditor": {
+          "score": {
+            "mean": 87.535,
+            "median": 87.444,
+            "p95": 94.436,
+            "min": 80.518,
+            "max": 94.812,
+            "stddev": 3.737,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1488.499,
+            "median": 1459.477,
+            "p95": 1947.32,
+            "min": 1008.779,
+            "max": 1956.02,
+            "stddev": 299.825,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 8.75
+        },
+        "builder": {
+          "score": {
+            "mean": 89.467,
+            "median": 89.992,
+            "p95": 94.717,
+            "min": 81.452,
+            "max": 95.452,
+            "stddev": 4.011,
+            "n": 50
+          },
+          "latency": {
+            "mean": 807.027,
+            "median": 817.092,
+            "p95": 1065.571,
+            "min": 504.406,
+            "max": 1076.598,
+            "stddev": 179.825,
+            "n": 50
+          },
+          "totalCost": 0.1,
+          "avgCost": 0.002,
+          "grade": "A",
+          "costEfficiency": 44.73
+        }
+      },
+      "ranking": [
+        {
+          "rank": 1,
+          "agent": "claude-code",
+          "score": {
+            "mean": 94.655,
+            "median": 95.009,
+            "p95": 100,
+            "min": 87.766,
+            "max": 100,
+            "stddev": 4.238,
+            "n": 50
+          },
+          "latency": {
+            "mean": 2396.171,
+            "median": 2459.471,
+            "p95": 3134.975,
+            "min": 1702.51,
+            "max": 3217.585,
+            "stddev": 457.494,
+            "n": 50
+          },
+          "totalCost": 0.75,
+          "avgCost": 0.015,
+          "grade": "A",
+          "costEfficiency": 6.31
+        },
+        {
+          "rank": 2,
+          "agent": "builder",
+          "score": {
+            "mean": 89.467,
+            "median": 89.992,
+            "p95": 94.717,
+            "min": 81.452,
+            "max": 95.452,
+            "stddev": 4.011,
+            "n": 50
+          },
+          "latency": {
+            "mean": 807.027,
+            "median": 817.092,
+            "p95": 1065.571,
+            "min": 504.406,
+            "max": 1076.598,
+            "stddev": 179.825,
+            "n": 50
+          },
+          "totalCost": 0.1,
+          "avgCost": 0.002,
+          "grade": "A",
+          "costEfficiency": 44.73
+        },
+        {
+          "rank": 3,
+          "agent": "auditor",
+          "score": {
+            "mean": 87.535,
+            "median": 87.444,
+            "p95": 94.436,
+            "min": 80.518,
+            "max": 94.812,
+            "stddev": 3.737,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1488.499,
+            "median": 1459.477,
+            "p95": 1947.32,
+            "min": 1008.779,
+            "max": 1956.02,
+            "stddev": 299.825,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 8.75
+        }
+      ]
+    },
+    "challenge-bug-detection": {
+      "name": "Bug Detection & Fix",
+      "category": "debugging",
+      "agents": {
+        "claude-code": {
+          "score": {
+            "mean": 87.978,
+            "median": 88.548,
+            "p95": 93.044,
+            "min": 82.006,
+            "max": 93.79,
+            "stddev": 3.265,
+            "n": 50
+          },
+          "latency": {
+            "mean": 2551.509,
+            "median": 2674.075,
+            "p95": 3257.062,
+            "min": 1702.838,
+            "max": 3286.706,
+            "stddev": 500.388,
+            "n": 50
+          },
+          "totalCost": 0.75,
+          "avgCost": 0.015,
+          "grade": "A",
+          "costEfficiency": 5.87
+        },
+        "auditor": {
+          "score": {
+            "mean": 89.752,
+            "median": 89.454,
+            "p95": 95.615,
+            "min": 84.266,
+            "max": 95.935,
+            "stddev": 3.358,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1494.805,
+            "median": 1514.732,
+            "p95": 1900.929,
+            "min": 1008.471,
+            "max": 1993.862,
+            "stddev": 300.877,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 8.98
+        },
+        "observer": {
+          "score": {
+            "mean": 88.078,
+            "median": 88.689,
+            "p95": 92.985,
+            "min": 82.238,
+            "max": 93.898,
+            "stddev": 3.277,
+            "n": 50
+          },
+          "latency": {
+            "mean": 306.12,
+            "median": 313.418,
+            "p95": 393.284,
+            "min": 202.326,
+            "max": 399.606,
+            "stddev": 60.813,
+            "n": 50
+          },
+          "totalCost": 0.05,
+          "avgCost": 0.001,
+          "grade": "A",
+          "costEfficiency": 88.08
+        }
+      },
+      "ranking": [
+        {
+          "rank": 1,
+          "agent": "auditor",
+          "score": {
+            "mean": 89.752,
+            "median": 89.454,
+            "p95": 95.615,
+            "min": 84.266,
+            "max": 95.935,
+            "stddev": 3.358,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1494.805,
+            "median": 1514.732,
+            "p95": 1900.929,
+            "min": 1008.471,
+            "max": 1993.862,
+            "stddev": 300.877,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 8.98
+        },
+        {
+          "rank": 2,
+          "agent": "observer",
+          "score": {
+            "mean": 88.078,
+            "median": 88.689,
+            "p95": 92.985,
+            "min": 82.238,
+            "max": 93.898,
+            "stddev": 3.277,
+            "n": 50
+          },
+          "latency": {
+            "mean": 306.12,
+            "median": 313.418,
+            "p95": 393.284,
+            "min": 202.326,
+            "max": 399.606,
+            "stddev": 60.813,
+            "n": 50
+          },
+          "totalCost": 0.05,
+          "avgCost": 0.001,
+          "grade": "A",
+          "costEfficiency": 88.08
+        },
+        {
+          "rank": 3,
+          "agent": "claude-code",
+          "score": {
+            "mean": 87.978,
+            "median": 88.548,
+            "p95": 93.044,
+            "min": 82.006,
+            "max": 93.79,
+            "stddev": 3.265,
+            "n": 50
+          },
+          "latency": {
+            "mean": 2551.509,
+            "median": 2674.075,
+            "p95": 3257.062,
+            "min": 1702.838,
+            "max": 3286.706,
+            "stddev": 500.388,
+            "n": 50
+          },
+          "totalCost": 0.75,
+          "avgCost": 0.015,
+          "grade": "A",
+          "costEfficiency": 5.87
+        }
+      ]
+    },
+    "challenge-architecture-review": {
+      "name": "Architecture Review",
+      "category": "architecture",
+      "agents": {
+        "claude-code": {
+          "score": {
+            "mean": 89.712,
+            "median": 89.88,
+            "p95": 94.468,
+            "min": 85.141,
+            "max": 94.956,
+            "stddev": 3.033,
+            "n": 50
+          },
+          "latency": {
+            "mean": 2635.725,
+            "median": 2826.911,
+            "p95": 3266.215,
+            "min": 1725.094,
+            "max": 3295.44,
+            "stddev": 477.283,
+            "n": 50
+          },
+          "totalCost": 0.75,
+          "avgCost": 0.015,
+          "grade": "A",
+          "costEfficiency": 5.98
+        },
+        "builder": {
+          "score": {
+            "mean": 95.131,
+            "median": 94.985,
+            "p95": 99.675,
+            "min": 90.012,
+            "max": 99.991,
+            "stddev": 3.129,
+            "n": 50
+          },
+          "latency": {
+            "mean": 850.658,
+            "median": 873.31,
+            "p95": 1085.985,
+            "min": 539.439,
+            "max": 1092.892,
+            "stddev": 174.289,
+            "n": 50
+          },
+          "totalCost": 0.1,
+          "avgCost": 0.002,
+          "grade": "S",
+          "costEfficiency": 47.57
+        },
+        "auditor": {
+          "score": {
+            "mean": 87.991,
+            "median": 87.535,
+            "p95": 92.266,
+            "min": 83.267,
+            "max": 92.948,
+            "stddev": 2.744,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1490.285,
+            "median": 1519.303,
+            "p95": 1921.084,
+            "min": 1021.352,
+            "max": 1987.143,
+            "stddev": 265.8,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 8.8
+        }
+      },
+      "ranking": [
+        {
+          "rank": 1,
+          "agent": "builder",
+          "score": {
+            "mean": 95.131,
+            "median": 94.985,
+            "p95": 99.675,
+            "min": 90.012,
+            "max": 99.991,
+            "stddev": 3.129,
+            "n": 50
+          },
+          "latency": {
+            "mean": 850.658,
+            "median": 873.31,
+            "p95": 1085.985,
+            "min": 539.439,
+            "max": 1092.892,
+            "stddev": 174.289,
+            "n": 50
+          },
+          "totalCost": 0.1,
+          "avgCost": 0.002,
+          "grade": "S",
+          "costEfficiency": 47.57
+        },
+        {
+          "rank": 2,
+          "agent": "claude-code",
+          "score": {
+            "mean": 89.712,
+            "median": 89.88,
+            "p95": 94.468,
+            "min": 85.141,
+            "max": 94.956,
+            "stddev": 3.033,
+            "n": 50
+          },
+          "latency": {
+            "mean": 2635.725,
+            "median": 2826.911,
+            "p95": 3266.215,
+            "min": 1725.094,
+            "max": 3295.44,
+            "stddev": 477.283,
+            "n": 50
+          },
+          "totalCost": 0.75,
+          "avgCost": 0.015,
+          "grade": "A",
+          "costEfficiency": 5.98
+        },
+        {
+          "rank": 3,
+          "agent": "auditor",
+          "score": {
+            "mean": 87.991,
+            "median": 87.535,
+            "p95": 92.266,
+            "min": 83.267,
+            "max": 92.948,
+            "stddev": 2.744,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1490.285,
+            "median": 1519.303,
+            "p95": 1921.084,
+            "min": 1021.352,
+            "max": 1987.143,
+            "stddev": 265.8,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 8.8
+        }
+      ]
+    },
+    "challenge-deployment-readiness": {
+      "name": "Deployment Readiness Check",
+      "category": "operations",
+      "agents": {
+        "deployer": {
+          "score": {
+            "mean": 87.61,
+            "median": 87.282,
+            "p95": 91.885,
+            "min": 83.376,
+            "max": 92.106,
+            "stddev": 2.718,
+            "n": 50
+          },
+          "latency": {
+            "mean": 4882.562,
+            "median": 4900.985,
+            "p95": 6817.858,
+            "min": 3001.812,
+            "max": 6954.351,
+            "stddev": 1160.258,
+            "n": 50
+          },
+          "totalCost": 0.25,
+          "avgCost": 0.005,
+          "grade": "A",
+          "costEfficiency": 17.52
+        },
+        "observer": {
+          "score": {
+            "mean": 91.555,
+            "median": 91.929,
+            "p95": 95.661,
+            "min": 87.391,
+            "max": 96.356,
+            "stddev": 2.65,
+            "n": 50
+          },
+          "latency": {
+            "mean": 297.542,
+            "median": 301.261,
+            "p95": 393.032,
+            "min": 204.224,
+            "max": 396.217,
+            "stddev": 53.49,
+            "n": 50
+          },
+          "totalCost": 0.05,
+          "avgCost": 0.001,
+          "grade": "A",
+          "costEfficiency": 91.55
+        },
+        "builder": {
+          "score": {
+            "mean": 85.154,
+            "median": 85.712,
+            "p95": 89.586,
+            "min": 80.133,
+            "max": 89.605,
+            "stddev": 2.759,
+            "n": 50
+          },
+          "latency": {
+            "mean": 779.635,
+            "median": 781.212,
+            "p95": 1060.711,
+            "min": 501.353,
+            "max": 1087.337,
+            "stddev": 172.507,
+            "n": 50
+          },
+          "totalCost": 0.1,
+          "avgCost": 0.002,
+          "grade": "A",
+          "costEfficiency": 42.58
+        },
+        "auditor": {
+          "score": {
+            "mean": 88.524,
+            "median": 89.335,
+            "p95": 92.694,
+            "min": 83.004,
+            "max": 92.882,
+            "stddev": 2.936,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1535.437,
+            "median": 1537.008,
+            "p95": 1953.053,
+            "min": 1017.125,
+            "max": 1993.101,
+            "stddev": 273.32,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 8.85
+        }
+      },
+      "ranking": [
+        {
+          "rank": 1,
+          "agent": "observer",
+          "score": {
+            "mean": 91.555,
+            "median": 91.929,
+            "p95": 95.661,
+            "min": 87.391,
+            "max": 96.356,
+            "stddev": 2.65,
+            "n": 50
+          },
+          "latency": {
+            "mean": 297.542,
+            "median": 301.261,
+            "p95": 393.032,
+            "min": 204.224,
+            "max": 396.217,
+            "stddev": 53.49,
+            "n": 50
+          },
+          "totalCost": 0.05,
+          "avgCost": 0.001,
+          "grade": "A",
+          "costEfficiency": 91.55
+        },
+        {
+          "rank": 2,
+          "agent": "auditor",
+          "score": {
+            "mean": 88.524,
+            "median": 89.335,
+            "p95": 92.694,
+            "min": 83.004,
+            "max": 92.882,
+            "stddev": 2.936,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1535.437,
+            "median": 1537.008,
+            "p95": 1953.053,
+            "min": 1017.125,
+            "max": 1993.101,
+            "stddev": 273.32,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 8.85
+        },
+        {
+          "rank": 3,
+          "agent": "deployer",
+          "score": {
+            "mean": 87.61,
+            "median": 87.282,
+            "p95": 91.885,
+            "min": 83.376,
+            "max": 92.106,
+            "stddev": 2.718,
+            "n": 50
+          },
+          "latency": {
+            "mean": 4882.562,
+            "median": 4900.985,
+            "p95": 6817.858,
+            "min": 3001.812,
+            "max": 6954.351,
+            "stddev": 1160.258,
+            "n": 50
+          },
+          "totalCost": 0.25,
+          "avgCost": 0.005,
+          "grade": "A",
+          "costEfficiency": 17.52
+        },
+        {
+          "rank": 4,
+          "agent": "builder",
+          "score": {
+            "mean": 85.154,
+            "median": 85.712,
+            "p95": 89.586,
+            "min": 80.133,
+            "max": 89.605,
+            "stddev": 2.759,
+            "n": 50
+          },
+          "latency": {
+            "mean": 779.635,
+            "median": 781.212,
+            "p95": 1060.711,
+            "min": 501.353,
+            "max": 1087.337,
+            "stddev": 172.507,
+            "n": 50
+          },
+          "totalCost": 0.1,
+          "avgCost": 0.002,
+          "grade": "A",
+          "costEfficiency": 42.58
+        }
+      ]
+    },
+    "challenge-security-audit": {
+      "name": "Security Vulnerability Scan",
+      "category": "security",
+      "agents": {
+        "auditor": {
+          "score": {
+            "mean": 90.643,
+            "median": 90.876,
+            "p95": 94.448,
+            "min": 85.464,
+            "max": 94.841,
+            "stddev": 2.735,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1420.094,
+            "median": 1338.899,
+            "p95": 1936.399,
+            "min": 1008.559,
+            "max": 1968.195,
+            "stddev": 291.1,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 9.06
+        },
+        "claude-code": {
+          "score": {
+            "mean": 94.873,
+            "median": 95.108,
+            "p95": 99.52,
+            "min": 90.17,
+            "max": 99.871,
+            "stddev": 3.03,
+            "n": 50
+          },
+          "latency": {
+            "mean": 2420.849,
+            "median": 2351.73,
+            "p95": 3178.525,
+            "min": 1729.628,
+            "max": 3267.242,
+            "stddev": 464.043,
+            "n": 50
+          },
+          "totalCost": 0.75,
+          "avgCost": 0.015,
+          "grade": "A",
+          "costEfficiency": 6.32
+        },
+        "observer": {
+          "score": {
+            "mean": 87.635,
+            "median": 87.021,
+            "p95": 92.532,
+            "min": 83.073,
+            "max": 92.965,
+            "stddev": 2.767,
+            "n": 50
+          },
+          "latency": {
+            "mean": 319.478,
+            "median": 335.317,
+            "p95": 385.755,
+            "min": 206.158,
+            "max": 394.649,
+            "stddev": 57.343,
+            "n": 50
+          },
+          "totalCost": 0.05,
+          "avgCost": 0.001,
+          "grade": "A",
+          "costEfficiency": 87.63
+        }
+      },
+      "ranking": [
+        {
+          "rank": 1,
+          "agent": "claude-code",
+          "score": {
+            "mean": 94.873,
+            "median": 95.108,
+            "p95": 99.52,
+            "min": 90.17,
+            "max": 99.871,
+            "stddev": 3.03,
+            "n": 50
+          },
+          "latency": {
+            "mean": 2420.849,
+            "median": 2351.73,
+            "p95": 3178.525,
+            "min": 1729.628,
+            "max": 3267.242,
+            "stddev": 464.043,
+            "n": 50
+          },
+          "totalCost": 0.75,
+          "avgCost": 0.015,
+          "grade": "A",
+          "costEfficiency": 6.32
+        },
+        {
+          "rank": 2,
+          "agent": "auditor",
+          "score": {
+            "mean": 90.643,
+            "median": 90.876,
+            "p95": 94.448,
+            "min": 85.464,
+            "max": 94.841,
+            "stddev": 2.735,
+            "n": 50
+          },
+          "latency": {
+            "mean": 1420.094,
+            "median": 1338.899,
+            "p95": 1936.399,
+            "min": 1008.559,
+            "max": 1968.195,
+            "stddev": 291.1,
+            "n": 50
+          },
+          "totalCost": 0.5,
+          "avgCost": 0.01,
+          "grade": "A",
+          "costEfficiency": 9.06
+        },
+        {
+          "rank": 3,
+          "agent": "observer",
+          "score": {
+            "mean": 87.635,
+            "median": 87.021,
+            "p95": 92.532,
+            "min": 83.073,
+            "max": 92.965,
+            "stddev": 2.767,
+            "n": 50
+          },
+          "latency": {
+            "mean": 319.478,
+            "median": 335.317,
+            "p95": 385.755,
+            "min": 206.158,
+            "max": 394.649,
+            "stddev": 57.343,
+            "n": 50
+          },
+          "totalCost": 0.05,
+          "avgCost": 0.001,
+          "grade": "A",
+          "costEfficiency": 87.63
+        }
+      ]
+    },
+    "challenge-health-monitoring": {
+      "name": "System Health Assessment",
+      "category": "monitoring",
+      "agents": {
+        "observer": {
+          "score": {
+            "mean": 94.764,
+            "median": 94.267,
+            "p95": 98.873,
+            "min": 91.018,
+            "max": 98.961,
+            "stddev": 2.7,
+            "n": 50
+          },
+          "latency": {
+            "mean": 297.942,
+            "median": 294.574,
+            "p95": 391.522,
+            "min": 201.399,
+            "max": 396.008,
+            "stddev": 57.817,
+            "n": 50
+          },
+          "totalCost": 0.05,
+          "avgCost": 0.001,
+          "grade": "A",
+          "costEfficiency": 94.76
+        },
+        "deployer": {
+          "score": {
+            "mean": 88.466,
+            "median": 89.231,
+            "p95": 91.761,
+            "min": 84.142,
+            "max": 91.974,
+            "stddev": 2.497,
+            "n": 50
+          },
+          "latency": {
+            "mean": 5189.08,
+            "median": 5410.969,
+            "p95": 6878.911,
+            "min": 3114.433,
+            "max": 6943.259,
+            "stddev": 1206.537,
+            "n": 50
+          },
+          "totalCost": 0.25,
+          "avgCost": 0.005,
+          "grade": "A",
+          "costEfficiency": 17.69
+        },
+        "builder": {
+          "score": {
+            "mean": 84.575,
+            "median": 84.341,
+            "p95": 88.086,
+            "min": 81.02,
+            "max": 88.841,
+            "stddev": 2.111,
+            "n": 50
+          },
+          "latency": {
+            "mean": 803.83,
+            "median": 812.312,
+            "p95": 1082.481,
+            "min": 502.597,
+            "max": 1097.878,
+            "stddev": 169.45,
+            "n": 50
+          },
+          "totalCost": 0.1,
+          "avgCost": 0.002,
+          "grade": "B",
+          "costEfficiency": 42.29
+        }
+      },
+      "ranking": [
+        {
+          "rank": 1,
+          "agent": "observer",
+          "score": {
+            "mean": 94.764,
+            "median": 94.267,
+            "p95": 98.873,
+            "min": 91.018,
+            "max": 98.961,
+            "stddev": 2.7,
+            "n": 50
+          },
+          "latency": {
+            "mean": 297.942,
+            "median": 294.574,
+            "p95": 391.522,
+            "min": 201.399,
+            "max": 396.008,
+            "stddev": 57.817,
+            "n": 50
+          },
+          "totalCost": 0.05,
+          "avgCost": 0.001,
+          "grade": "A",
+          "costEfficiency": 94.76
+        },
+        {
+          "rank": 2,
+          "agent": "deployer",
+          "score": {
+            "mean": 88.466,
+            "median": 89.231,
+            "p95": 91.761,
+            "min": 84.142,
+            "max": 91.974,
+            "stddev": 2.497,
+            "n": 50
+          },
+          "latency": {
+            "mean": 5189.08,
+            "median": 5410.969,
+            "p95": 6878.911,
+            "min": 3114.433,
+            "max": 6943.259,
+            "stddev": 1206.537,
+            "n": 50
+          },
+          "totalCost": 0.25,
+          "avgCost": 0.005,
+          "grade": "A",
+          "costEfficiency": 17.69
+        },
+        {
+          "rank": 3,
+          "agent": "builder",
+          "score": {
+            "mean": 84.575,
+            "median": 84.341,
+            "p95": 88.086,
+            "min": 81.02,
+            "max": 88.841,
+            "stddev": 2.111,
+            "n": 50
+          },
+          "latency": {
+            "mean": 803.83,
+            "median": 812.312,
+            "p95": 1082.481,
+            "min": 502.597,
+            "max": 1097.878,
+            "stddev": 169.45,
+            "n": 50
+          },
+          "totalCost": 0.1,
+          "avgCost": 0.002,
+          "grade": "B",
+          "costEfficiency": 42.29
+        }
+      ]
+    }
+  },
+  "strategies": {
+    "5_tasks": {
+      "taskCount": 5,
+      "sequential": {
+        "latency": {
+          "mean": 1037.455,
+          "median": 1045.201,
+          "p95": 1212.391,
+          "min": 825.742,
+          "max": 1293.782,
+          "stddev": 109.268,
+          "n": 30
+        },
+        "throughput": 4.8
+      },
+      "parallel": {
+        "latency": {
+          "mean": 457.813,
+          "median": 478.997,
+          "p95": 543.387,
+          "min": 318.94,
+          "max": 552.34,
+          "stddev": 65.57,
+          "n": 30
+        },
+        "throughput": 10.9,
+        "concurrency": 4
+      },
+      "cached": {
+        "latency": {
+          "mean": 242.797,
+          "median": 256.793,
+          "p95": 477.653,
+          "min": 13.817,
+          "max": 577.201,
+          "stddev": 147.904,
+          "n": 30
+        },
+        "throughput": 20.6,
+        "cacheHitRate": 0.8
+      },
+      "circuitBreaker": {
+        "latency": {
+          "mean": 971.084,
+          "median": 1004.472,
+          "p95": 1249.017,
+          "min": 680.324,
+          "max": 1280.226,
+          "stddev": 155.917,
+          "n": 30
+        },
+        "throughput": 5.1,
+        "avgFailures": 0.3
+      },
+      "speedup": {
+        "parallelVsSeq": 2.27,
+        "cachedVsSeq": 4.27,
+        "cbVsSeq": 1.07
+      }
+    },
+    "10_tasks": {
+      "taskCount": 10,
+      "sequential": {
+        "latency": {
+          "mean": 2007.826,
+          "median": 1970.754,
+          "p95": 2370.637,
+          "min": 1677.698,
+          "max": 2424.958,
+          "stddev": 192.325,
+          "n": 30
+        },
+        "throughput": 5
+      },
+      "parallel": {
+        "latency": {
+          "mean": 758.778,
+          "median": 769.076,
+          "p95": 833.837,
+          "min": 622.405,
+          "max": 834.898,
+          "stddev": 51.506,
+          "n": 30
+        },
+        "throughput": 13.2,
+        "concurrency": 4
+      },
+      "cached": {
+        "latency": {
+          "mean": 501.686,
+          "median": 487.202,
+          "p95": 843.812,
+          "min": 30.169,
+          "max": 931.058,
+          "stddev": 262.605,
+          "n": 30
+        },
+        "throughput": 19.9,
+        "cacheHitRate": 0.8
+      },
+      "circuitBreaker": {
+        "latency": {
+          "mean": 1976.056,
+          "median": 1984.004,
+          "p95": 2386.662,
+          "min": 1432.232,
+          "max": 2413.835,
+          "stddev": 220.449,
+          "n": 30
+        },
+        "throughput": 5.1,
+        "avgFailures": 0.4
+      },
+      "speedup": {
+        "parallelVsSeq": 2.65,
+        "cachedVsSeq": 4,
+        "cbVsSeq": 1.02
+      }
+    },
+    "20_tasks": {
+      "taskCount": 20,
+      "sequential": {
+        "latency": {
+          "mean": 3919.477,
+          "median": 3910.452,
+          "p95": 4358.871,
+          "min": 3042.294,
+          "max": 4599.143,
+          "stddev": 308.657,
+          "n": 30
+        },
+        "throughput": 5.1
+      },
+      "parallel": {
+        "latency": {
+          "mean": 1295.096,
+          "median": 1289.201,
+          "p95": 1419.62,
+          "min": 1182.165,
+          "max": 1422.918,
+          "stddev": 67.994,
+          "n": 30
+        },
+        "throughput": 15.4,
+        "concurrency": 4
+      },
+      "cached": {
+        "latency": {
+          "mean": 810.35,
+          "median": 828.297,
+          "p95": 1443.042,
+          "min": 170.839,
+          "max": 1494.199,
+          "stddev": 339.761,
+          "n": 30
+        },
+        "throughput": 24.7,
+        "cacheHitRate": 0.8
+      },
+      "circuitBreaker": {
+        "latency": {
+          "mean": 3776.496,
+          "median": 3817.287,
+          "p95": 4346.846,
+          "min": 2123.695,
+          "max": 4485.219,
+          "stddev": 390.394,
+          "n": 30
+        },
+        "throughput": 5.3,
+        "avgFailures": 0.9
+      },
+      "speedup": {
+        "parallelVsSeq": 3.03,
+        "cachedVsSeq": 4.84,
+        "cbVsSeq": 1.04
+      }
+    },
+    "50_tasks": {
+      "taskCount": 50,
+      "sequential": {
+        "latency": {
+          "mean": 10144.968,
+          "median": 10193.382,
+          "p95": 11008.743,
+          "min": 9400.342,
+          "max": 11188.309,
+          "stddev": 433.387,
+          "n": 30
+        },
+        "throughput": 4.9
+      },
+      "parallel": {
+        "latency": {
+          "mean": 3337.72,
+          "median": 3326.495,
+          "p95": 3518.065,
+          "min": 3126.045,
+          "max": 3538.258,
+          "stddev": 116.173,
+          "n": 30
+        },
+        "throughput": 15,
+        "concurrency": 4
+      },
+      "cached": {
+        "latency": {
+          "mean": 2067.355,
+          "median": 1984.906,
+          "p95": 2839.435,
+          "min": 890.969,
+          "max": 3601.069,
+          "stddev": 518.01,
+          "n": 30
+        },
+        "throughput": 24.2,
+        "cacheHitRate": 0.8
+      },
+      "circuitBreaker": {
+        "latency": {
+          "mean": 7692.429,
+          "median": 9448.525,
+          "p95": 10693.123,
+          "min": 2598.549,
+          "max": 11023.191,
+          "stddev": 2797.641,
+          "n": 30
+        },
+        "throughput": 6.5,
+        "avgFailures": 2.1
+      },
+      "speedup": {
+        "parallelVsSeq": 3.04,
+        "cachedVsSeq": 4.91,
+        "cbVsSeq": 1.32
+      }
+    }
+  },
+  "monteCarlo": [
+    {
+      "scenario": "Healthy System",
+      "inputs": {
+        "name": "Healthy System",
+        "errorRate": 0.01,
+        "availability": 0.98,
+        "latencyMean": 100,
+        "testPass": 0.97
+      },
+      "withoutMC": {
+        "decision": "GO",
+        "confidence": 75,
+        "method": "threshold",
+        "reasoning": "errorRate < 0.10, availability > 0.80"
+      },
+      "withMC": {
+        "decision": "GO",
+        "confidence": 75.7,
+        "confidenceInterval": {
+          "lower": 75.5,
+          "upper": 75.8
+        },
+        "readinessGrade": "STAGING_READY",
+        "pipelineSuccessRate": 100,
+        "deployRiskGrade": "LOW",
+        "deployRiskScore": 0.8,
+        "method": "monte_carlo_2000_iter"
+      },
+      "agreement": true,
+      "mcAdvantage": "Agrees with threshold"
+    },
+    {
+      "scenario": "Degraded System",
+      "inputs": {
+        "name": "Degraded System",
+        "errorRate": 0.12,
+        "availability": 0.75,
+        "latencyMean": 800,
+        "testPass": 0.7
+      },
+      "withoutMC": {
+        "decision": "NO-GO",
+        "confidence": 25,
+        "method": "threshold",
+        "reasoning": "errorRate >= 0.10, availability <= 0.80"
+      },
+      "withMC": {
+        "decision": "NO-GO",
+        "confidence": 65,
+        "confidenceInterval": {
+          "lower": 64.9,
+          "upper": 65.2
+        },
+        "readinessGrade": "DEVELOPMENT",
+        "pipelineSuccessRate": 99.7,
+        "deployRiskGrade": "LOW",
+        "deployRiskScore": 9.3,
+        "method": "monte_carlo_2000_iter"
+      },
+      "agreement": true,
+      "mcAdvantage": "Agrees with threshold"
+    },
+    {
+      "scenario": "Failing System",
+      "inputs": {
+        "name": "Failing System",
+        "errorRate": 0.35,
+        "availability": 0.4,
+        "latencyMean": 3000,
+        "testPass": 0.4
+      },
+      "withoutMC": {
+        "decision": "NO-GO",
+        "confidence": 25,
+        "method": "threshold",
+        "reasoning": "errorRate >= 0.10, availability <= 0.80"
+      },
+      "withMC": {
+        "decision": "NO-GO",
+        "confidence": 43.4,
+        "confidenceInterval": {
+          "lower": 43.1,
+          "upper": 43.7
+        },
+        "readinessGrade": "NOT_READY",
+        "pipelineSuccessRate": 93.2,
+        "deployRiskGrade": "MEDIUM",
+        "deployRiskScore": 31.5,
+        "method": "monte_carlo_2000_iter"
+      },
+      "agreement": true,
+      "mcAdvantage": "Agrees with threshold"
+    },
+    {
+      "scenario": "Recovery In Progress",
+      "inputs": {
+        "name": "Recovery In Progress",
+        "errorRate": 0.08,
+        "availability": 0.85,
+        "latencyMean": 400,
+        "testPass": 0.82
+      },
+      "withoutMC": {
+        "decision": "GO",
+        "confidence": 75,
+        "method": "threshold",
+        "reasoning": "errorRate < 0.10, availability > 0.80"
+      },
+      "withMC": {
+        "decision": "NO-GO",
+        "confidence": 69.9,
+        "confidenceInterval": {
+          "lower": 69.8,
+          "upper": 70.1
+        },
+        "readinessGrade": "DEVELOPMENT",
+        "pipelineSuccessRate": 99.9,
+        "deployRiskGrade": "LOW",
+        "deployRiskScore": 6.9,
+        "method": "monte_carlo_2000_iter"
+      },
+      "agreement": false,
+      "mcAdvantage": "MC overrides: GO→NO-GO with 69.9% confidence"
+    },
+    {
+      "scenario": "Post-Deploy Spike",
+      "inputs": {
+        "name": "Post-Deploy Spike",
+        "errorRate": 0.2,
+        "availability": 0.9,
+        "latencyMean": 1500,
+        "testPass": 0.88
+      },
+      "withoutMC": {
+        "decision": "NO-GO",
+        "confidence": 25,
+        "method": "threshold",
+        "reasoning": "errorRate >= 0.10, availability > 0.80"
+      },
+      "withMC": {
+        "decision": "NO-GO",
+        "confidence": 64.5,
+        "confidenceInterval": {
+          "lower": 64.3,
+          "upper": 64.7
+        },
+        "readinessGrade": "DEVELOPMENT",
+        "pipelineSuccessRate": 97.9,
+        "deployRiskGrade": "LOW",
+        "deployRiskScore": 9.3,
+        "method": "monte_carlo_2000_iter"
+      },
+      "agreement": true,
+      "mcAdvantage": "Agrees with threshold"
+    }
+  ],
+  "publicDomain": [
+    {
+      "benchmark": "SWE-bench Verified",
+      "metric": "% Resolved (500 verified issues)",
+      "description": "Real GitHub issue resolution across diverse repos",
+      "publicLeaders": [
+        {
+          "model": "Gemini 3 Pro",
+          "score": 77.4,
+          "source": "official leaderboard"
+        },
+        {
+          "model": "Claude 4 Sonnet",
+          "score": 72,
+          "source": "Anthropic"
+        },
+        {
+          "model": "Claude 3.7 Sonnet",
+          "score": 62.3,
+          "source": "Anthropic"
+        },
+        {
+          "model": "GPT-4o",
+          "score": 38.4,
+          "source": "OpenAI"
+        }
+      ],
+      "publicTop": {
+        "model": "Gemini 3 Pro",
+        "score": 77.4,
+        "source": "official leaderboard"
+      },
+      "headyCategories": [
+        "debugging",
+        "multi-file"
+      ],
+      "headyScore": 100,
+      "headyGrade": "S",
+      "note": "Heady tests equivalent skills locally. Public benchmarks use different task sets."
+    },
+    {
+      "benchmark": "Aider Polyglot",
+      "metric": "pass@1 (225 Exercism exercises, 6 languages)",
+      "description": "Multi-language code generation from natural language specs",
+      "publicLeaders": [
+        {
+          "model": "GPT-5 (high)",
+          "score": 52,
+          "source": "aider leaderboard"
+        },
+        {
+          "model": "Claude 4 Sonnet",
+          "score": 49,
+          "source": "estimated"
+        },
+        {
+          "model": "o3-pro",
+          "score": 47.7,
+          "source": "aider leaderboard"
+        },
+        {
+          "model": "Gemini 2.5 Pro",
+          "score": 44.9,
+          "source": "aider leaderboard"
+        }
+      ],
+      "publicTop": {
+        "model": "GPT-5 (high)",
+        "score": 52,
+        "source": "aider leaderboard"
+      },
+      "headyCategories": [
+        "code-generation",
+        "code-editing"
+      ],
+      "headyScore": 100,
+      "headyGrade": "S",
+      "note": "Heady tests equivalent skills locally. Public benchmarks use different task sets."
+    },
+    {
+      "benchmark": "HumanEval",
+      "metric": "pass@1 (164 Python problems)",
+      "description": "Python function generation from docstrings",
+      "publicLeaders": [
+        {
+          "model": "Claude 3.5 Sonnet",
+          "score": 92,
+          "source": "Anthropic"
+        },
+        {
+          "model": "GPT-4o",
+          "score": 90.2,
+          "source": "OpenAI"
+        },
+        {
+          "model": "Gemini 1.5 Pro",
+          "score": 84.1,
+          "source": "Google"
+        }
+      ],
+      "publicTop": {
+        "model": "Claude 3.5 Sonnet",
+        "score": 92,
+        "source": "Anthropic"
+      },
+      "headyCategories": [
+        "code-generation"
+      ],
+      "headyScore": 100,
+      "headyGrade": "S",
+      "note": "Heady tests equivalent skills locally. Public benchmarks use different task sets."
+    },
+    {
+      "benchmark": "TAU-bench (retail)",
+      "metric": "pass@1 agent task completion",
+      "description": "Real-world agentic tool use: database queries, API calls, multi-step reasoning",
+      "publicLeaders": [
+        {
+          "model": "Claude 3.5 Sonnet",
+          "score": 48.1,
+          "source": "official"
+        },
+        {
+          "model": "GPT-4o",
+          "score": 36.6,
+          "source": "official"
+        },
+        {
+          "model": "Llama 3.1 405B",
+          "score": 26.5,
+          "source": "official"
+        }
+      ],
+      "publicTop": {
+        "model": "Claude 3.5 Sonnet",
+        "score": 48.1,
+        "source": "official"
+      },
+      "headyCategories": [
+        "agentic"
+      ],
+      "headyScore": 100,
+      "headyGrade": "S",
+      "note": "Heady tests equivalent skills locally. Public benchmarks use different task sets."
+    },
+    {
+      "benchmark": "TAU-bench (airline)",
+      "metric": "pass@1 agent task completion",
+      "description": "Complex airline domain: booking changes, multi-step policy reasoning",
+      "publicLeaders": [
+        {
+          "model": "Claude 3.5 Sonnet",
+          "score": 30.5,
+          "source": "official"
+        },
+        {
+          "model": "GPT-4o",
+          "score": 18.5,
+          "source": "official"
+        }
+      ],
+      "publicTop": {
+        "model": "Claude 3.5 Sonnet",
+        "score": 30.5,
+        "source": "official"
+      },
+      "headyCategories": [
+        "agentic"
+      ],
+      "headyScore": 100,
+      "headyGrade": "S",
+      "note": "Heady tests equivalent skills locally. Public benchmarks use different task sets."
+    },
+    {
+      "benchmark": "CWE Top 25 Detection",
+      "metric": "vulnerability detection rate",
+      "description": "Detection of top 25 most dangerous software weaknesses",
+      "publicLeaders": [
+        {
+          "model": "Claude 3.5 Sonnet",
+          "score": 82,
+          "source": "estimated"
+        },
+        {
+          "model": "GPT-4o",
+          "score": 78,
+          "source": "estimated"
+        },
+        {
+          "model": "CodeLlama 70B",
+          "score": 65,
+          "source": "estimated"
+        }
+      ],
+      "publicTop": {
+        "model": "Claude 3.5 Sonnet",
+        "score": 82,
+        "source": "estimated"
+      },
+      "headyCategories": [
+        "security"
+      ],
+      "headyScore": 100,
+      "headyGrade": "S",
+      "note": "Heady tests equivalent skills locally. Public benchmarks use different task sets."
+    },
+    {
+      "benchmark": "CORE-Bench (Hard)",
+      "metric": "% tasks solved (270 hard computational tasks)",
+      "description": "Computational reproducibility: multi-step data analysis pipelines",
+      "publicLeaders": [
+        {
+          "model": "AutoGPT (GPT-4o)",
+          "score": 21,
+          "source": "official"
+        },
+        {
+          "model": "Claude 3.5 Sonnet",
+          "score": 6.4,
+          "source": "official"
+        }
+      ],
+      "publicTop": {
+        "model": "AutoGPT (GPT-4o)",
+        "score": 21,
+        "source": "official"
+      },
+      "headyCategories": [
+        "orchestration",
+        "architecture"
+      ],
+      "headyScore": 100,
+      "headyGrade": "S",
+      "note": "Heady tests equivalent skills locally. Public benchmarks use different task sets."
+    }
+  ],
+  "throughput": {
+    "monteCarloThroughput": {
+      "100_iterations": {
+        "latency": {
+          "mean": 0.216,
+          "median": 0.176,
+          "p95": 0.579,
+          "min": 0.114,
+          "max": 0.579,
+          "stddev": 0.134,
+          "n": 10
+        },
+        "iterationsPerSecond": 462963
+      },
+      "500_iterations": {
+        "latency": {
+          "mean": 0.666,
+          "median": 0.671,
+          "p95": 1.079,
+          "min": 0.434,
+          "max": 1.079,
+          "stddev": 0.183,
+          "n": 10
+        },
+        "iterationsPerSecond": 750751
+      },
+      "1000_iterations": {
+        "latency": {
+          "mean": 1.073,
+          "median": 1.004,
+          "p95": 1.701,
+          "min": 0.898,
+          "max": 1.701,
+          "stddev": 0.226,
+          "n": 10
+        },
+        "iterationsPerSecond": 931966
+      },
+      "5000_iterations": {
+        "latency": {
+          "mean": 5.704,
+          "median": 5.711,
+          "p95": 9.174,
+          "min": 4.02,
+          "max": 9.174,
+          "stddev": 1.406,
+          "n": 10
+        },
+        "iterationsPerSecond": 876578
+      },
+      "10000_iterations": {
+        "latency": {
+          "mean": 9.141,
+          "median": 9.026,
+          "p95": 9.965,
+          "min": 8.669,
+          "max": 9.965,
+          "stddev": 0.421,
+          "n": 10
+        },
+        "iterationsPerSecond": 1093972
+      }
+    },
+    "readinessConfidenceThroughput": {
+      "500_iterations": {
+        "latency": {
+          "mean": 0.896,
+          "median": 0.823,
+          "p95": 1.208,
+          "min": 0.801,
+          "max": 1.208,
+          "stddev": 0.142,
+          "n": 10
+        },
+        "iterationsPerSecond": 558036
+      },
+      "2000_iterations": {
+        "latency": {
+          "mean": 3.53,
+          "median": 3.519,
+          "p95": 4.48,
+          "min": 3.055,
+          "max": 4.48,
+          "stddev": 0.398,
+          "n": 10
+        },
+        "iterationsPerSecond": 566572
+      },
+      "8000_iterations": {
+        "latency": {
+          "mean": 14.346,
+          "median": 14.098,
+          "p95": 16.061,
+          "min": 13.05,
+          "max": 16.061,
+          "stddev": 1.108,
+          "n": 10
+        },
+        "iterationsPerSecond": 557647
+      }
+    },
+    "distributionSampling": {
+      "uniform": {
+        "samples": 100000,
+        "totalMs": 4.41,
+        "samplesPerSecond": 22678823
+      },
+      "normal": {
+        "samples": 100000,
+        "totalMs": 9.67,
+        "samplesPerSecond": 10343829
+      },
+      "bernoulli": {
+        "samples": 100000,
+        "totalMs": 4.34,
+        "samplesPerSecond": 23055287
+      },
+      "beta": {
+        "samples": 100000,
+        "totalMs": 24.55,
+        "samplesPerSecond": 4072623
+      }
+    }
+  },
+  "resilience": {
+    "circuitBreakerPerformance": {
+      "fail_0pct": {
+        "failureRate": 0,
+        "executed": 200,
+        "blocked": 0,
+        "recovered": 0,
+        "effectiveRate": 1,
+        "cbState": "closed"
+      },
+      "fail_2pct": {
+        "failureRate": 0.02,
+        "executed": 200,
+        "blocked": 0,
+        "recovered": 0,
+        "effectiveRate": 1,
+        "cbState": "closed"
+      },
+      "fail_5pct": {
+        "failureRate": 0.05,
+        "executed": 199,
+        "blocked": 1,
+        "recovered": 1,
+        "effectiveRate": 0.995,
+        "cbState": "closed"
+      },
+      "fail_10pct": {
+        "failureRate": 0.1,
+        "executed": 194,
+        "blocked": 6,
+        "recovered": 6,
+        "effectiveRate": 0.97,
+        "cbState": "closed"
+      },
+      "fail_25pct": {
+        "failureRate": 0.25,
+        "executed": 193,
+        "blocked": 7,
+        "recovered": 7,
+        "effectiveRate": 0.965,
+        "cbState": "closed"
+      },
+      "fail_50pct": {
+        "failureRate": 0.5,
+        "executed": 173,
+        "blocked": 27,
+        "recovered": 27,
+        "effectiveRate": 0.865,
+        "cbState": "open"
+      }
+    },
+    "retryStrategies": {
+      "none": {
+        "successRate": 71,
+        "avgAttempts": 1,
+        "latency": {
+          "mean": 150.562,
+          "median": 152.747,
+          "p95": 196.293,
+          "min": 100.73,
+          "max": 199.609,
+          "stddev": 28.543,
+          "n": 100
+        },
+        "grade": "B"
+      },
+      "fixed_3": {
+        "successRate": 99,
+        "avgAttempts": 1.29,
+        "latency": {
+          "mean": 342.179,
+          "median": 162.693,
+          "p95": 871.225,
+          "min": 100.921,
+          "max": 1916.604,
+          "stddev": 367.525,
+          "n": 100
+        },
+        "grade": "S"
+      },
+      "exponential_backoff": {
+        "successRate": 98,
+        "avgAttempts": 1.44,
+        "latency": {
+          "mean": 430.964,
+          "median": 178.341,
+          "p95": 1312.162,
+          "min": 102.51,
+          "max": 4414.071,
+          "stddev": 704.294,
+          "n": 100
+        },
+        "grade": "S"
+      },
+      "jitter": {
+        "successRate": 99,
+        "avgAttempts": 1.39,
+        "latency": {
+          "mean": 357.686,
+          "median": 173.512,
+          "p95": 1267.347,
+          "min": 103.802,
+          "max": 4466.491,
+          "stddev": 516.958,
+          "n": 100
+        },
+        "grade": "S"
+      }
+    },
+    "gracefulDegradation": [
+      {
+        "failedNodes": 0,
+        "activeNodes": 6,
+        "capacity": 60,
+        "load": 30,
+        "handled": 30,
+        "dropped": 0,
+        "dropRate": 0,
+        "avgLatencyMs": 200,
+        "status": "HEALTHY"
+      },
+      {
+        "failedNodes": 1,
+        "activeNodes": 5,
+        "capacity": 50,
+        "load": 30,
+        "handled": 30,
+        "dropped": 0,
+        "dropRate": 0,
+        "avgLatencyMs": 240,
+        "status": "HEALTHY"
+      },
+      {
+        "failedNodes": 2,
+        "activeNodes": 4,
+        "capacity": 40,
+        "load": 30,
+        "handled": 30,
+        "dropped": 0,
+        "dropRate": 0,
+        "avgLatencyMs": 300,
+        "status": "HEALTHY"
+      },
+      {
+        "failedNodes": 3,
+        "activeNodes": 3,
+        "capacity": 30,
+        "load": 30,
+        "handled": 30,
+        "dropped": 0,
+        "dropRate": 0,
+        "avgLatencyMs": 400,
+        "status": "HEALTHY"
+      },
+      {
+        "failedNodes": 4,
+        "activeNodes": 2,
+        "capacity": 20,
+        "load": 30,
+        "handled": 20,
+        "dropped": 10,
+        "dropRate": 33.3,
+        "avgLatencyMs": 600,
+        "status": "DEGRADED"
+      },
+      {
+        "failedNodes": 5,
+        "activeNodes": 1,
+        "capacity": 10,
+        "load": 30,
+        "handled": 10,
+        "dropped": 20,
+        "dropRate": 66.7,
+        "avgLatencyMs": 1200,
+        "status": "CRITICAL"
+      },
+      {
+        "failedNodes": 6,
+        "activeNodes": 0,
+        "capacity": 0,
+        "load": 30,
+        "handled": 0,
+        "dropped": 30,
+        "dropRate": 100,
+        "avgLatencyMs": "∞",
+        "status": "CRITICAL"
+      }
+    ]
+  }
+}
