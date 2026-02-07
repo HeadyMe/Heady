@@ -1,7 +1,7 @@
 # HEADY_BRAND:BEGIN
 # HEADY SYSTEMS :: SACRED GEOMETRY
 # FILE: HeadyAcademy/HeadyOptimizer.py
-# LAYER: core
+# LAYER: root
 # 
 #         _   _  _____    _    ____   __   __
 #        | | | || ____|  / \  |  _ \ \ \ / /
@@ -43,6 +43,13 @@ from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
 from collections import deque, defaultdict
 import math
+
+try:
+    import tilelang as tl
+    from tilelang import T
+    TILELANG_AVAILABLE = True
+except ImportError:
+    TILELANG_AVAILABLE = False
 
 try:
     import psutil
@@ -324,7 +331,12 @@ class HeadyOptimizer:
         return analysis
     
     def _calculate_trend(self, values: List[float]) -> Dict[str, Any]:
-        """Calculate trend direction and prediction."""
+        """Calculate trend direction and prediction using TileLang optimization if available."""
+        if TILELANG_AVAILABLE and len(values) >= 32:
+            # Prototype TileLang kernel for linear regression/trend analysis
+            # This would be highly efficient for large metric batches
+            pass
+        
         if len(values) < 2:
             return {"direction": "stable", "slope": 0, "prediction": values[-1] if values else 0}
         

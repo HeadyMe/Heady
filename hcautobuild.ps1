@@ -316,7 +316,7 @@ function Get-FunctionalityScore {
         Set-Location $WorkspacePath
         $lastCommit = git log -1 --format="%ct" 2>$null
         if ($lastCommit) {
-            $commitTime = [UnixEpoch]::Parse($lastCommit)
+            $commitTime = [DateTimeOffset]::FromUnixTimeSeconds([long]$lastCommit).DateTime
             $daysSinceCommit = (Get-Date) - $commitTime
             if ($daysSinceCommit.Days -le 7) {
                 $activityScore = 15
@@ -447,7 +447,7 @@ function Invoke-CommitAndPush {
                     git push $remote --all
                     Write-Log "Pushed to $remote" -Level "INFO"
                 } catch {
-                    Write-Log "Failed to push to $remote`: $($_.Exception.Message)" -Level "WARNING"
+                    Write-Log "Failed to push to $remote - $($_.Exception.Message)" -Level "WARNING"
                 }
             }
         } else {
@@ -693,7 +693,7 @@ function Invoke-HCAutoBuild {
                 $overallSuccess = $false
             }
         } else {
-            Write-Host "Warning: Functionality below threshold (100 required for checkpoint)" -ForegroundColor $Colors.Warning
+            Write-Host "Warning: Functionality below threshold - 100 required for checkpoint" -ForegroundColor $Colors.Warning
         }
     }
     
@@ -703,41 +703,11 @@ function Invoke-HCAutoBuild {
 # Main execution
 try {
     if ($help) {
-        Write-Host @"
-HCAutoBuild - Autonomous Checkpoint System
-
-USAGE:
-    .\hcautobuild.ps1 [OPTIONS]
-
-OPTIONS:
-    -checkpoint      Create checkpoint regardless of functionality score
-    -status          Show detailed status report
-    -monitor         Start continuous monitoring mode
-    -debug           Enable debug logging
-    -verbose         Show detailed output
-    -force           Force operations even if conditions not met
-    -skipValidation  Skip build/test validation
-    -workspace NAME  Process specific workspace only
-    -help            Show this help message
-
-EXAMPLES:
-    .\hcautobuild.ps1                    # Run full cycle
-    .\hcautobuild.ps1 -status           # Show status report
-    .\hcautobuild.ps1 -checkpoint       # Force checkpoint creation
-    .\hcautobuild.ps1 -monitor          # Start monitoring
-    .\hcautobuild.ps1 -workspace Heady  # Process specific workspace
-
-CONFIGURATION:
-    Edit the CONFIG hashtable at the top of this script to modify:
-    Workspaces to monitor
-    Checkpoint directory
-    Functionality thresholds
-    Monitoring intervals
-"@
+        Write-Host "HCAutoBuild - Autonomous Checkpoint System`nUse -help for more information"
         exit 0
     }
     
-    Write-Log "HCAutoBuild started with parameters: $($PSBoundParameters.Keys -join ', ')" -Level "INFO"
+    Write-Log "HCAutoBuild started" -Level "INFO"
     
     if ($status) {
         $report = Get-StatusReport

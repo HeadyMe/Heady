@@ -14,6 +14,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import HeadySacredIcon from './HeadySacredIcon';
 
 const CascadePanel = ({ contextFile, onCodeApply }) => {
   const [messages, setMessages] = useState([{ role: 'assistant', content: 'Hello! I am Cascade, your AI assistant. How can I help you today?' }]);
@@ -77,7 +78,10 @@ const CascadePanel = ({ contextFile, onCodeApply }) => {
 
   return (
     <div className="cascade-panel" style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '10px', backgroundColor: '#252526', color: '#ccc' }}>
-       <div style={{ fontWeight: 'bold', marginBottom: '10px', color: '#007acc', borderBottom: '1px solid #333', paddingBottom: '5px' }}>CASCADE AI</div>
+       <div style={{ fontWeight: 'bold', marginBottom: '10px', color: '#007acc', borderBottom: '1px solid #333', paddingBottom: '5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <HeadySacredIcon name="brain" size={18} color="#007acc" />
+          CASCADE AI
+       </div>
 
        <div className="messages" style={{ flex: 1, overflowY: 'auto', marginBottom: '10px', paddingRight: '5px' }}>
           {messages.map((m, i) => (

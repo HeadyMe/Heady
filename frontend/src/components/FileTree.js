@@ -58,6 +58,12 @@ const FileTree = ({ onFileSelect }) => {
           onMouseOver={(e) => e.target.style.backgroundColor = '#37373d'}
           onMouseOut={(e) => e.target.style.backgroundColor = 'transparent'}
         >
+          <HeadySacredIcon 
+            name={f.endsWith('.js') ? 'code' : f.endsWith('.py') ? 'brain' : 'connection'} 
+            size={14} 
+            color={f.endsWith('.js') ? '#00f2ff' : f.endsWith('.py') ? '#bd00ff' : '#00ff88'} 
+            style={{ marginRight: '8px' }}
+          />
           {f}
         </div>
       ))}

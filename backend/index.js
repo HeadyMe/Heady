@@ -12,12 +12,12 @@
 //    Sacred Geometry :: Organic Systems :: Breathing Interfaces
 // HEADY_BRAND:END
 
-const express = require("express");
-const cors = require("cors");
-const Docker = require("dockerode");
-const crypto = require("crypto");
-const path = require("path");
-const fs = require("fs");
+import express from "express";
+import cors from "cors";
+import Docker from "dockerode";
+import crypto from "crypto";
+import path from "path";
+import fs from "fs";
 const { spawn } = require("child_process");
 const { EventEmitter } = require("events");
 

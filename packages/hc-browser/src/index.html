@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HCFullPipeline Browser</title>
+    <style>
+        :root {
+            --phi: 1.61803398875;
+            --space-1: calc(1rem / var(--phi));
+            --space-2: 1rem;
+            --space-3: calc(1rem * var(--phi));
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --accent: #38bdf8;
+            --text: #f1f5f9;
+            --radius: calc(var(--space-1) * 2);
+            --sidebar-width: calc(100vw / (var(--phi) * var(--phi) * var(--phi)));
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            display: flex;
+            height: 100vh;
+        }
+
+        #app-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        #sidebar {
+            width: var(--sidebar-width);
+            background: var(--surface);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: var(--space-2);
+            gap: var(--space-2);
+            transition: width 0.3s var(--ease-out);
+        }
+
+        #studio-panel {
+            display: none;
+            width: calc(var(--sidebar-width) * 2);
+            background: var(--bg-dark);
+            border-right: 1px solid var(--border-dark);
+            padding: var(--space-2);
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .studio-active #studio-panel {
+            display: flex;
+        }
+
+        .design-element {
+            background: var(--surface);
+            padding: var(--space-1);
+            border-radius: var(--radius);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .design-element:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .sidebar-item {
+            padding: var(--space-1);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateX(4px);
+        }
+
+        #main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg);
+        }
+
+        #titlebar {
+            height: 40px;
+            background: var(--surface);
+            -webkit-app-region: drag;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--space-2);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        #toolbar {
+            padding: var(--space-1);
+            background: var(--surface);
+            display: flex;
+            gap: var(--space-1);
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        #url-bar {
+            flex: 1;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            outline: none;
+        }
+
+        #browser-container {
+            flex: 1;
+            position: relative;
+        }
+
+        webview {
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+
+        #buddy-trigger {
+            position: fixed;
+            bottom: var(--space-3);
+            right: var(--space-3);
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="app-layout">
+        <div id="sidebar">
+            <div style="font-weight: bold; font-size: 1.2rem; margin-bottom: var(--space-2);">HCFullPipeline</div>
+            <div class="sidebar-item" onclick="toggleStudio()">🎨 Canva Studio</div>
+            <div class="sidebar-item">⚡ Comet Speed</div>
+            <div class="sidebar-item">📂 Projects</div>
+            <div class="sidebar-item">⚙️ Settings</div>
+        </div>
+        <div id="studio-panel">
+            <div style="font-weight: bold; color: var(--accent);">Design Studio</div>
+            <div class="design-element" onclick="addElement('header')">Heading</div>
+            <div class="design-element" onclick="addElement('button')">Button</div>
+            <div class="design-element" onclick="addElement('card')">Card</div>
+            <hr style="opacity: 0.1; width: 100%;">
+            <button class="nav-btn" style="background: var(--accent); color: var(--bg-dark);" onclick="exportToCode()">Export to Code</button>
+        </div>
+        <div id="main-content">
+            <div id="titlebar">
+                <span>Sacred Geometry Browser</span>
+            </div>
+            <div id="toolbar">
+                <button class="nav-btn" onclick="goBack()">←</button>
+                <button class="nav-btn" onclick="goForward()">→</button>
+                <button class="nav-btn" onclick="reload()">↻</button>
+                <input type="text" id="url-bar" value="https://google.com" onkeydown="handleUrl(event)">
+            </div>
+            <div id="browser-container">
+                <webview id="wv" src="https://google.com" preload="preload.js"></webview>
+            </div>
+        </div>
+    </div>
+    <div id="buddy-trigger" onclick="toggleBuddy()">
+        <span>HB</span>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+        const wv = document.getElementById('wv');
+        const urlBar = document.getElementById('url-bar');
+
+        function handleUrl(e) {
+            if (e.key === 'Enter') {
+                let url = urlBar.value;
+                if (!url.startsWith('http')) url = 'https://' + url;
+                wv.src = url;
+            }
+        }
+
+        function goBack() { if (wv.canGoBack()) wv.goBack(); }
+        function goForward() { if (wv.canGoForward()) wv.goForward(); }
+        function reload() { wv.reload(); }
+        function toggleBuddy() { ipcRenderer.send('toggle-buddy'); }
+
+        function toggleStudio() {
+            document.getElementById('app-layout').classList.toggle('studio-active');
+        }
+
+        function addElement(type) {
+            console.log('Adding element:', type);
+            // In a real implementation, this would inject into a designer canvas
+            ipcRenderer.send('buddy-action', { type: 'notify', message: `Added ${type} to design` });
+        }
+
+        function exportToCode() {
+            ipcRenderer.invoke('buddy-ask-mcp', { 
+                query: "Generate React code for the current design layout following Sacred Geometry principles.",
+                context: { type: 'design-export' }
+            }).then(result => {
+                alert('Code generated and sent to HeadyBuddy!');
+            });
+        }
+
+        wv.addEventListener('did-start-loading', () => {
+            const currentUrl = wv.getURL();
+            urlBar.value = currentUrl;
+            // Notify HeadyBuddy of context change
+            ipcRenderer.send('browser-context-change', { url: currentUrl });
+        });
+
+        ipcRenderer.on('buddy-action', (event, action) => {
+            if (action.type === 'navigate') {
+                wv.src = action.url;
+            } else if (action.type === 'scroll') {
+                wv.executeJavaScript(`window.scrollBy(0, ${action.amount})`);
+            }
+        });
+    </script>
+</body>
+</html>

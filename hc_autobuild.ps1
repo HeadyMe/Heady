@@ -17,10 +17,22 @@
     HCAutoBuild - Automated Checkpoint & Build System
     
 .DESCRIPTION
-    Monitors workspaces for 100% functionality, automatically creates checkpoints,
-    and manages the build pipeline until no tasks need attention.
+    HCFullPipeline - Enhanced Automated Checkpoint & Build System
     
-    Pipeline: Prep → Commit → Push → Verify → Fix (if needed) → Push → Status Report → Standby
+    Monitors workspaces for 100% functionality, automatically creates checkpoints,
+    and manages the complete build pipeline until all systems are operational.
+    
+    HCFullPipeline Stages:
+    1. Discovery - Analyze workspace and identify all components
+    2. Prep - Stage changes, install dependencies, resolve conflicts
+    3. Build - Execute build pipeline with comprehensive validation
+    4. Test - Run automated tests with coverage reporting
+    5. Security - Perform security scans and vulnerability checks
+    6. Deploy - Deploy to staging and production environments
+    7. Verify - Validate deployment and service health
+    8. Monitor - Set up monitoring and alerting
+    9. Report - Generate comprehensive status report
+    10. Standby - Enter monitoring mode when at 100%
     
 .PARAMETER Workspace
     Target workspace to monitor and build (default: auto-detect)
@@ -50,13 +62,22 @@ $ProgressPreference = "Continue"
 # ================================================================================
 # CONFIGURATION
 # ================================================================================
-$SCRIPT_VERSION = "1.0.0"
+$SCRIPT_VERSION = "2.0.0 - HCFullPipeline"
 $CHECKPOINT_REGISTRY = ".heady/checkpoints.json"
 $STATUS_LOG = ".heady/autobuild.log"
+$PIPELINE_CONFIG = ".heady/hcfullpipeline_config.json"
 $WORKSPACES = @(
     "C:\Users\erich\.windsurf\worktrees\Heady\Heady-cbd7dddf",
     "C:\Users\erich\.windsurf\worktrees\CascadeProjects\CascadeProjects-cbd7dddf"
 )
+
+# HCFullPipeline Configuration
+$PIPELINE_STAGES = @(
+    "Discovery", "Prep", "Build", "Test", "Security", 
+    "Deploy", "Verify", "Monitor", "Report", "Standby"
+)
+$DEFAULT_TIMEOUT = 300  # 5 minutes per stage
+$MAX_RETRY_ATTEMPTS = 3
 
 # Colors for output
 $COLOR_INFO = "Cyan"
@@ -136,6 +157,18 @@ function Get-WorkspaceStatus($workspacePath) {
         LastCheckpoint = $null
         CanBuild = $false
         IsFullyFunctional = $false
+        # HCFullPipeline enhancements
+        PipelineStage = "Discovery"
+        SecurityScore = 0
+        TestCoverage = 0
+        DeploymentReady = $false
+        MonitoringActive = $false
+        Services = @()
+        Dependencies = @()
+        BuildArtifacts = @()
+        SecurityIssues = @()
+        TestResults = @()
+        DeploymentStatus = @{}
     }
     
     # Check git status

@@ -86,7 +86,7 @@ function Push-To-Remote ($remoteName) {
     }
 }
 
-$remotes = "origin", "heady-me", "heady-sys", "sandbox"
+$remotes = git remote
 foreach ($r in $remotes) {
     Push-To-Remote $r
 }
@@ -97,6 +97,7 @@ Write-Host "`n[5/5] Verifying Deployment..." -ForegroundColor Yellow
 $verificationResults = @()
 $startTime = Get-Date
 
+$remotes = git remote
 foreach ($r in $remotes) {
     $remoteUrl = git remote get-url $r 2>$null
     if ($remoteUrl) {

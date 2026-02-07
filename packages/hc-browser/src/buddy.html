@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --phi: 1.61803398875;
+            --bg: rgba(15, 23, 42, 0.95);
+            --accent: #38bdf8;
+            --text: #f1f5f9;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            height: calc(100vh - 42px);
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        input {
+            flex: 1;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 10px;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span>HeadyBuddy Assistant</span>
+        <span style="cursor:pointer" onclick="window.closeBuddy()">×</span>
+    </div>
+    <div class="chat-area" id="chat">
+        <div>Welcome. I am your HCFullPipeline assistant. How can I help with your current task?</div>
+    </div>
+    <div class="input-area">
+        <input type="text" placeholder="Ask HeadyBuddy..." id="input">
+    </div>
+    <script>
+        const { ipcRenderer } = require('electron');
+        const chat = document.getElementById('chat');
+        const input = document.getElementById('input');
+
+        window.closeBuddy = () => ipcRenderer.send('toggle-buddy');
+
+        let currentUrl = '';
+
+        ipcRenderer.on('context-update', (event, data) => {
+            currentUrl = data.url;
+            const msg = document.createElement('div');
+            msg.style.fontSize = '12px';
+            msg.style.opacity = '0.7';
+            msg.style.marginTop = '10px';
+            msg.innerText = `Context: ${data.url}`;
+            chat.appendChild(msg);
+            chat.scrollTop = chat.scrollHeight;
+        });
+
+        input.onkeydown = async (e) => {
+            if (e.key === 'Enter') {
+                const text = input.value;
+                input.value = '';
+                
+                const msg = document.createElement('div');
+                msg.style.marginTop = '10px';
+                msg.innerHTML = `<strong>You:</strong> ${text}`;
+                chat.appendChild(msg);
+                
+                // Show thinking state
+                const thinkingMsg = document.createElement('div');
+                thinkingMsg.style.color = 'var(--text-secondary)';
+                thinkingMsg.innerHTML = `<em>HeadyBuddy is thinking...</em>`;
+                chat.appendChild(thinkingMsg);
+                chat.scrollTop = chat.scrollHeight;
+
+                try {
+                    // Call MCP via Electron Main
+                    const result = await ipcRenderer.invoke('buddy-ask-mcp', { 
+                        query: text,
+                        context: { url: currentUrl }
+                    });
+
+                    chat.removeChild(thinkingMsg);
+
+                    const aiMsg = document.createElement('div');
+                    aiMsg.style.color = 'var(--accent)';
+                    aiMsg.innerHTML = `<strong>HeadyBuddy:</strong> ${result.response || result.error || 'Task completed.'}`;
+                    chat.appendChild(aiMsg);
+
+                    // If the AI suggests a navigation or action, forward it
+                    if (result.action) {
+                        ipcRenderer.send('buddy-to-browser', result.action);
+                    }
+                } catch (err) {
+                    chat.removeChild(thinkingMsg);
+                    const errMsg = document.createElement('div');
+                    errMsg.style.color = '#ef4444';
+                    errMsg.innerHTML = `<strong>Error:</strong> HeadyBrain is offline.`;
+                    chat.appendChild(errMsg);
+                }
+                
+                chat.scrollTop = chat.scrollHeight;
+            }
+        };
+    </script>
+</body>
+</html>

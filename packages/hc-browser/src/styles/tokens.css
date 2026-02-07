@@ -1,0 +1,30 @@
+/* HEADY_BRAND:BEGIN */
+/* HEADY SYSTEMS :: SACRED GEOMETRY */
+/* FILE: packages/hc-browser/src/styles/tokens.css */
+/* LAYER: ui-tokens */
+/* HEADY_BRAND:END */
+
+:root {
+    /* The Golden Ratio */
+    --phi: 1.61803398875;
+    
+    /* Spacing Scale (Phi-based) */
+    --space-1: calc(1rem / var(--phi));
+    --space-2: 1rem;
+    --space-3: calc(1rem * var(--phi));
+    --space-4: calc(var(--space-3) * var(--phi));
+    --space-5: calc(var(--space-4) * var(--phi));
+
+    /* Colors - Deep Space Theme */
+    --bg-dark: #020617;
+    --surface-dark: #0f172a;
+    --border-dark: #1e293b;
+    --accent-primary: #38bdf8;
+    --accent-secondary: #818cf8;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+
+    /* Animations */
+    --ease-out: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-speed: 0.3s;
+}

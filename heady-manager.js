@@ -35,6 +35,9 @@ const path = require("path");
 const fs = require("fs");
 const { spawn } = require("child_process");
 
+const NexusProtocol = require(path.join(__dirname, "src", "nexus_protocol"));
+const nexus = new NexusProtocol();
+
 const { HEADY_MAID_CONFIG } = require(path.join(__dirname, "src", "heady_maid"));
 
 const PORT = Number(process.env.PORT || 3300);
@@ -88,6 +91,15 @@ app.get("/api/maid/inventory", (req, res) => {
 });
 
 // HeadyConductor API Endpoints
+app.post("/api/nexus/route", async (req, res) => {
+  try {
+    const result = await nexus.routeInput(req.body);
+    res.json(result);
+  } catch (error) {
+    res.status(403).json({ error: error.message });
+  }
+});
+
 app.post("/api/conductor/orchestrate", async (req, res) => {
   try {
     const { request } = req.body;

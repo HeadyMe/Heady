@@ -20,6 +20,8 @@ import CodeEditor from './components/CodeEditor';
 import CascadePanel from './components/CascadePanel';
 import TerminalComponent from './components/Terminal';
 import SettingsModal from './components/SettingsModal';
+import HeadyEmojiBar from './components/HeadyEmojiBar';
+import HeadySacredIcon from './components/HeadySacredIcon';
 
 function App() {
   const [currentFile, setCurrentFile] = useState(null); // { path, content }
@@ -66,7 +68,17 @@ function App() {
     }
   };
 
-  return (
+  retu{/* Brand & Emoji Utility */}
+      <div style={{ position: 'absolute', top: '10px', left: '50%', transform: 'translateX(-50%)', zIndex: 100, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+         <div style={{ display: 'flex', gap: '10px', marginBottom: '5px' }}>
+            <HeadySacredIcon name="connection" size={20} color="#00f2ff" />
+            <span style={{ color: '#00f2ff', fontSize: '12px', letterSpacing: '2px', fontWeight: 'bold' }}>HEADY SYSTEMS</span>
+            <HeadySacredIcon name="brain" size={20} color="#bd00ff" />
+         </div>
+         <HeadyEmojiBar />
+      </div>
+
+      rn (
     <div className="App">
       <Layout
         sidebar={<FileTree onFileSelect={handleFileSelect} />}

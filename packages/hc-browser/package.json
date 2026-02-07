@@ -1,0 +1,14 @@
+{
+  "name": "hc-full-pipeline",
+  "version": "1.0.0",
+  "description": "Sacred Geometry Browser with HeadyBuddy AI Integration",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "axios": "^1.13.4",
+    "electron": "^30.0.0",
+    "lucide-react": "^0.378.0"
+  }
+}
