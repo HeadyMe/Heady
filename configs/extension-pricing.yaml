@@ -1,0 +1,192 @@
+# ═══════════════════════════════════════════════════════════════════════
+# HEADY SYSTEMS — IDE Extension Pricing & Payment Tiers
+# ═══════════════════════════════════════════════════════════════════════
+#
+# Hybrid per-seat + usage model. Pricing is a hypothesis to iterate on.
+# Fair access mechanisms reflect Heady's impact mission.
+
+version: "1.0.0"
+name: ExtensionPricing
+
+# ─── TIER DEFINITIONS ───────────────────────────────────────────────
+tiers:
+  free:
+    name: "Heady Free"
+    price: 0
+    billing: null
+    description: "Core tools for individual developers"
+    features:
+      - "Basic autocomplete"
+      - "Limited chat (20 messages/day)"
+      - "HeadyCorrections (basic)"
+      - "Community support"
+      - "Single workspace"
+    limits:
+      chatMessagesPerDay: 20
+      completionsPerHour: 60
+      maxWorkspaces: 1
+      modelAccess: ["small"]
+      headyServices: ["corrections_basic"]
+    purpose: "Showcase value, drive word-of-mouth adoption"
+
+  pro:
+    name: "Heady Pro"
+    price:
+      monthly: 12
+      annual: 120  # 2 months free
+    currency: "USD"
+    billing: "per_seat"
+    description: "Full power for professional developers"
+    features:
+      - "Everything in Free"
+      - "Unlimited chat"
+      - "Full autocomplete with context awareness"
+      - "HeadyCorrections (full)"
+      - "HeadyPrioritizer"
+      - "HeadyImpact scoring"
+      - "Monte Carlo plan optimization"
+      - "Pattern recognition insights"
+      - "Up to 5 workspaces"
+      - "Email support"
+    limits:
+      chatMessagesPerDay: null  # unlimited
+      completionsPerHour: 300
+      maxWorkspaces: 5
+      modelAccess: ["small", "medium", "default"]
+      headyServices: ["corrections", "prioritizer", "impact", "monte_carlo", "patterns"]
+    valueProposition: "One saved hour/month already pays for Pro"
+
+  team:
+    name: "Heady Team"
+    price:
+      monthly: 35
+      annual: 350
+    currency: "USD"
+    billing: "per_seat"
+    minSeats: 3
+    description: "Collaborative power for development teams"
+    features:
+      - "Everything in Pro"
+      - "Shared team configurations"
+      - "Team dashboard and analytics"
+      - "Policy controls (model selection, safety)"
+      - "Priority support"
+      - "Unlimited workspaces"
+      - "Admin console"
+      - "Usage reporting per member"
+    limits:
+      chatMessagesPerDay: null
+      completionsPerHour: 500
+      maxWorkspaces: null  # unlimited
+      modelAccess: ["small", "medium", "default", "large"]
+      headyServices: "all"
+
+  enterprise:
+    name: "Heady Enterprise"
+    price: "custom"
+    billing: "annual_contract"
+    description: "Full control for large organizations"
+    features:
+      - "Everything in Team"
+      - "SSO / SAML authentication"
+      - "Audit logs and compliance reporting"
+      - "Custom deployment (VPC / on-prem option)"
+      - "Dedicated support and SLA"
+      - "Custom model fine-tuning"
+      - "Data residency controls"
+      - "API access for internal tools"
+      - "Custom integrations"
+    limits:
+      chatMessagesPerDay: null
+      completionsPerHour: null  # negotiated
+      maxWorkspaces: null
+      modelAccess: "all"
+      headyServices: "all"
+
+# ─── FAIR ACCESS (IMPACT MISSION) ──────────────────────────────────
+fairAccess:
+  enabled: true
+  description: "Heady cares about wealth redistribution and impact"
+  programs:
+    students:
+      name: "Heady for Students"
+      discount: 100  # percent — free
+      verification: "edu_email_or_student_id"
+      tier: "pro"
+      description: "Full Pro features for verified students"
+
+    nonprofits:
+      name: "Heady for Nonprofits"
+      discount: 75  # percent
+      verification: "501c3_or_equivalent"
+      tier: "team"
+      description: "Team tier at 75% discount for registered nonprofits"
+
+    lowIncomeRegions:
+      name: "Heady Impact Access"
+      discount: 50  # percent
+      verification: "purchasing_power_parity"
+      tier: "pro"
+      description: "Pro tier at PPP-adjusted pricing for qualifying regions"
+
+    sponsoredSeats:
+      name: "Sponsored Seats"
+      description: "Companies or donors can sponsor seats for others"
+      mechanism: "sponsor_pays_for_recipient_seat"
+      enabled: true
+
+# ─── PAYMENT INFRASTRUCTURE ────────────────────────────────────────
+payments:
+  provider: "stripe"
+  features:
+    - "Monthly and annual billing"
+    - "Self-serve for Free/Pro/Team"
+    - "Sales-assisted for Enterprise"
+    - "Automatic proration on plan changes"
+    - "Usage-based overage billing (optional)"
+    - "Invoice generation"
+    - "Tax calculation (Stripe Tax)"
+
+  trialToPayment:
+    proTrialDays: 14
+    teamTrialDays: 14
+    requirePaymentMethod: false  # during trial
+    upgradeTriggersInApp:
+      - "Usage limit reached"
+      - "Premium feature accessed"
+      - "Workspace limit reached"
+
+  overageBilling:
+    enabled: false  # start simple, enable later if needed
+    description: "If enabled, charges per-request above tier limits"
+    ratePerExtraCompletion: 0.002
+    ratePerExtraChatMessage: 0.01
+
+# ─── PRICING OPTIMIZATION ──────────────────────────────────────────
+optimization:
+  stance: "pricing_is_hypothesis"
+  description: "Treat initial pricing as starting point, iterate based on data"
+
+  experiments:
+    - name: "early_adopter_discount"
+      description: "50% off Pro for first 500 signups"
+      status: "planned"
+    - name: "annual_vs_monthly_split"
+      description: "A/B test annual discount levels (17% vs 25%)"
+      status: "planned"
+    - name: "feature_gate_testing"
+      description: "Test which features drive conversion Free→Pro"
+      status: "planned"
+
+  metricsToTrack:
+    - "activation_rate: free users who use key features in first 7 days"
+    - "conversion_rate: free → paid within 30 days"
+    - "monthly_churn: paid users who cancel"
+    - "expansion_revenue: Pro → Team upgrades"
+    - "usage_by_tier: are paid users hitting limits or barely using it"
+    - "time_to_value: how fast does a new user see benefit"
+
+  cadence:
+    reviewPricing: "quarterly"
+    reviewFairAccess: "semi-annually"
+    runExperiments: "continuous"

@@ -1,0 +1,221 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Pricing Plans                                     ║
+# ║  All SaaS + API monetization styles pre-wired            ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+# ── Subscription Tiers ──────────────────────────────────────
+tiers:
+  free:
+    name: "Heady Free"
+    price_monthly: 0
+    price_yearly: 0
+    description: "Get started with Heady — basic assistant + browser extension"
+    features:
+      - browser_extension
+      - basic_chat
+      - 3_workspaces
+      - community_support
+    limits:
+      messages_per_day: 50
+      tokens_per_month: 100000
+      voice_minutes_per_month: 0
+      agents: 1
+      mcp_tools: 3
+      file_uploads_per_month: 10
+      storage_gb: 1
+
+  personal:
+    name: "Heady Personal"
+    price_monthly: 5.00
+    price_yearly: 48.00
+    description: "Browser + Mobile Chat for everyday AI assistance"
+    features:
+      - browser_extension
+      - mobile_chat_app
+      - basic_chat
+      - voice_input
+      - 10_workspaces
+      - email_support
+    limits:
+      messages_per_day: 500
+      tokens_per_month: 1000000
+      voice_minutes_per_month: 30
+      agents: 3
+      mcp_tools: 5
+      file_uploads_per_month: 100
+      storage_gb: 5
+
+  pro:
+    name: "Heady Pro"
+    price_monthly: 12.00
+    price_yearly: 120.00
+    description: "Full suite: Desktop + Voice + Dev Tools + Automations"
+    features:
+      - all_browser_extensions
+      - mobile_all_apps
+      - headyos_desktop
+      - voice_io
+      - dev_ide_extensions
+      - unlimited_workspaces
+      - rag_pipelines
+      - priority_support
+    limits:
+      messages_per_day: 5000
+      tokens_per_month: 10000000
+      voice_minutes_per_month: 300
+      agents: 10
+      mcp_tools: unlimited
+      file_uploads_per_month: 1000
+      storage_gb: 50
+
+  team:
+    name: "Heady Team"
+    price_monthly_per_seat: 35.00
+    price_yearly_per_seat: 336.00
+    min_seats: 2
+    description: "Collaborative AI for teams — shared workspaces + admin"
+    features:
+      - all_pro_features
+      - team_workspaces
+      - shared_memory
+      - admin_dashboard
+      - usage_analytics
+      - sso_saml
+      - priority_support
+    limits:
+      messages_per_day: unlimited
+      tokens_per_month: 50000000
+      voice_minutes_per_month: 1000
+      agents: unlimited
+      mcp_tools: unlimited
+      file_uploads_per_month: unlimited
+      storage_gb: 200
+
+  enterprise:
+    name: "Heady Enterprise"
+    price: custom
+    description: "Custom deployment, SLA, dedicated support, on-prem option"
+    features:
+      - all_team_features
+      - on_premise_deployment
+      - custom_models
+      - dedicated_support_engineer
+      - sla_99_9
+      - custom_integrations
+      - audit_logs
+      - data_residency
+      - white_label
+    limits:
+      everything: unlimited
+
+# ── Usage-Based Add-Ons ─────────────────────────────────────
+usage_addons:
+  extra_tokens:
+    name: "Extra Token Credits"
+    unit: "1M tokens"
+    price: 2.00
+
+  extra_voice:
+    name: "Extra Voice Minutes"
+    unit: "60 minutes"
+    price: 5.00
+
+  extra_storage:
+    name: "Extra Storage"
+    unit: "10 GB"
+    price: 3.00
+
+  premium_models:
+    name: "Premium Model Access"
+    description: "Access to GPT-4o, Claude Opus, Gemini Ultra"
+    unit: "per 1K requests"
+    price: 10.00
+
+  priority_compute:
+    name: "Priority Compute"
+    description: "Skip queues, dedicated resources"
+    unit: "per month"
+    price: 20.00
+
+# ── Trial Configuration ─────────────────────────────────────
+trials:
+  reverse_trial:
+    enabled: true
+    duration_days: 14
+    tier: pro
+    description: "Full Pro access for 14 days, then falls back to Free"
+    require_payment_method: false
+
+  standard_trial:
+    enabled: true
+    duration_days: 7
+    tier: team
+    description: "Team trial for organizations"
+    require_payment_method: true
+
+# ── Fair Access Programs ─────────────────────────────────────
+fair_access:
+  students:
+    discount_percent: 100
+    tier: pro
+    verification: "edu_email_or_id"
+    description: "Free Pro for verified students"
+
+  nonprofits:
+    discount_percent: 75
+    tier: team
+    verification: "501c3_or_equivalent"
+    description: "75% off Team for registered nonprofits"
+
+  ppp_pricing:
+    enabled: true
+    description: "Purchasing power parity pricing for qualifying countries"
+    max_discount_percent: 70
+
+  sponsored_seats:
+    enabled: true
+    pool_name: "HeadyConnection Impact Fund"
+    description: "Community-funded seats for underserved users"
+
+# ── Payment Gateways ────────────────────────────────────────
+gateways:
+  stripe:
+    enabled: true
+    env_key: "STRIPE_SECRET_KEY"
+    env_publishable: "STRIPE_PUBLISHABLE_KEY"
+    webhook_secret: "STRIPE_WEBHOOK_SECRET"
+    features:
+      - subscriptions
+      - usage_metering
+      - invoicing
+      - customer_portal
+      - tax_collection
+
+  paypal:
+    enabled: true
+    env_client_id: "PAYPAL_CLIENT_ID"
+    env_secret: "PAYPAL_SECRET"
+    features:
+      - subscriptions
+      - one_time_payments
+
+  apple_pay:
+    enabled: true
+    requires: "stripe"
+    platforms: [web, ios]
+
+  google_pay:
+    enabled: true
+    requires: "stripe"
+    platforms: [web, android]
+
+  bank_transfer:
+    enabled: true
+    description: "Wire/ACH for Enterprise customers"
+    min_amount: 1000
+
+  crypto:
+    enabled: false
+    description: "Planned: Bitcoin/ETH via Coinbase Commerce"

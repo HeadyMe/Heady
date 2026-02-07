@@ -1,0 +1,59 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Browser Assistant Only                            ║
+# ║  Lightweight: just the browser extension + AI sidebar    ║
+# ╚══════════════════════════════════════════════════════════╝
+
+name: "Heady Browser Assistant"
+id: browser-assistant-only
+version: "1.0.0"
+
+description: >
+  The simplest way to use Heady. Install the browser extension and get
+  AI-powered page summaries, research, writing help, and code explanations
+  directly in your browser sidebar.
+
+target_audience:
+  - Casual users
+  - Students
+  - Anyone who wants AI assistance while browsing
+
+apps:
+  - heady-browser-ext
+
+supported_browsers:
+  - chrome
+  - edge
+  - firefox
+  - safari
+  - brave
+  - vivaldi
+  - opera
+  - arc
+
+modes:
+  local:
+    description: "Uses local Ollama models (requires local setup)"
+    requires_internet: false
+    config: browser/heady-browser-local/config.json
+  hybrid:
+    description: "Prefers local, falls back to cloud"
+    requires_internet: true
+    config: browser/heady-browser-hybrid/config.json
+  cloud:
+    description: "Cloud-only, no local setup needed"
+    requires_internet: true
+    config: browser/heady-browser-cloud/config.json
+
+pricing:
+  model: freemium
+  free_tier:
+    messages_per_day: 50
+    features: [summarize, explain, translate]
+  paid_tier:
+    price_monthly: 5.00
+    features: [unlimited_messages, research, draft, code, agent_mode, voice_input]
+
+plan: free
+included_in: [free, personal, pro, team, enterprise]
+
+deployment_mode: cloud

@@ -1,0 +1,25 @@
+# Hybrid — Local orchestrator + cloud models when needed
+# Usage: docker compose -f base.yml -f profiles/hybrid.yml up
+
+services:
+  heady-api:
+    environment:
+      - CLOUD_MODELS_ENABLED=true
+      - REQUIRE_INTERNET=true
+      - PREFER_LOCAL=true
+
+  model-runner:
+    environment:
+      - OLLAMA_MODELS=llama3.1:8b,nomic-embed-text
+
+  heady-orchestrator:
+    environment:
+      - PREFER_LOCAL_MODELS=true
+      - CLOUD_FALLBACK=true
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+
+  heady-rag:
+    environment:
+      - EMBEDDINGS_LOCAL=true
+      - CLOUD_EMBEDDINGS_FALLBACK=true

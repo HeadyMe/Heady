@@ -1,0 +1,30 @@
+{
+  "name": "heady-mcp-github",
+  "description": "MCP server for GitHub: repos, PRs, issues, actions, code search",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "auth": {
+    "type": "personal_access_token",
+    "env_var": "GITHUB_PERSONAL_ACCESS_TOKEN",
+    "scopes": ["repo", "read:org", "read:user", "workflow"]
+  },
+  "tools": [
+    "search_repositories",
+    "get_file_contents",
+    "create_or_update_file",
+    "push_files",
+    "create_issue",
+    "list_issues",
+    "create_pull_request",
+    "list_commits",
+    "search_code",
+    "get_repository",
+    "fork_repository",
+    "create_branch",
+    "list_branches"
+  ],
+  "billing": {
+    "tier": "free",
+    "credits_per_call": 0
+  }
+}

@@ -1,0 +1,49 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Automations Pack                                   ║
+# ║  Browser + Automations + API + MCP Gateway                 ║
+# ╚══════════════════════════════════════════════════════════╝
+
+id: automations-pack
+name: "Heady Automations Pack"
+tier: pro
+price_monthly: 12.00
+price_yearly: 120.00
+currency: USD
+target_audience: "Ops, automation engineers, power users"
+
+apps:
+  - id: heady-browser-ext
+    platforms: [chrome, firefox, edge, safari]
+  - id: heady-mobile-automations
+    platforms: [android, ios]
+  - id: headyos-web
+    platforms: [web]
+  - id: heady-api
+    platforms: [api]
+  - id: heady-mcp-gateway
+    platforms: [docker, cloud]
+  - id: heady-cli
+    platforms: [windows, mac, linux]
+
+limits:
+  messages_per_day: 2000
+  tokens_per_month: 5000000
+  voice_minutes_per_month: 0
+  agents: unlimited
+  mcp_tools: unlimited
+  workspaces: 20
+  storage_gb: 25
+  automation_runs_per_month: unlimited
+
+deployment_modes: [local_only, hybrid, cloud_only, self_hosted]
+
+feature_flags:
+  rag_pipelines: true
+  custom_agents: true
+  automations: true
+  scheduled_tasks: true
+  webhook_triggers: true
+  zapier_connector: true
+  n8n_connector: true
+  make_connector: true
+  api_access: true

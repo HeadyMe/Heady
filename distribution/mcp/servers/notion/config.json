@@ -1,0 +1,24 @@
+{
+  "name": "heady-mcp-notion",
+  "description": "MCP server for Notion: pages, databases, blocks, search",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "auth": {
+    "type": "integration_token",
+    "env_var": "NOTION_TOKEN"
+  },
+  "tools": [
+    "search",
+    "get_page",
+    "create_page",
+    "update_page",
+    "get_database",
+    "query_database",
+    "append_block_children",
+    "get_block_children"
+  ],
+  "billing": {
+    "tier": "pro",
+    "credits_per_call": 1
+  }
+}

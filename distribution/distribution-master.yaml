@@ -1,0 +1,280 @@
+# HeadyStack Distribution Pack - Master Configuration
+# This file defines all distribution channels and their configurations
+
+version: "2.0.0"
+distribution_name: "HeadyStack Universal Distribution Pack"
+created: "2026-02-06"
+
+# ============================================
+# HEDYOS FORMS
+# ============================================
+headyos_forms:
+  desktop:
+    name: "HeadyOS Desktop"
+    description: "Full desktop shell with overlay and system integration"
+    platforms: [mac, windows, linux]
+    installer_formats:
+      mac: [dmg, zip]
+      windows: [exe, msi, zip]
+      linux: [AppImage, deb, rpm, tar.gz]
+    
+  browser_shell:
+    name: "HeadyOS Browser Shell"
+    description: "Chromium-based browser with integrated HeadyOS"
+    variants:
+      local:
+        description: "Uses localhost:3300 for all services"
+        default_endpoint: "http://localhost:3300"
+      hybrid:
+        description: "Local orchestrator + remote models"
+        default_endpoint: "http://localhost:3300"
+        fallback_endpoints: ["https://heady-manager-headysystems.onrender.com"]
+      cloud:
+        description: "Cloud-only mode"
+        default_endpoint: "https://heady-manager-headysystems.onrender.com"
+    
+  web_shell:
+    name: "HeadyOS Web Shell"
+    description: "Full OS-like web UI served from web app"
+    deployment_targets: [vercel, netlify, render, self_hosted]
+    
+  mobile_shell:
+    name: "HeadyOS Mobile Shell"
+    description: "Mobile app with OS-like experience"
+    platforms: [android, ios]
+    formats:
+      android: [apk, aab]
+      ios: [ipa, testflight]
+
+# ============================================
+# BROWSER EXTENSIONS
+# ============================================
+browser_extensions:
+  chrome:
+    manifest_version: 3
+    permissions: [storage, activeTab, sidePanel, scripting, tabs]
+    host_permissions: ["http://localhost:3300/*", "https://*.onrender.com/*"]
+    
+  edge:
+    manifest_version: 3
+    permissions: [storage, activeTab, sidePanel, scripting, tabs]
+    host_permissions: ["http://localhost:3300/*", "https://*.onrender.com/*"]
+    
+  firefox:
+    manifest_version: 2
+    permissions: [storage, activeTab, tabs, "<all_urls>"]
+    
+  safari:
+    manifest_version: 3
+    permissions: [storage, activeTab, tabs]
+    host_permissions: ["http://localhost:3300/*", "https://*.onrender.com/*"]
+
+# ============================================
+# IDE EXTENSIONS
+# ============================================
+ide_extensions:
+  vscode:
+    name: "Heady Dev Companion"
+    id: "heady-systems.heady-dev"
+    version: "1.0.0"
+    capabilities:
+      - inline_completions
+      - chat_panel
+      - code_explainer
+      - test_generator
+      - doc_generator
+    
+  jetbrains:
+    name: "Heady Assistant"
+    id: "com.headysystems.heady-assistant"
+    version: "1.0.0"
+    platforms: [intellij, pycharm, webstorm, goland, rustrover]
+    
+  neovim:
+    name: "heady-nvim"
+    repo: "HeadySystems/heady-nvim"
+    capabilities:
+      - lsp_integration
+      - chat_buffer
+      - code_actions
+
+# ============================================
+# MCP SERVERS
+# ============================================
+mcp_servers:
+  github:
+    name: "GitHub MCP"
+    description: "GitHub repository and issue management"
+    tools: [repo_search, issue_create, pr_review, code_search]
+    
+  slack:
+    name: "Slack MCP"
+    description: "Slack messaging and channel management"
+    tools: [send_message, read_channel, search_messages, create_channel]
+    
+  notion:
+    name: "Notion MCP"
+    description: "Notion workspace and page management"
+    tools: [query_database, create_page, update_page, search]
+    
+  drive:
+    name: "Google Drive MCP"
+    description: "Google Drive file management"
+    tools: [list_files, upload, download, share]
+    
+  docker:
+    name: "Docker MCP"
+    description: "Docker container and image management"
+    tools: [list_containers, run_container, build_image, logs]
+    
+  calendar:
+    name: "Calendar MCP"
+    description: "Calendar event management"
+    tools: [list_events, create_event, update_event, delete_event]
+
+# ============================================
+# DOCKER PROFILES
+# ============================================
+docker_profiles:
+  local_dev:
+    description: "Full local development stack"
+    services: [api, orchestrator, rag, mcp-gateway, postgres, redis]
+    
+  local_offline:
+    description: "Offline-only with local models"
+    services: [api, orchestrator, rag, model-runner, postgres, redis]
+    
+  hybrid:
+    description: "Local orchestrator + remote models"
+    services: [api, orchestrator, rag, mcp-gateway, postgres, redis]
+    
+  cloud_saas:
+    description: "Cloud-only SaaS deployment"
+    services: [api, orchestrator, rag, mcp-gateway, web, postgres, redis]
+    
+  api_only:
+    description: "API-only deployment"
+    services: [api, orchestrator, postgres]
+    
+  full_suite:
+    description: "Everything including browser and desktop"
+    services: [api, orchestrator, rag, mcp-gateway, web, model-runner, heady-browser, postgres, redis]
+
+# ============================================
+# BILLING & PRICING
+# ============================================
+billing:
+  enabled_gateways: [stripe, paypal, apple_pay, google_pay]
+  
+  plans:
+    - name: "Free"
+      id: "free"
+      price: 0
+      features:
+        - browser_extension
+        - mobile_chat
+        - local_models_only
+        - 100_requests_month
+        
+    - name: "Personal"
+      id: "personal"
+      price: 9.99
+      period: monthly
+      features:
+        - browser_extension
+        - mobile_chat
+        - web_app
+        - hybrid_models
+        - 1000_requests_month
+        - voice_basic
+        
+    - name: "Pro"
+      id: "pro"
+      price: 29.99
+      period: monthly
+      features:
+        - everything_in_personal
+        - ide_extensions
+        - automations
+        - unlimited_requests
+        - voice_premium
+        - priority_support
+        
+    - name: "Team"
+      id: "team"
+      price: 35
+      period: monthly_per_seat
+      min_seats: 3
+      features:
+        - everything_in_pro
+        - shared_workspaces
+        - admin_dashboard
+        - sso
+        - audit_logs
+        
+    - name: "Enterprise"
+      id: "enterprise"
+      price: "custom"
+      features:
+        - everything_in_team
+        - self_hosted_option
+        - dedicated_support
+        - custom_integrations
+        - sla
+
+# ============================================
+# APP BUNDLES
+# ============================================
+bundles:
+  personal_suite:
+    name: "Heady Personal Suite"
+    apps: [browser_extension, mobile_app, web_app]
+    price: 9.99
+    
+  pro_suite:
+    name: "Heady Pro Suite"
+    apps: [browser_extension, mobile_app, web_app, ide_extensions, voice]
+    price: 29.99
+    
+  dev_pack:
+    name: "Heady Developer Pack"
+    apps: [browser_extension, ide_vscode, ide_jetbrains, ide_neovim, dev_mobile]
+    price: 19.99
+    
+  creator_pack:
+    name: "Heady Creator Pack"
+    apps: [browser_extension, mobile_app, voice, automations]
+    price: 24.99
+    
+  automations_pack:
+    name: "Heady Automations Pack"
+    apps: [browser_side_panel, automations_web, mcp_all]
+    price: 15.99
+    
+  full_suite:
+    name: "Heady Full Suite"
+    apps: [all]
+    price: 49.99
+
+# ============================================
+# DISTRIBUTION CHANNELS
+# ============================================
+channels:
+  web_saas:
+    template: "web-saas-template"
+    deploy_targets: [render, vercel, netlify, fly_io, railway]
+    
+  desktop:
+    template: "desktop-template"
+    platforms: [mac, windows, linux]
+    
+  marketplace:
+    template: "marketplace-template"
+    targets: [rapidapi, aws_marketplace, chrome_store, vs_marketplace]
+    
+  api_only:
+    template: "api-only-template"
+    deploy_targets: [render, fly_io, aws, gcp, azure]
+    
+  mobile:
+    stores: [play_store, app_store, f_droid, direct_apk]

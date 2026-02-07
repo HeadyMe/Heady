@@ -1,0 +1,292 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://headysystems.com/assets/buddy-avatar-idle.png",
+                  "size": "Small",
+                  "style": "Person",
+                  "altText": "HeadyBuddy"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "HeadyBuddy — Expanded View",
+                  "weight": "Bolder",
+                  "color": "Accent"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "overviewSection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Overview",
+          "weight": "Bolder",
+          "size": "Medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            { "title": "Current Task", "value": "${currentTask}" },
+            { "title": "Progress", "value": "${progress}" },
+            { "title": "Time Focused", "value": "${timeFocused}" },
+            { "title": "Next Break", "value": "${nextBreak}" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "stepsSection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Workflow Steps",
+          "weight": "Bolder",
+          "size": "Medium",
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${workflowSteps}",
+          "wrap": true,
+          "size": "Small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "resourceHealthSection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Resource Health",
+          "weight": "Bolder",
+          "size": "Medium",
+          "spacing": "Medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            { "title": "CPU", "value": "${cpuPercent}% (${cpuStatus})" },
+            { "title": "RAM", "value": "${ramPercent}% — ${ramUsedMB}/${ramTotalMB} MB" },
+            { "title": "Disk", "value": "${diskPercent}% — ${diskUsedGB}/${diskTotalGB} GB" },
+            { "title": "GPU", "value": "${gpuPercent}% VRAM: ${vramPercent}%" },
+            { "title": "Status", "value": "${resourceOverallStatus}" },
+            { "title": "Safe Mode", "value": "${safeModeStatus}" }
+          ]
+        },
+        {
+          "type": "ActionSet",
+          "spacing": "Small",
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "title": "Explain slowdown",
+              "data": { "action": "suggestion", "prompt": "Why is my system slow right now? What's consuming resources?" }
+            },
+            {
+              "type": "Action.Submit",
+              "title": "Pause background",
+              "data": { "action": "resource_action", "command": "pause_background" }
+            },
+            {
+              "type": "Action.Submit",
+              "title": "Safe mode",
+              "data": { "action": "resource_action", "command": "safe_mode" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "orchestratorSection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Orchestrator",
+          "weight": "Bolder",
+          "size": "Medium",
+          "spacing": "Medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            { "title": "Nodes Active", "value": "${nodesActive}/${nodesTotal}" },
+            { "title": "Pipeline", "value": "${pipelineStatus}" },
+            { "title": "Continuous Mode", "value": "${continuousMode}" },
+            { "title": "Cycle Count", "value": "${cycleCount}" }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "Resource Tiers",
+          "weight": "Bolder",
+          "size": "Small",
+          "spacing": "Small"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "1",
+              "items": [
+                { "type": "TextBlock", "text": "L-tier", "size": "Small", "weight": "Bolder" },
+                { "type": "TextBlock", "text": "${lTierCount}", "size": "Small", "spacing": "None" }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "1",
+              "items": [
+                { "type": "TextBlock", "text": "M-tier", "size": "Small", "weight": "Bolder" },
+                { "type": "TextBlock", "text": "${mTierCount}", "size": "Small", "spacing": "None" }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "1",
+              "items": [
+                { "type": "TextBlock", "text": "S-tier", "size": "Small", "weight": "Bolder" },
+                { "type": "TextBlock", "text": "${sTierCount}", "size": "Small", "spacing": "None" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "FactSet",
+          "spacing": "Small",
+          "facts": [
+            { "title": "Heap Used", "value": "${heapUsedMB} MB" },
+            { "title": "Gates", "value": "Q:${gateQuality} R:${gateResource} S:${gateStability} U:${gateUser}" },
+            { "title": "Activation", "value": "${activationStatus}" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "storySection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Story Timeline",
+          "weight": "Bolder",
+          "size": "Medium",
+          "spacing": "Medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            { "title": "Active Stories", "value": "${storyCount}" },
+            { "title": "Scope", "value": "${storyScope}" },
+            { "title": "Latest", "value": "${latestStoryTitle}" },
+            { "title": "Events", "value": "${storyEventCount}" }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "${storyNarrative}",
+          "wrap": true,
+          "size": "Small",
+          "maxLines": 12,
+          "spacing": "Small"
+        },
+        {
+          "type": "ActionSet",
+          "spacing": "Small",
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "title": "What changed?",
+              "data": { "action": "suggestion", "prompt": "What changed recently? Show the story timeline." }
+            },
+            {
+              "type": "Action.Submit",
+              "title": "Annotate",
+              "data": { "action": "story_annotate" }
+            },
+            {
+              "type": "Action.Submit",
+              "title": "Full summary",
+              "data": { "action": "suggestion", "prompt": "Give me a full narrative summary of the current project story." }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "conversationSection",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Conversation",
+          "weight": "Bolder",
+          "size": "Medium",
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${conversationHistory}",
+          "wrap": true,
+          "size": "Small",
+          "maxLines": 20
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Input.Text",
+          "id": "userMessage",
+          "placeholder": "Continue the conversation…",
+          "isMultiline": true
+        }
+      ],
+      "spacing": "Small"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Send",
+      "data": { "action": "chat" },
+      "style": "positive"
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Collapse",
+      "data": { "action": "collapse" }
+    }
+  ]
+}

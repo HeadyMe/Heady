@@ -1,0 +1,148 @@
+version: "3.9"
+
+services:
+  # Core API Gateway
+  api:
+    build:
+      context: ../../..
+      dockerfile: distribution/docker/base/api.Dockerfile
+    ports:
+      - "3300:3300"
+    environment:
+      - NODE_ENV=production
+      - PORT=3300
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - HEADY_API_KEY=${HEADY_API_KEY}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - heady-network
+
+  # Orchestrator Service
+  orchestrator:
+    build:
+      context: ../../..
+      dockerfile: distribution/docker/base/orchestrator.Dockerfile
+    environment:
+      - NODE_ENV=production
+      - MODEL_ENDPOINT=${MODEL_ENDPOINT:-http://model-runner:8000}
+      - RAG_ENDPOINT=${RAG_ENDPOINT:-http://rag:9000}
+      - MCP_GATEWAY_ENDPOINT=${MCP_GATEWAY_ENDPOINT:-http://mcp-gateway:8080}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - heady-network
+
+  # RAG Service
+  rag:
+    build:
+      context: ../../..
+      dockerfile: distribution/docker/base/rag.Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      - VECTOR_DB_URL=${VECTOR_DB_URL:-postgres://postgres:password@postgres:5432/heady_vectors}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-all-MiniLM-L6-v2}
+    depends_on:
+      - postgres
+    networks:
+      - heady-network
+
+  # MCP Gateway
+  mcp-gateway:
+    build:
+      context: ../../..
+      dockerfile: distribution/docker/base/mcp-gateway.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - GOOSE_PROVIDER=${GOOSE_PROVIDER:-openai}
+      - OPENAI_HOST=${OPENAI_HOST:-http://model-runner:8000}
+      - MCP_SERVERS_CONFIG=/app/mcp-servers.json
+    volumes:
+      - ./mcp-servers.json:/app/mcp-servers.json
+    networks:
+      - heady-network
+
+  # Model Runner (Local LLM)
+  model-runner:
+    image: ollama/ollama:latest
+    ports:
+      - "8000:11434"
+    volumes:
+      - ollama-models:/root/.ollama
+    environment:
+      - OLLAMA_MODELS=${OLLAMA_MODELS:-llama3.2,mistral,qwen2.5}
+    networks:
+      - heady-network
+    profiles:
+      - local
+      - offline
+      - full
+
+  # Web App
+  web:
+    build:
+      context: ../../..
+      dockerfile: distribution/docker/base/web.Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:3300}
+    networks:
+      - heady-network
+    profiles:
+      - web
+      - saas
+      - full
+
+  # Heady Browser
+  heady-browser:
+    build:
+      context: ../../..
+      dockerfile: distribution/docker/base/browser.Dockerfile
+    ports:
+      - "9222:9222"
+    environment:
+      - HEADY_API_URL=${HEADY_API_URL:-http://api:3300}
+    networks:
+      - heady-network
+    profiles:
+      - browser
+      - full
+
+  # Database
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-heady123}
+      - POSTGRES_DB=heady
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - heady-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - heady-network
+
+volumes:
+  postgres-data:
+  redis-data:
+  ollama-models:
+
+networks:
+  heady-network:
+    driver: bridge

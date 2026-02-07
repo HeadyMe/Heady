@@ -1,0 +1,34 @@
+# Cloud SaaS — Full cloud deployment, no local models
+# Usage: docker compose -f base.yml -f profiles/cloud-saas.yml up
+
+services:
+  heady-api:
+    environment:
+      - CLOUD_MODELS_ENABLED=true
+      - REQUIRE_INTERNET=true
+
+  heady-orchestrator:
+    environment:
+      - PREFER_LOCAL_MODELS=false
+      - CLOUD_FALLBACK=true
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+
+  heady-rag:
+    environment:
+      - EMBEDDINGS_LOCAL=false
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+  # No local model runner in cloud mode
+  model-runner:
+    profiles: ["disabled"]
+
+  # Enable billing and telemetry
+  billing:
+    environment:
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+
+  telemetry:
+    environment:
+      - TELEMETRY_ENABLED=true

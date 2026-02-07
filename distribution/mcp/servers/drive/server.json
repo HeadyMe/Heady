@@ -1,0 +1,53 @@
+{
+  "name": "heady-mcp-drive",
+  "version": "1.0.0",
+  "description": "MCP server for Google Drive — files, folders, search",
+  "transport": "stdio",
+  "env": {
+    "GOOGLE_CLIENT_ID": { "required": true },
+    "GOOGLE_CLIENT_SECRET": { "required": true },
+    "GOOGLE_REFRESH_TOKEN": { "required": true }
+  },
+  "tools": [
+    {
+      "name": "drive_search",
+      "description": "Search Google Drive files",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "query": { "type": "string" }, "limit": { "type": "integer", "default": 10 } },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "drive_get_file",
+      "description": "Get file metadata and content",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "file_id": { "type": "string" } },
+        "required": ["file_id"]
+      }
+    },
+    {
+      "name": "drive_list_folder",
+      "description": "List contents of a Drive folder",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "folder_id": { "type": "string", "default": "root" } }
+      }
+    },
+    {
+      "name": "drive_upload",
+      "description": "Upload a file to Google Drive",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "content": { "type": "string" },
+          "mime_type": { "type": "string", "default": "text/plain" },
+          "parent_id": { "type": "string" }
+        },
+        "required": ["name", "content"]
+      }
+    }
+  ]
+}

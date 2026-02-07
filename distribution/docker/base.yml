@@ -1,0 +1,241 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Docker Compose — Base Services                    ║
+# ║  All services defined here, activated via profiles       ║
+# ╚══════════════════════════════════════════════════════════╝
+#
+# Usage:
+#   docker compose -f base.yml -f profiles/local-offline.yml up
+#   docker compose -f base.yml -f profiles/hybrid.yml up
+#   docker compose -f base.yml -f profiles/full-suite.yml up
+
+version: "3.9"
+
+services:
+  # ── Core API Gateway ──────────────────────────────────────
+  heady-api:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    ports:
+      - "3300:3300"
+    environment:
+      - NODE_ENV=production
+      - PORT=3300
+      - DATABASE_URL=${DATABASE_URL:-}
+      - HEADY_API_KEY=${HEADY_API_KEY:-}
+      - MODEL_ENDPOINT=http://model-runner:8000
+      - RAG_ENDPOINT=http://heady-rag:9000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3300/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── Agent Orchestrator ────────────────────────────────────
+  heady-orchestrator:
+    build:
+      context: ../../
+      dockerfile: backend/python_worker/Dockerfile
+    environment:
+      - MODEL_ENDPOINT=http://model-runner:8000
+      - RAG_ENDPOINT=http://heady-rag:9000
+      - API_ENDPOINT=http://heady-api:3300
+      - MCP_ENDPOINT=http://mcp-gateway:4000
+    depends_on:
+      - heady-api
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── RAG / Vector DB ──────────────────────────────────────
+  heady-rag:
+    build:
+      context: ../../
+      dockerfile: infra/docker/rag.Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      - VECTOR_DB_URL=${VECTOR_DB_URL:-postgresql://heady:heady@postgres:5432/heady_vectors}
+      - EMBEDDINGS_ENDPOINT=http://model-runner:8000
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── Local Model Runner ───────────────────────────────────
+  model-runner:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── MCP Gateway ──────────────────────────────────────────
+  mcp-gateway:
+    build:
+      context: ../../mcp-servers
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - HEADY_API_URL=http://heady-api:3300
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - SLACK_TOKEN=${SLACK_TOKEN:-}
+      - NOTION_TOKEN=${NOTION_TOKEN:-}
+    depends_on:
+      - heady-api
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── Web Frontend ─────────────────────────────────────────
+  heady-web:
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://heady-api:3300
+    depends_on:
+      - heady-api
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── HeadyBuddy Widget ───────────────────────────────────
+  heady-buddy:
+    build:
+      context: ../../headybuddy
+      dockerfile: Dockerfile
+    ports:
+      - "3400:3400"
+    environment:
+      - VITE_API_URL=http://heady-api:3300
+    depends_on:
+      - heady-api
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── Postgres ─────────────────────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=heady
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-heady_dev}
+      - POSTGRES_DB=heady
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U heady"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── Redis ────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── Billing Service ──────────────────────────────────────
+  billing:
+    build:
+      context: ../../
+      dockerfile: infra/docker/billing.Dockerfile
+    ports:
+      - "3500:3500"
+    environment:
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+      - DATABASE_URL=${DATABASE_URL:-}
+      - API_ENDPOINT=http://heady-api:3300
+    depends_on:
+      - postgres
+      - heady-api
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── Telemetry / Monitoring ───────────────────────────────
+  telemetry:
+    build:
+      context: ../../
+      dockerfile: infra/docker/telemetry.Dockerfile
+    ports:
+      - "3600:3600"
+    environment:
+      - API_ENDPOINT=http://heady-api:3300
+    depends_on:
+      - heady-api
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── Voice IO Service ─────────────────────────────────────
+  voice-io:
+    build:
+      context: ../../
+      dockerfile: infra/docker/voice.Dockerfile
+    ports:
+      - "3700:3700"
+    environment:
+      - STT_ENGINE=${STT_ENGINE:-whisper}
+      - TTS_ENGINE=${TTS_ENGINE:-coqui}
+      - MODEL_ENDPOINT=http://model-runner:8000
+    depends_on:
+      - model-runner
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+  # ── code-server (HeadyIDE) ──────────────────────────────
+  heady-ide:
+    image: codercom/code-server:latest
+    ports:
+      - "8443:8443"
+    environment:
+      - PASSWORD=${HEADY_IDE_PASSWORD:-heady}
+    volumes:
+      - ../../:/home/coder/project
+      - codeserver-data:/home/coder/.local
+    restart: unless-stopped
+    networks:
+      - heady-net
+
+volumes:
+  pg-data:
+  redis-data:
+  ollama-data:
+  codeserver-data:
+
+networks:
+  heady-net:
+    driver: bridge

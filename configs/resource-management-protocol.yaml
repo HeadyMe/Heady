@@ -1,0 +1,248 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                 ║
+# ║  ━━━━━━━━━━━━━━                                                ║
+# ║  ∞ Sacred Geometry Architecture ∞                              ║
+# ║                                                                ║
+# ║  resource-management-protocol.yaml                             ║
+# ║  Intelligent Resource Management Protocol                      ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+#
+# Defines autonomous resource monitoring, mitigation, and escalation behavior.
+# Target modules: HCFullPipeline, HeadyAutoIDE, HeadyBuddy
+#
+
+version: "1.0.0"
+status: active
+activatedAt: "2026-02-06T16:19:00.000Z"
+
+# ─── RESOURCE TYPES ─────────────────────────────────────────────────────────
+resourceTypes:
+  - CPU
+  - RAM
+  - DISK
+  - GPU_COMPUTE
+  - GPU_VRAM
+  - NETWORK
+  - LOCAL_DB
+
+# ─── SEVERITY LEVELS ────────────────────────────────────────────────────────
+severityLevels:
+  INFO:
+    description: Elevated but below soft threshold. Log and continue.
+    action: log_only
+  WARN_SOFT:
+    description: At or above soft threshold, below hard. Potential risk if rising.
+    action: auto_mitigate_soft
+  WARN_HARD:
+    description: At or above hard threshold, or sustained high with SLO degradation.
+    action: auto_mitigate_hard
+  CRITICAL:
+    description: Immediate failure risk — OOM, crashes, severe latency, instability.
+    action: auto_mitigate_critical
+
+# ─── THRESHOLDS ─────────────────────────────────────────────────────────────
+thresholds:
+  CPU:
+    softPercent: 75
+    hardPercent: 90
+    measureWindowSeconds: 30
+  RAM:
+    softPercent: 70
+    hardPercent: 85
+    measureWindowSeconds: 15
+  DISK:
+    softPercent: 80
+    hardPercent: 92
+    measureWindowSeconds: 60
+  GPU_COMPUTE:
+    softPercent: 75
+    hardPercent: 90
+    measureWindowSeconds: 15
+  GPU_VRAM:
+    softPercent: 70
+    hardPercent: 85
+    measureWindowSeconds: 10
+  NETWORK:
+    softPercent: 70
+    hardPercent: 90
+    measureWindowSeconds: 30
+  LOCAL_DB:
+    softPercent: 75
+    hardPercent: 90
+    measureWindowSeconds: 60
+
+# ─── WORKLOAD CLASSIFICATION ────────────────────────────────────────────────
+workloadClasses:
+  interactive:
+    description: User-facing IDE, UI, HeadyBuddy overlay
+    priority: critical
+    protectionLevel: always_protect
+  pipeline:
+    description: HCFullPipeline active stages
+    priority: high
+    protectionLevel: protect_unless_critical
+  batch:
+    description: Background jobs, analytics, indexing
+    priority: normal
+    protectionLevel: defer_on_constraint
+  training:
+    description: Long-running model training, fine-tuning
+    priority: low
+    protectionLevel: pause_on_constraint
+  maintenance:
+    description: Backups, cleanup, log rotation
+    priority: low
+    protectionLevel: pause_on_constraint
+
+# ─── MITIGATION POLICIES ────────────────────────────────────────────────────
+mitigationPolicies:
+  soft:
+    description: WARN_SOFT — keep everything running, reduce pressure
+    actions:
+      - lower_batch_concurrency
+      - reduce_model_tiers_noncritical
+      - compress_nonurgent_tasks
+      - increase_monitoring_frequency
+    userPrompt: never
+    escalateAfterSeconds: 120
+
+  hard:
+    description: WARN_HARD — protect interactive, throttle background
+    actions:
+      - guarantee_interactive_responsiveness
+      - pause_low_priority_batch
+      - reduce_gpu_batch_sizes
+      - defer_training_to_offpeak
+      - move_workloads_to_cpu_fallback
+    userPrompt: only_if_still_high_after_mitigation
+    escalateAfterSeconds: 60
+
+  critical:
+    description: CRITICAL — prevent system failure
+    actions:
+      - pause_all_nonessential_pipelines
+      - apply_safe_mode_profile
+      - terminate_runaway_processes
+      - force_garbage_collection
+      - emergency_log_and_notify
+    userPrompt: always_with_summary
+    escalateAfterSeconds: 0
+
+# ─── SAFE MODE PROFILE ──────────────────────────────────────────────────────
+safeModeProfile:
+  description: Minimal resource footprint, essential services only
+  maxConcurrentTasks: 2
+  modelTier: S
+  gpuPolicy: disabled
+  backgroundJobs: paused
+  indexing: disabled
+  trainingJobs: terminated
+
+# ─── USER ESCALATION PROTOCOL ───────────────────────────────────────────────
+escalationProtocol:
+  trigger: resource_still_high_after_mitigation
+  presentation:
+    format: structured_card
+    sections:
+      - concise_summary
+      - impact_analysis
+      - system_generated_options
+    options:
+      - id: recommended
+        label: Recommended
+        description: Pause low-priority jobs, protect IDE and core tasks
+        isDefault: true
+      - id: risky
+        label: Continue All
+        description: Accept high risk of slowness and OOM errors
+        isDefault: false
+      - id: conservative
+        label: Safe Mode
+        description: Stop all non-essential AI workloads until usage < 70%
+        isDefault: false
+      - id: manual
+        label: Manual Control
+        description: Show detailed job list for manual pause/stop decisions
+        isDefault: false
+  policyLearning:
+    enabled: true
+    storeChoiceWithEvent: true
+    adjustFutureDefaults: true
+    requireSafetyConstraints: true
+
+# ─── MONITORING ─────────────────────────────────────────────────────────────
+monitoring:
+  pollingIntervalMs: 5000
+  historyRetentionMinutes: 60
+  trendCalculationWindow: 6
+  dashboardPanels:
+    - resource_usage_over_time
+    - top_contributors_by_resource
+    - mitigation_effectiveness
+    - event_frequency_heatmap
+    - workload_vs_threshold
+
+# ─── IDE INTEGRATION (HeadyAutoIDE) ─────────────────────────────────────────
+ideIntegration:
+  statusBarIndicator: true
+  throttleBackgroundAnalysis: true
+  protectEditorResponsiveness: true
+  protectCriticalCommands:
+    - save
+    - test
+    - run
+    - build
+  showThrottleBanner: true
+
+# ─── HEADY BUDDY INTEGRATION ────────────────────────────────────────────────
+buddyIntegration:
+  resourceHealthCard: true
+  showInExpandedView: true
+  suggestionChipsOnHighUsage:
+    - "Review resource usage"
+    - "Pause background jobs"
+    - "Switch to safe mode"
+    - "Explain my slowdown"
+  quietModeRespected: true
+
+# ─── PREDICTIVE SCHEDULING ──────────────────────────────────────────────────
+predictiveScheduling:
+  enabled: true
+  historicalDataWindowDays: 7
+  rules:
+    - if: peak_hours_detected
+      then: limit_heavy_experiments
+    - if: overnight_window
+      then: schedule_training_and_batch
+    - if: repeated_pattern_detected
+      then: propose_automation
+
+# ─── PROJECT RESOURCE BUDGETS ───────────────────────────────────────────────
+projectBudgets:
+  enabled: true
+  defaults:
+    maxGpuHoursPerDay: 4
+    maxCpuUtilizationPercent: 80
+    maxRamUtilizationPercent: 75
+  perProjectOverrides: {}
+
+# ─── LOGGING & OBSERVABILITY ────────────────────────────────────────────────
+logging:
+  logAllEvents: true
+  logMitigationActions: true
+  logUserChoices: true
+  logEffectiveness: true
+  format: structured_json
+  destination: logs/resource-events.jsonl
+
+# ─── SAFETY GUARDRAILS ──────────────────────────────────────────────────────
+guardrails:
+  neverSilentlyTerminateCritical: true
+  neverAllowUnsafeUserOverride: true
+  favorGracefulDegradation: true
+  protectCoreWorkflows:
+    - HeadyAutoIDE
+    - HeadyBuddy
+    - HCFullPipeline_critical_stages
+  postIncidentReview: true

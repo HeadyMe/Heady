@@ -1,0 +1,201 @@
+# HEADY_BRAND:BEGIN
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                    ║
+# ║  ∞ SACRED GEOMETRY ∞  Organic Systems · Breathing Interfaces     ║
+# ║  FILE: configs/heady-browser.yaml                                 ║
+# ║  LAYER: root                                                      ║
+# ╚══════════════════════════════════════════════════════════════════╝
+# HEADY_BRAND:END
+
+version: "1.0.0"
+description: "Heady Browser — architecture, features, and build configuration"
+sourceOfTruth: "docs/HEADY_BROWSER_BUDDY_IDE_PROTOCOL.md"
+
+# ─── PLATFORMS ──────────────────────────────────────────────────────
+platforms:
+  android:
+    engine: geckoview
+    geckoviewVersion: "125.0.+"
+    mozillaComponents:
+      - browser-engine-gecko
+      - browser-session-storage
+      - browser-toolbar
+      - browser-tabstray
+      - feature-tabs
+      - feature-session
+      - feature-toolbar
+      - feature-readerview
+      - feature-downloads
+      - concept-engine
+    minSdk: 26
+    targetSdk: 34
+    language: kotlin
+    buildSystem: gradle
+    targetDevice: "OnePlus Open (Android)"
+    packageName: "com.headysystems.browser"
+
+  desktop:
+    framework: tauri
+    tauriVersion: "2.0"
+    frontendFramework: react
+    cssFramework: tailwindcss
+    backendLanguage: rust
+    engines:
+      windows: webview2
+      linux: webkitgtk
+    buildTargets:
+      - windows-x64
+      - linux-x64
+    identifier: "com.headysystems.browser"
+
+# ─── RENDERING ENGINE ──────────────────────────────────────────────
+engine:
+  rule: "NEVER build a rendering engine — use the platform engine"
+  android: "GeckoView (Firefox engine) — full extension support, best privacy"
+  windows: "WebView2 (Chromium-based, pre-installed on Windows 10+)"
+  linux: "WebKitGTK (system library, used by Tauri)"
+
+# ─── BROWSER LAYERS ────────────────────────────────────────────────
+layers:
+  ui:
+    description: "Sacred Geometry presentation layer"
+    features:
+      - tabStrip (horizontal, vertical, tree modes)
+      - addressBar (unified search + URL)
+      - workspaceSelector (Research, Coding, Personal, custom)
+      - buddySidebar (AI chat + actions)
+      - readingMode (distraction-free)
+      - settingsPanel
+      - speedDial (visual bookmarks grid)
+      - splitView (multi-webview on desktop)
+    designSystem: sacred-geometry
+    theme:
+      colors:
+        primary: "#6366f1"
+        secondary: "#8b5cf6"
+        background: "#0f0f23"
+        surface: "#1a1a2e"
+        text: "#e2e8f0"
+        accent: "#22d3ee"
+      borderRadius: "12px"
+      fontFamily: "Inter, system-ui, sans-serif"
+
+  control:
+    description: "Request interception and content management"
+    features:
+      - adBlocker:
+          android: "GeckoView Enhanced Tracking Protection + uBlock Origin extension"
+          desktop: "adblock-rust crate + DNS-level blocking"
+      - trackingProtection:
+          level: strict
+          blocks: [ads, social, analytics, cryptomining, fingerprinting, content-trackers]
+      - safeBrowsing:
+          blocks: [malware, phishing, unwanted-software]
+      - autoSummary: "Send page to Buddy for AI summary"
+      - smartReadLater: "ML-based priority queue for saved articles"
+      - contentRules: "User-defined rules for CSS injection, element hiding"
+
+  ai:
+    description: "Heady Buddy integration layer"
+    features:
+      - sidebarChat: "Full Buddy chat in browser sidebar"
+      - textSelectionActions:
+          - explain
+          - summarize
+          - translate
+          - findCounterarguments
+          - defineTerms
+      - agentMode: "Buddy can browse on your behalf (headless actions)"
+      - contextAwareness: "Buddy knows current URL, page title, selected text"
+      - longTermMemory: "Encrypted local memory of past interactions"
+
+  storage:
+    description: "Encrypted local storage"
+    engine: sqlcipher
+    stores:
+      - bookmarks
+      - history
+      - tabs (open + recently closed)
+      - notes (per-page annotations)
+      - buddyMemory (conversations, facts, preferences)
+      - workspaces (tab group definitions)
+      - extensions (installed + settings)
+    encryption: "AES-256 via SQLCipher"
+    sync:
+      default: disabled
+      protocol: "E2E encrypted via Heady sync API"
+      syncable: [bookmarks, tabs, notes, buddyMemory, workspaces]
+      neverSync: [history, passwords]
+
+# ─── FEATURE FUSION (Best of All Browsers) ─────────────────────────
+featureFusion:
+  description: "Heady Browser combines the best features from all major browsers"
+  sources:
+    chrome: [speed, devtools, rendering-quality]
+    firefox: [privacy, extensions, tracking-protection, reader-view]
+    brave: [ad-blocking, privacy, crypto-optional]
+    vivaldi: [tab-stacking, sidebar-panels, speed-dial, customization]
+    arc: [workspaces, focus-mode, sidebar, clean-design]
+    opera: [sidebar-panels, flow, speed-dial, vpn-optional]
+    edge: [vertical-tabs, collections, ai-sidebar]
+    safari: [reader-mode, energy-efficiency, clean-ux]
+    samsung: [split-view, qr-scanning, gesture-navigation]
+
+  squashMuseum:
+    rule: "Single source of truth per capability — no duplicates"
+    ownership:
+      rendering: engine-layer
+      tabManagement: heady-ui-layer
+      adBlocking: control-layer
+      aiFeatures: buddy-api-layer
+      bookmarksHistory: storage-layer
+      sync: backend-api
+      extensions: engine-extension-system
+      devTools: engine-layer
+
+# ─── BUILD PHASES ───────────────────────────────────────────────────
+buildPhases:
+  phase0:
+    name: "Day-0 Quick Start"
+    duration: "1 day"
+    deliverables:
+      - "Install Iceraven Browser (Android) + Zen/Floorp (Desktop)"
+      - "Install uBlock Origin on all browsers"
+      - "Set up Termux + SSH on phone"
+      - "Install Ollama + pull llama3.2"
+
+  phase1:
+    name: "MVP"
+    duration: "1-2 weeks"
+    deliverables:
+      - "Buddy Backend API (Node.js + Ollama router)"
+      - "Buddy Desktop Client (Tauri tray app)"
+      - "Buddy Android App (foreground service + chat)"
+      - "Browser extension (Buddy sidebar)"
+
+  phase2:
+    name: "Custom Browser Builds"
+    duration: "3-6 weeks"
+    deliverables:
+      - "Heady Browser Android (GeckoView + Mozilla Components)"
+      - "Heady Browser Desktop (Tauri 2.0 + React)"
+      - "Tab sync across devices"
+      - "Workspace management"
+
+  phase3:
+    name: "Deep Integration"
+    duration: "2-6 months"
+    deliverables:
+      - "Custom Heady IDE (Tauri-based)"
+      - "Agent mode in Buddy"
+      - "Voice interface"
+      - "Cross-device clipboard"
+
+  phase4:
+    name: "Polish + Social Impact"
+    duration: "6-12 months"
+    deliverables:
+      - "Heady Impact Credits"
+      - "Community annotations"
+      - "Heady Paths"
+      - "App store releases"

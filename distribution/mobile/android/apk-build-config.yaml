@@ -1,0 +1,165 @@
+# Heady Android APK Build Configuration
+# Defines all APK variants and their build specifications
+
+version: "1.0.0"
+
+build_system: gradle
+
+# ═══════════════════════════════════════════════════════════
+# APK Variants
+# ═══════════════════════════════════════════════════════════
+
+apks:
+  heady-chat:
+    name: "Heady Chat"
+    description: "General-purpose AI chat assistant for Android"
+    min_sdk: 26  # Android 8.0
+    target_sdk: 34
+    features:
+      - chat_interface
+      - voice_input
+      - file_attachments
+      - workspace_switching
+      - offline_queue
+    dependencies:
+      - heady_api_client
+      - push_notifications
+    source: "headybuddy-mobile/app/"
+
+  heady-dev:
+    name: "Heady Dev"
+    description: "Developer-focused AI assistant with code tools"
+    min_sdk: 26
+    target_sdk: 34
+    features:
+      - code_chat
+      - inline_suggestions
+      - repo_browsing
+      - terminal_access
+      - diff_viewer
+      - git_integration
+    dependencies:
+      - heady_api_client
+      - heady_dev_agent
+    source: "headybuddy-mobile/app/ (dev flavor)"
+
+  heady-voice:
+    name: "Heady Voice"
+    description: "Voice-first AI companion with TTS/STT"
+    min_sdk: 26
+    target_sdk: 34
+    features:
+      - wake_word
+      - continuous_conversation
+      - interruptible_speech
+      - voice_profiles
+      - hands_free_mode
+      - background_service
+    dependencies:
+      - heady_api_client
+      - whisper_stt
+      - coqui_tts
+    source: "headybuddy-mobile/app/ (voice flavor)"
+
+  heady-automations:
+    name: "Heady Automations"
+    description: "Task automation and workflow manager"
+    min_sdk: 26
+    target_sdk: 34
+    features:
+      - trigger_builder
+      - action_library
+      - scheduled_tasks
+      - webhook_receiver
+      - automation_logs
+    dependencies:
+      - heady_api_client
+      - heady_automation_engine
+    source: "headybuddy-mobile/app/ (automation flavor)"
+
+  headyos-mobile:
+    name: "HeadyOS Mobile"
+    description: "Full OS-like mobile experience with panels"
+    min_sdk: 26
+    target_sdk: 34
+    features:
+      - agent_panels
+      - task_manager
+      - chat_workspace
+      - project_workspace
+      - automation_board
+      - floating_bubble
+      - notification_actions
+      - boot_receiver
+    dependencies:
+      - heady_api_client
+      - all_heady_services
+    source: "headybuddy-mobile/app/ (headyos flavor)"
+
+# ═══════════════════════════════════════════════════════════
+# Build Configuration
+# ═══════════════════════════════════════════════════════════
+
+build_types:
+  debug:
+    signing: debug
+    minify: false
+    proguard: false
+  release:
+    signing: release
+    minify: true
+    proguard: true
+    shrink_resources: true
+
+signing:
+  debug:
+    store_file: debug.keystore
+    store_password: android
+    key_alias: androiddebugkey
+    key_password: android
+  release:
+    store_file: "${HEADY_RELEASE_KEYSTORE}"
+    store_password: "${HEADY_KEYSTORE_PASSWORD}"
+    key_alias: heady_release
+    key_password: "${HEADY_KEY_PASSWORD}"
+
+# ═══════════════════════════════════════════════════════════
+# Distribution Channels
+# ═══════════════════════════════════════════════════════════
+
+channels:
+  direct_apk:
+    description: "Sideload via ADB or direct download"
+    output_dir: "distribution/mobile/android/apks/"
+  
+  play_store:
+    description: "Google Play Store"
+    bundle_format: aab
+    track: internal  # internal, alpha, beta, production
+  
+  f_droid:
+    description: "F-Droid (FOSS repository)"
+    requires: fully_open_source
+    flavor: fdroid
+
+# ═══════════════════════════════════════════════════════════
+# Build Commands
+# ═══════════════════════════════════════════════════════════
+
+commands:
+  build_all: |
+    cd headybuddy-mobile
+    ./gradlew assembleRelease
+    
+  build_single: |
+    cd headybuddy-mobile
+    ./gradlew :app:assembleRelease -PtargetApk={apk_name}
+    
+  install_all: |
+    cd distribution/mobile/android
+    bash install-all-android.sh
+    
+  deploy_play_store: |
+    cd headybuddy-mobile
+    ./gradlew bundleRelease
+    # Upload to Play Console via API

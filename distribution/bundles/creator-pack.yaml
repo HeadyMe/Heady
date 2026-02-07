@@ -1,0 +1,48 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Creator Pack                                       ║
+# ║  Browser + Voice + Desktop + Automations                   ║
+# ╚══════════════════════════════════════════════════════════╝
+
+id: creator-pack
+name: "Heady Creator Pack"
+tier: pro
+price_monthly: 15.00
+price_yearly: 144.00
+currency: USD
+target_audience: "Content creators, writers, researchers"
+
+apps:
+  - id: heady-browser-ext
+    platforms: [chrome, firefox, edge, safari]
+  - id: heady-browser-shell
+    platforms: [windows, mac, linux]
+  - id: heady-mobile-chat
+    platforms: [android, ios]
+  - id: heady-mobile-voice
+    platforms: [android, ios]
+  - id: heady-mobile-automations
+    platforms: [android, ios]
+  - id: headyos-desktop
+    platforms: [windows, mac, linux]
+
+limits:
+  messages_per_day: 5000
+  tokens_per_month: 10000000
+  voice_minutes_per_month: 500
+  agents: 10
+  mcp_tools: 15
+  workspaces: 20
+  storage_gb: 50
+
+deployment_modes: [hybrid, cloud_only]
+
+feature_flags:
+  rag_pipelines: true
+  custom_agents: true
+  voice_io: full
+  voice_cloning: false
+  automations: true
+  scheduled_tasks: true
+  content_generation: true
+  research_agent: true
+  grant_writer_agent: true

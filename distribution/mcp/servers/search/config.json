@@ -1,0 +1,31 @@
+{
+  "name": "heady-mcp-search",
+  "description": "MCP server for Web Search: DuckDuckGo, Brave, Tavily",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "providers": {
+    "duckduckgo": {
+      "enabled": true,
+      "auth": "none",
+      "default": true
+    },
+    "brave": {
+      "enabled": false,
+      "auth": { "type": "api_key", "env_var": "BRAVE_API_KEY" }
+    },
+    "tavily": {
+      "enabled": false,
+      "auth": { "type": "api_key", "env_var": "TAVILY_API_KEY" }
+    }
+  },
+  "tools": [
+    "web_search",
+    "news_search",
+    "image_search",
+    "get_page_content"
+  ],
+  "billing": {
+    "tier": "free",
+    "credits_per_call": 0
+  }
+}

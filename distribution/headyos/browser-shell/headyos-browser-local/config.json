@@ -1,0 +1,26 @@
+{
+  "name": "HeadyOS Browser (Local)",
+  "version": "0.1.0",
+  "mode": "local",
+  "description": "Chromium-based browser with HeadyOS — fully offline AI",
+  "api": {
+    "endpoint": "http://localhost:3300",
+    "fallback": null,
+    "model_runner": "http://localhost:8000"
+  },
+  "features": {
+    "side_panel": true,
+    "task_helper": true,
+    "tab_intelligence": true,
+    "page_actions": true,
+    "voice_control": true,
+    "privacy_dashboard": true,
+    "on_device_inference": true,
+    "cloud_models": false
+  },
+  "privacy": {
+    "telemetry": false,
+    "data_stays_local": true,
+    "cloud_sync": false
+  }
+}

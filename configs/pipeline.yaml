@@ -1,0 +1,4 @@
+# DEPRECATED — This file is superseded by configs/hcfullpipeline.yaml (v3.0.0)
+# Kept as a redirect only. The authoritative pipeline definition is hcfullpipeline.yaml.
+# Do not add stages or config here.
+redirect: configs/hcfullpipeline.yaml

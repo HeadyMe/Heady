@@ -1,0 +1,20 @@
+{
+  "name": "heady-crm-connector",
+  "version": "0.1.0",
+  "description": "Heady AI CRM connector — Salesforce and HubSpot integration",
+  "providers": {
+    "salesforce": {
+      "auth": { "type": "oauth2", "env_vars": { "client_id": "SF_CLIENT_ID", "client_secret": "SF_CLIENT_SECRET" } },
+      "features": ["contacts", "opportunities", "tasks", "notes", "reports"]
+    },
+    "hubspot": {
+      "auth": { "type": "api_key", "env_var": "HUBSPOT_API_KEY" },
+      "features": ["contacts", "deals", "tickets", "notes", "reports"]
+    }
+  },
+  "deployment": {
+    "docker_service": "heady-crm-connector",
+    "port": 4205,
+    "health": "/health"
+  }
+}

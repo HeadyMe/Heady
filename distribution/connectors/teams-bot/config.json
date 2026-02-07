@@ -1,0 +1,28 @@
+{
+  "name": "heady-teams-bot",
+  "version": "0.1.0",
+  "description": "Heady AI bot for Microsoft Teams — chat, cards, agent tasks",
+  "platform": "microsoft-teams",
+  "auth": {
+    "type": "azure_ad",
+    "env_vars": {
+      "app_id": "TEAMS_APP_ID",
+      "app_password": "TEAMS_APP_PASSWORD",
+      "tenant_id": "TEAMS_TENANT_ID"
+    }
+  },
+  "features": {
+    "messaging_extension": true,
+    "adaptive_cards": true,
+    "task_modules": true,
+    "personal_tab": true,
+    "channel_tab": true,
+    "commands": ["heady", "summarize", "agent", "status"]
+  },
+  "deployment": {
+    "docker_service": "heady-teams-bot",
+    "port": 4202,
+    "health": "/health",
+    "messaging_endpoint": "/api/messages"
+  }
+}

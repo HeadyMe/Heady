@@ -1,0 +1,25 @@
+{
+  "name": "heady-mcp-slack",
+  "description": "MCP server for Slack: messages, channels, threads, reactions",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "auth": {
+    "type": "bot_token",
+    "env_var": "SLACK_BOT_TOKEN",
+    "scopes": ["channels:read", "channels:history", "chat:write", "reactions:read", "users:read"]
+  },
+  "tools": [
+    "list_channels",
+    "post_message",
+    "reply_to_thread",
+    "search_messages",
+    "get_channel_history",
+    "add_reaction",
+    "get_user_info",
+    "upload_file"
+  ],
+  "billing": {
+    "tier": "pro",
+    "credits_per_call": 1
+  }
+}

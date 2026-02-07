@@ -1,0 +1,114 @@
+{
+  "name": "heady-dev-companion",
+  "displayName": "Heady Dev Companion",
+  "description": "AI code assistant powered by Heady — inline completions, chat, refactors, tests, docs",
+  "version": "0.1.0",
+  "publisher": "HeadySystems",
+  "license": "MIT",
+  "repository": "https://github.com/HeadySystems/Heady",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Programming Languages", "Machine Learning", "Other"],
+  "keywords": ["ai", "assistant", "code", "heady", "copilot", "chat"],
+  "icon": "icons/heady-128.png",
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "heady.chat",
+        "title": "Heady: Open Chat",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "heady.explain",
+        "title": "Heady: Explain Selection"
+      },
+      {
+        "command": "heady.refactor",
+        "title": "Heady: Refactor Selection"
+      },
+      {
+        "command": "heady.generateTests",
+        "title": "Heady: Generate Tests"
+      },
+      {
+        "command": "heady.generateDocs",
+        "title": "Heady: Generate Documentation"
+      },
+      {
+        "command": "heady.inlineComplete",
+        "title": "Heady: Inline Completion"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "heady.chat",
+        "key": "ctrl+shift+h",
+        "mac": "cmd+shift+h"
+      },
+      {
+        "command": "heady.explain",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorHasSelection"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "heady-sidebar",
+          "title": "Heady AI",
+          "icon": "icons/heady-sidebar.svg"
+        }
+      ]
+    },
+    "views": {
+      "heady-sidebar": [
+        {
+          "type": "webview",
+          "id": "heady.chatView",
+          "name": "Chat"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Heady Dev Companion",
+      "properties": {
+        "heady.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:3300",
+          "description": "Heady Manager API URL"
+        },
+        "heady.inlineCompletions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable inline code completions"
+        },
+        "heady.preferLocalModels": {
+          "type": "boolean",
+          "default": true,
+          "description": "Prefer local models over cloud"
+        },
+        "heady.autoExplain": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-explain code on hover (experimental)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "@vscode/vsce": "^2.24.0"
+  }
+}

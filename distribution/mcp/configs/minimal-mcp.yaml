@@ -1,0 +1,40 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady MCP Configuration — Minimal                      ║
+# ║  Read-only, search-only — safe for free tier / demos     ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0"
+description: "Minimal MCP config — read-only tools for free tier and demos"
+
+servers:
+  filesystem:
+    enabled: true
+    scope: ["$HOME/Documents"]
+    permissions: [read]
+    requireApproval: false
+
+  duckduckgo:
+    enabled: true
+    maxResults: 5
+
+  browser:
+    enabled: true
+    headless: true
+    maxPages: 3
+    readOnly: true
+
+  # Everything else disabled by default
+  terminal:
+    enabled: false
+  github:
+    enabled: false
+  slack:
+    enabled: false
+  notion:
+    enabled: false
+  drive:
+    enabled: false
+  docker:
+    enabled: false
+  calendar:
+    enabled: false

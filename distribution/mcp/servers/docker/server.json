@@ -1,0 +1,67 @@
+{
+  "name": "heady-mcp-docker",
+  "version": "1.0.0",
+  "description": "MCP server for Docker — containers, images, compose",
+  "transport": "stdio",
+  "env": {
+    "DOCKER_HOST": { "required": false, "default": "unix:///var/run/docker.sock" }
+  },
+  "tools": [
+    {
+      "name": "docker_list_containers",
+      "description": "List running Docker containers",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "all": { "type": "boolean", "default": false } }
+      }
+    },
+    {
+      "name": "docker_list_images",
+      "description": "List Docker images",
+      "inputSchema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "docker_start",
+      "description": "Start a stopped container",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "container_id": { "type": "string" } },
+        "required": ["container_id"]
+      }
+    },
+    {
+      "name": "docker_stop",
+      "description": "Stop a running container",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "container_id": { "type": "string" } },
+        "required": ["container_id"]
+      }
+    },
+    {
+      "name": "docker_logs",
+      "description": "Get container logs",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "container_id": { "type": "string" },
+          "tail": { "type": "integer", "default": 100 }
+        },
+        "required": ["container_id"]
+      }
+    },
+    {
+      "name": "docker_compose_up",
+      "description": "Run docker compose up with optional profile",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "compose_file": { "type": "string" },
+          "profile": { "type": "string" },
+          "detach": { "type": "boolean", "default": true }
+        },
+        "required": ["compose_file"]
+      }
+    }
+  ]
+}

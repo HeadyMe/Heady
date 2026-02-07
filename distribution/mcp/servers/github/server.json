@@ -1,0 +1,91 @@
+{
+  "name": "heady-mcp-github",
+  "version": "1.0.0",
+  "description": "MCP server for GitHub operations — repos, PRs, issues, code search",
+  "transport": "stdio",
+  "env": {
+    "GITHUB_TOKEN": { "required": true, "description": "GitHub Personal Access Token" }
+  },
+  "tools": [
+    {
+      "name": "github_search_repos",
+      "description": "Search GitHub repositories by query",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Search query" },
+          "sort": { "type": "string", "enum": ["stars", "forks", "updated"], "default": "stars" },
+          "limit": { "type": "integer", "default": 10 }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "github_get_repo",
+      "description": "Get repository details",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" }
+        },
+        "required": ["owner", "repo"]
+      }
+    },
+    {
+      "name": "github_list_prs",
+      "description": "List pull requests for a repository",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" },
+          "state": { "type": "string", "enum": ["open", "closed", "all"], "default": "open" }
+        },
+        "required": ["owner", "repo"]
+      }
+    },
+    {
+      "name": "github_list_issues",
+      "description": "List issues for a repository",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" },
+          "state": { "type": "string", "enum": ["open", "closed", "all"], "default": "open" }
+        },
+        "required": ["owner", "repo"]
+      }
+    },
+    {
+      "name": "github_create_issue",
+      "description": "Create a new issue",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" },
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "labels": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["owner", "repo", "title"]
+      }
+    },
+    {
+      "name": "github_get_file",
+      "description": "Get file contents from a repository",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" },
+          "path": { "type": "string" },
+          "ref": { "type": "string", "description": "Branch or commit SHA" }
+        },
+        "required": ["owner", "repo", "path"]
+      }
+    }
+  ]
+}

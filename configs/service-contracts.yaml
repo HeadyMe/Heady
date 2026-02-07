@@ -1,0 +1,361 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                 ║
+# ║  ━━━━━━━━━━━━━━                                                ║
+# ║  ∞ Sacred Geometry Architecture ∞                              ║
+# ║                                                                ║
+# ║  service-contracts.yaml                                        ║
+# ║  Per-Service Boundary Definitions, Delegation Rules,           ║
+# ║  Auth Patterns, and Implementation Specs                       ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+#
+# Complements service-catalog.yaml (what services exist) with
+# HOW they should interact: boundaries, delegation rules,
+# auth flows, health patterns, and anti-patterns to avoid.
+#
+
+version: "1.0.0"
+status: active
+activatedAt: "2026-02-06T16:54:00.000Z"
+
+# ─── SERVICE BOUNDARY DEFINITIONS ─────────────────────────────────────────────
+serviceBoundaries:
+
+  heady-manager:
+    role: API Gateway & Orchestrator
+    port: 3300
+    responsibilities:
+      - HTTP/WebSocket routing and proxying
+      - Authentication and rate limiting
+      - Static asset serving (frontend dist/)
+      - Registry management (read/write)
+      - Lightweight request orchestration
+      - Pipeline trigger and state queries
+      - HeadyBuddy chat routing (simple pattern matching)
+    mustNot:
+      - Run CPU-intensive computations (>100ms blocking)
+      - Load ML models or run inference directly
+      - Execute long-running jobs synchronously
+      - Store large blobs in memory (>50MB)
+      - Perform disk-heavy operations on hot paths
+    delegatesTo:
+      cpuBound: python-worker
+      gpuBound: python-worker
+      mlInference: python-worker
+      longRunningJobs: python-worker (via Redis queue)
+      fileProcessing: python-worker
+    healthPattern:
+      endpoint: /api/health
+      method: GET
+      expectedStatus: 200
+      expectedBody:
+        ok: true
+      timeout: 5000
+      interval: 30s
+    resourceProfile:
+      expectedCPU: "<20% idle, <60% under load"
+      expectedRAM: "<300MB heap"
+      maxConnections: 1000
+
+  python-worker:
+    role: Background Worker & ML Runtime
+    port: 5000
+    responsibilities:
+      - CPU-intensive computations (code analysis, optimization)
+      - ML model inference (HuggingFace, local models)
+      - Data processing and transformation
+      - Long-running batch jobs
+      - Arena Mode candidate evaluation
+      - File processing and content generation
+    mustNot:
+      - Serve HTTP to end users directly
+      - Manage authentication or sessions
+      - Access the registry directly (go through manager API)
+      - Hold open WebSocket connections to clients
+    receivesFrom:
+      - heady-manager (via HTTP or Redis job queue)
+    healthPattern:
+      type: process-alive
+      checkCommand: "python -c 'import sys; sys.exit(0)'"
+      interval: 60s
+    resourceProfile:
+      expectedCPU: "0% idle, <80% under load"
+      expectedRAM: "<2GB depending on loaded models"
+      gpuUsage: "As needed for inference"
+
+  headybuddy-widget:
+    role: Frontend React Widget
+    port: 3400
+    responsibilities:
+      - Render HeadyBuddy overlay UI
+      - Present chat, suggestions, resource health, story timeline
+      - Handle user input and forward to heady-manager API
+      - Display Adaptive Cards for escalation and diagnostics
+      - Manage widget state (collapsed/main/expanded)
+    mustNot:
+      - Call external APIs directly (always go through heady-manager)
+      - Store sensitive data in localStorage
+      - Run heavy computations in the browser
+      - Make unauthenticated requests to non-manager endpoints
+    communicatesWith:
+      - heady-manager (/api/buddy/*, /api/resources/*, /api/diagnostics/*)
+    healthPattern:
+      endpoint: /
+      method: GET
+      expectedStatus: 200
+      interval: 300s
+    resourceProfile:
+      expectedCPU: "<5% browser CPU"
+      expectedRAM: "<100MB browser memory"
+
+  headybuddy-electron:
+    role: Desktop Overlay Shell
+    responsibilities:
+      - Provide always-on-top transparent overlay window
+      - Global hotkey registration (Ctrl+Shift+H)
+      - IPC bridge between main process and renderer
+      - Local file access for screenshots, clipboard
+      - OS-level automation (via safe automation agent)
+    mustNot:
+      - Bypass API authentication
+      - Access system files outside permitted folders
+      - Run background services that survive app close
+    communicatesWith:
+      - headybuddy-widget (loads as renderer content)
+      - heady-manager (via widget's API calls)
+    healthPattern:
+      type: process-alive
+      interval: 60s
+
+  headybuddy-docker-desktop:
+    role: Containerized Demo Desktop
+    port: 6080
+    responsibilities:
+      - Provide full Linux desktop via noVNC
+      - Auto-start HeadyBuddy overlay and HeadyAutoIDE
+      - Demonstrate Heady ecosystem in isolated environment
+      - Support distributable image sharing
+    mustNot:
+      - Access host OS resources (fully sandboxed)
+      - Store persistent state outside mounted volumes
+    contains:
+      - heady-manager (internal)
+      - headybuddy-widget (internal)
+      - VNC server + noVNC
+    healthPattern:
+      endpoint: http://localhost:6080/
+      method: GET
+      expectedStatus: 200
+      interval: 30s
+
+  mcp-server:
+    role: Model Context Protocol Bridge
+    port: 7000 (internal) or stdio
+    responsibilities:
+      - Expose Heady tools to IDE integrations (Copilot, Windsurf, Claude)
+      - Handle tool calls (render_deploy, file_ops, git_ops)
+      - Translate MCP protocol to Heady API calls
+    mustNot:
+      - Store state beyond current session
+      - Make decisions about task routing (defer to orchestrator)
+      - Hold large model contexts in memory
+    communicatesWith:
+      - heady-manager (for API operations)
+      - External platforms (Render, GitHub) via connectors
+    healthPattern:
+      type: stdio-ping
+      interval: 120s
+
+  heady-postgres:
+    role: Primary Data Store
+    port: 5432
+    responsibilities:
+      - Store registry, tasks, patterns, prompts, stories
+      - Provide ACID transactions for critical writes
+      - Serve as single source of truth for persistent data
+    mustNot:
+      - Be accessed directly by frontend or widget
+      - Store temporary/cache data (use Redis)
+      - Store large binary blobs (use file system/object store)
+    accessedBy:
+      - heady-manager (connection pool)
+      - python-worker (connection pool)
+    healthPattern:
+      type: tcp-connect
+      command: "pg_isready -U heady -d heady"
+      interval: 10s
+    resourceProfile:
+      expectedRAM: "<500MB"
+      maxConnections: 100
+      connectionPoolSize: 20
+
+  heady-redis:
+    role: Cache, Job Queue, Ephemeral State
+    port: 6379
+    responsibilities:
+      - Cache expensive API responses and computations
+      - Job queue for python-worker (broker)
+      - Session/lock data for short-lived operations
+      - Pub/sub for real-time events
+    mustNot:
+      - Store data that can't be reconstructed (not a primary store)
+      - Hold keys without TTLs (except job queues)
+      - Store payloads > 1MB per key
+    accessedBy:
+      - heady-manager
+      - python-worker
+    healthPattern:
+      type: tcp-connect
+      command: "redis-cli ping"
+      expectedResponse: "PONG"
+      interval: 10s
+    resourceProfile:
+      expectedRAM: "<256MB"
+      maxMemoryPolicy: allkeys-lru
+
+# ─── DELEGATION RULES ─────────────────────────────────────────────────────────
+delegationRules:
+  # When heady-manager receives a request that matches these patterns,
+  # it MUST delegate instead of handling in-process.
+
+  - pattern: "model inference"
+    delegateTo: python-worker
+    method: redis-job-queue
+    priority: normal
+    timeout: 60000
+
+  - pattern: "code analysis > 1000 LOC"
+    delegateTo: python-worker
+    method: redis-job-queue
+    priority: normal
+    timeout: 30000
+
+  - pattern: "arena candidate evaluation"
+    delegateTo: python-worker
+    method: redis-job-queue
+    priority: low
+    timeout: 120000
+
+  - pattern: "data processing > 10MB"
+    delegateTo: python-worker
+    method: redis-job-queue
+    priority: low
+    timeout: 60000
+
+  - pattern: "build or test execution"
+    delegateTo: python-worker
+    method: redis-job-queue
+    priority: high
+    timeout: 300000
+
+  - pattern: "real-time user interaction"
+    handleIn: heady-manager
+    maxLatencyMs: 200
+    note: "Never delegate interactive user responses"
+
+# ─── AUTH PATTERNS ─────────────────────────────────────────────────────────────
+authPatterns:
+  externalAPI:
+    method: api-key-header
+    header: "X-Heady-API-Key"
+    envVar: HEADY_API_KEY
+    appliesTo:
+      - /api/admin/*
+      - /api/hf/*
+      - /api/system/production
+
+  internalService:
+    method: network-trust
+    description: Services on heady-net Docker network trust each other
+    appliesTo:
+      - inter-service calls within docker-compose
+    note: "In production, replace with mTLS or service mesh"
+
+  publicEndpoints:
+    method: none
+    appliesTo:
+      - /api/health
+      - /api/pulse
+      - /api/buddy/health
+      - /api/buddy/suggestions
+    note: "Public health and suggestion endpoints require no auth"
+
+  futureOIDC:
+    method: oauth2-oidc
+    description: Planned for multi-user production
+    provider: TBD
+    appliesTo:
+      - All user-specific operations
+    status: planned
+
+# ─── OBSERVABILITY CONTRACTS ──────────────────────────────────────────────────
+observability:
+  logging:
+    format: structured-json
+    requiredFields:
+      - timestamp
+      - service
+      - level
+      - message
+      - requestId
+    correlationId:
+      header: "X-Request-Id"
+      generateIfMissing: true
+      propagateTo: all-downstream-calls
+
+  metrics:
+    perService:
+      - latency_ms (p50, p95, p99)
+      - error_rate
+      - throughput_rps
+      - active_connections
+    perPipeline:
+      - cycle_duration_ms
+      - stage_duration_ms
+      - task_cache_hit_rate
+      - circuit_breaker_state
+    perResource:
+      - cpu_percent
+      - ram_percent
+      - gpu_compute_percent
+      - gpu_vram_percent
+
+  healthAggregation:
+    endpoint: /api/health
+    aggregates:
+      - self (heady-manager process)
+      - postgres (connection check)
+      - redis (ping)
+      - pipeline (loaded state)
+      - resource-manager (polling active)
+      - story-driver (loaded state)
+      - performance-profiler (loaded state)
+
+# ─── NETWORK TOPOLOGY ─────────────────────────────────────────────────────────
+networkTopology:
+  externallyExposed:
+    - heady-manager:3300
+    - headybuddy-docker-desktop:6080
+  internalOnly:
+    - heady-postgres:5432
+    - heady-redis:6379
+    - mcp-server:7000
+    - python-worker:5000
+  rule: "Only expose API gateway and demo desktop externally. All other services communicate through internal Docker network."
+
+# ─── UPGRADE & MIGRATION CONTRACTS ────────────────────────────────────────────
+upgradeContracts:
+  schemaVersioning:
+    method: migration-files
+    tool: "TBD (Prisma/Alembic/Flyway)"
+    rule: "Never modify production schema without a versioned migration"
+
+  apiVersioning:
+    method: path-prefix
+    current: "/api/ (unversioned, v1 implicit)"
+    planned: "/api/v2/"
+    rule: "Breaking changes require new version prefix; old version supported for 6 months"
+
+  configVersioning:
+    method: file-level-version-field
+    rule: "All YAML configs have a version field; loaders validate version compatibility"

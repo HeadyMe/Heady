@@ -1,0 +1,24 @@
+{
+  "name": "heady-mcp-drive",
+  "description": "MCP server for Google Drive: files, folders, sharing, search",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "auth": {
+    "type": "oauth2",
+    "provider": "google",
+    "scopes": ["https://www.googleapis.com/auth/drive.readonly"]
+  },
+  "tools": [
+    "list_files",
+    "search_files",
+    "get_file_content",
+    "get_file_metadata",
+    "list_folders",
+    "download_file",
+    "get_sharing_info"
+  ],
+  "billing": {
+    "tier": "pro",
+    "credits_per_call": 1
+  }
+}

@@ -1,0 +1,108 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                 ║
+# ║  ━━━━━━━━━━━━━━                                                ║
+# ║  ∞ Sacred Geometry Architecture ∞                              ║
+# ║                                                                ║
+# ║  agentic-coding.yaml - Agentic Coding Techniques              ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+agentsAsTeammates:
+  description: >
+    Define explicit agent roles with permissions and success criteria.
+  roles:
+    - name: planner
+      allowed: [createPlans, createSubtasks, readSpecs]
+      successCriteria: clearTaskDecomposition, patternAlignment
+    - name: implementer
+      allowed: [writeNewFiles, modifyExistingFiles, readPatterns]
+      successCriteria: styleConsistency, patternCompliance, smallCohesiveChanges
+    - name: testWriter
+      allowed: [writeTests, runTests, readCode]
+      successCriteria: highCoverage, edgeCaseCoverage, noFlaky
+    - name: refactorer
+      allowed: [modifyExistingFiles, runTests]
+      successCriteria: noNewDependencies, apiStable, complexityReduced
+    - name: documenter
+      allowed: [writeDocs, readCode, readSpecs]
+      successCriteria: accurate, concise, upToDate
+
+structuredLoops:
+  description: >
+    Work in loops, not one-off prompts. Give agents clear task context,
+    explicit constraints, and review changes via diffs and tests.
+  standardLoop: [Plan, Implement, Test, Review, Refine]
+  agentInputRequirements:
+    - clearTaskContext
+    - explicitConstraints
+  humanActions:
+    - reviewDiffsAndTestsBeforeMerging
+    - refinePromptsWhereNeeded
+
+specAndContractDriven:
+  description: >
+    Start by generating API contracts, type definitions, invariants,
+    and state machine diagrams. Then implement to satisfy.
+  workflow: [generateAPIContracts, generateTypeDefinitions, generateInvariants, implementFunctions, runContractTests]
+  enforcement: [staticTypes, schemas, stateMachines]
+
+learnAndTune:
+  description: >
+    Use prompt management to refine prompts that produce better code.
+  actions:
+    - refinePromptsThatProduceBetterCode
+    - saveEffectiveFragmentsAsTemplates
+    - runSmallExperiments
+    - measureFewerErrors
+
+resourceIntentAnnotation:
+  description: >
+    When initiating big operations, declare priority, accuracy, and
+    latency tolerance. Let the orchestrator choose resources.
+  annotationFields:
+    - priority: [high, normal, low]
+    - accuracyRequirement: [rough, exact]
+    - latencyTolerance: [interactive, background, batch]
+
+reuseWorkAndCaches:
+  description: >
+    Before expensive operations, check existing summaries, embeddings,
+    and pattern analyses. Avoid redundant API calls.
+  checkBefore: [existingSummaries, existingEmbeddings, existingPatternAnalyses]
+  agentRules:
+    - useRetrievalBeforeCallingBiggerModels
+    - avoidRedundantExternalAPICalls
+    - useCachedResultsWhenSafe
+
+keepCriticalPathsLean:
+  description: >
+    For critical user journeys, minimize dependencies and avoid
+    overly complex patterns.
+  hotPaths: [minimizeDependencies, useSimpleWellTestedMechanisms]
+  ideInteractions: [useSmallerLocalModels, offloadHeavierTasksToBackground]
+
+securityAndPrivacy:
+  rules:
+    - useConnectorsAndSecrets
+    - neverEmbedSecretsInCode
+    - respectACLsAndScopes
+  logging:
+    - avoidCollectingMoreSensitiveDataThanNecessary
+    - redactOrAnonymizeWhenAppropriate
+
+exampleWorkflow:
+  name: Build a New Microservice from Scratch
+  steps:
+    - name: Spec and Pattern
+      description: Describe service, HeadyBuddy asks Socratic questions, creates spec
+    - name: Plan and Resources
+      description: Orchestrator builds Plan with appropriate model tiers
+    - name: Agentic Coding
+      description: Planner scaffolds, Implementer generates, Test writer validates
+    - name: Integration and Error Handling
+      description: Connectors via gateway, error agents propose edge cases
+    - name: Performance and Deployment
+      description: Performance tests, HCFullPipeline deployment
+    - name: Learning Loop
+      description: Telemetry feeds back to patterns and prompts

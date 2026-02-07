@@ -1,0 +1,31 @@
+# Browser Only — Standalone AI browser with local models
+# Usage: docker compose -f base.yml -f profiles/browser-only.yml up
+
+services:
+  model-runner:
+    environment:
+      - OLLAMA_MODELS=llama3.1:8b
+
+  # Disable everything except model-runner and basic API
+  heady-orchestrator:
+    profiles: ["disabled"]
+  heady-rag:
+    profiles: ["disabled"]
+  mcp-gateway:
+    profiles: ["disabled"]
+  heady-web:
+    profiles: ["disabled"]
+  heady-buddy:
+    profiles: ["disabled"]
+  billing:
+    profiles: ["disabled"]
+  telemetry:
+    profiles: ["disabled"]
+  voice-io:
+    profiles: ["disabled"]
+  heady-ide:
+    profiles: ["disabled"]
+  postgres:
+    profiles: ["disabled"]
+  redis:
+    profiles: ["disabled"]

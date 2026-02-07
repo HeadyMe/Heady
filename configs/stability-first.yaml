@@ -1,0 +1,141 @@
+# ╔═══════════════════════════════════════════════════════════════════╗
+# ║  STABILITY FIRST AMENDMENT                                       ║
+# ║  "The Canoe Must Not Sink"                                       ║
+# ╚═══════════════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+name: "Stability First"
+description: >
+  The system must recognize that frequent crashes while coding mean
+  the canoe is already taking on water. Stability becomes a higher
+  priority than new features, speed, or clever optimizations.
+
+# ─── Global Priority Override ────────────────────────────────────
+priority_override:
+  above_speed: true
+  above_features: true
+  above_optimizations: true
+  description: >
+    Above speed, above "nice to have" features, the system must prioritize
+    editor/IDE stability, environment stability, and preservation of work.
+  targets:
+    - "Editor / IDE stability"
+    - "Environment stability (OS, drivers, language toolchains, extensions)"
+    - "Preservation of work (autosave, backups, safe recovery)"
+
+# ─── Crash Response Protocol ────────────────────────────────────
+crash_response:
+  classification: "P0/P1 critical incident"
+  immediate_actions:
+    - "Stop suggesting new complexity until the environment is stable"
+    - "Trigger Stability Diagnostic Mode"
+    - "Prefer low-load, low-complexity solutions"
+  
+  diagnostic_mode:
+    name: "Stability Diagnostic Mode"
+    checks:
+      - "Run the editor/IDE once with extensions disabled"
+      - "Check memory/CPU usage while coding"
+      - "Confirm language/runtime versions and drivers"
+      - "Test in a clean, lower-env / test project to see if crashes reproduce"
+      - "Check for Windows updates pending or recently applied"
+      - "Check disk space and swap/page file configuration"
+      - "Review recently installed software or drivers"
+    
+    recommendations:
+      - "Fewer extensions, smaller projects open at once, trimmed plugins"
+      - "Close heavy background apps during development"
+      - "Use lightweight editor profiles for resource-constrained machines"
+      - "Disable hardware acceleration in IDE if GPU-related crashes"
+
+# ─── Autosave and Recovery ───────────────────────────────────────
+recovery:
+  always_encourage:
+    - "Frequent autosave or autosave-on-focus-change"
+    - "External backups: git commits, remote repo pushes before risky changes"
+    - "IDE crash recovery features enabled"
+    - "Working copies in multiple locations"
+  
+  git_discipline:
+    - "Commit small and often"
+    - "Push to remote after every meaningful change"
+    - "Tag before destructive operations"
+
+# ─── Resource Awareness on Local Machine ─────────────────────────
+local_machine_rules:
+  description: >
+    While the overall system wants high utilization on cloud/server
+    resources, it must NOT push the local dev environment into overload.
+  rules:
+    - "Avoid pushing local dev environment into overload"
+    - "Adapt recommendations so laptop/desktop doesn't sustain 100% CPU/RAM during long coding sessions"
+    - "Prefer async/background processing on servers, not local"
+    - "Minimize number of watchers, live-reload processes, and heavy services running locally"
+    - "If suggesting local tools, prefer lightweight alternatives"
+    - "Monitor and warn when local resource usage approaches dangerous levels"
+  
+  thresholds:
+    cpu_warning: 80
+    cpu_critical: 95
+    ram_warning: 80
+    ram_critical: 90
+    disk_warning: 85
+    disk_critical: 95
+
+# ─── IDE-Specific Stability Checklist ────────────────────────────
+ide_checklists:
+  windsurf:
+    - "Check Cascade extension memory usage"
+    - "Disable unused language extensions"
+    - "Reduce file watcher scope in settings"
+    - "Clear editor cache if sluggish"
+    - "Check for extension conflicts"
+  
+  vscode:
+    - "Run with --disable-extensions to isolate"
+    - "Check Output panel for extension errors"
+    - "Reduce search.followSymlinks if disk-heavy"
+    - "Set files.watcherExclude for node_modules, .git"
+  
+  general:
+    - "Keep no more than 10-15 tabs open"
+    - "Close terminal sessions not in active use"
+    - "Restart IDE every 4-6 hours during heavy sessions"
+    - "Use workspace-specific settings to limit scope"
+
+# ─── Integration with Other Protocols ────────────────────────────
+protocol_integration:
+  aloha_protocol:
+    - "Stability is part of Pono & Safety First"
+    - "Crashes violate the first priority of the Aloha stack"
+  
+  de_optimization:
+    - "Crashes are the ultimate proof that the system is over-optimized"
+    - "Default to simpler, lighter solutions when stability is compromised"
+  
+  self_critique:
+    - "Self-critique engine should flag any session with crashes"
+    - "Track crash frequency as a first-class metric"
+    - "Improvement proposals must include stability impact assessment"
+
+# ─── Machine Instruction Block ───────────────────────────────────
+system_instruction_block: |
+  If the user reports their computer or IDE "always crashing" or
+  "constantly freezing" while coding, treat this as a CRITICAL
+  stability issue.
+  
+  1. Immediately prioritize:
+     - Stability of the editor / IDE
+     - Stability of the local development environment
+     - Avoidance of high-load suggestions
+  2. Enter "Stability Diagnostic Mode":
+     - Recommend running the editor without extensions or plugins
+     - Suggest monitoring resource usage and closing heavy background apps
+     - Encourage testing on a minimal project or clean profile
+  3. Defer performance and feature optimizations until stability is restored.
+  4. Never propose changes that significantly increase local resource usage
+     without first acknowledging the crash issue and offering lighter alternatives.
+  5. Default to simple, low-resource workflows and tools until stable.
+  6. Maintain always-on simplicity, safety, and rate-limiting rules.
+  7. Treat "user's computer keeps crashing when coding" as a top-level signal
+     to slow down, simplify, and reduce local load.

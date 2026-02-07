@@ -1,0 +1,29 @@
+{
+  "name": "Heady Browser (Local)",
+  "version": "0.1.0",
+  "mode": "local",
+  "description": "Standalone Chromium browser with built-in Heady AI — fully local",
+  "engine": "electron",
+  "api": {
+    "endpoint": "http://localhost:3300",
+    "model_runner": "http://localhost:8000",
+    "cloud": null
+  },
+  "features": {
+    "ai_sidebar": true,
+    "page_summarize": true,
+    "highlight_ask": true,
+    "auto_fill": true,
+    "tab_intelligence": true,
+    "translation": true,
+    "voice_input": true,
+    "task_helper": true,
+    "screenshot_analysis": true,
+    "privacy_dashboard": true
+  },
+  "privacy": {
+    "telemetry": false,
+    "all_data_local": true,
+    "no_cloud_calls": true
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "name": "heady-mcp-filesystem",
+  "version": "1.0.0",
+  "description": "MCP server for local filesystem — sandboxed read/write/search",
+  "transport": "stdio",
+  "env": {
+    "ALLOWED_DIRS": { "required": true, "description": "Comma-separated allowed directory paths" }
+  },
+  "tools": [
+    {
+      "name": "fs_read_file",
+      "description": "Read file contents (text only)",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "path": { "type": "string" } },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "fs_write_file",
+      "description": "Write content to a file",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "content": { "type": "string" }
+        },
+        "required": ["path", "content"]
+      },
+      "requiresApproval": true
+    },
+    {
+      "name": "fs_list_dir",
+      "description": "List directory contents",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "recursive": { "type": "boolean", "default": false }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "fs_search",
+      "description": "Search for files by name pattern",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "pattern": { "type": "string" },
+          "max_results": { "type": "integer", "default": 50 }
+        },
+        "required": ["path", "pattern"]
+      }
+    },
+    {
+      "name": "fs_grep",
+      "description": "Search file contents by text/regex",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "query": { "type": "string" },
+          "includes": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["path", "query"]
+      }
+    }
+  ]
+}

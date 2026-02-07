@@ -1,0 +1,27 @@
+{
+  "name": "heady-mcp-calendar",
+  "description": "MCP server for Calendar: Google Calendar, Outlook events, scheduling",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "auth": {
+    "type": "oauth2",
+    "providers": ["google", "microsoft"],
+    "scopes": {
+      "google": ["https://www.googleapis.com/auth/calendar.readonly"],
+      "microsoft": ["Calendars.Read"]
+    }
+  },
+  "tools": [
+    "list_events",
+    "get_event",
+    "create_event",
+    "update_event",
+    "delete_event",
+    "find_free_time",
+    "list_calendars"
+  ],
+  "billing": {
+    "tier": "pro",
+    "credits_per_call": 1
+  }
+}

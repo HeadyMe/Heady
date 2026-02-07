@@ -1,0 +1,60 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady — Local Dev Profile                               ║
+# ║  Hot-reload, debug ports, verbose logging                 ║
+# ║  Usage: docker compose -f base.yml -f profiles/local-dev.yml up
+# ╚══════════════════════════════════════════════════════════╝
+
+services:
+  api:
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - HOT_RELOAD=true
+    volumes:
+      - ../../apps/heady-api:/app:delegated
+      - /app/node_modules
+    ports:
+      - "3300:3300"
+      - "9229:9229"  # Node.js debugger
+    command: ["node", "--inspect=0.0.0.0:9229", "--watch", "index.js"]
+
+  orchestrator:
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+    volumes:
+      - ../../apps/heady-orchestrator:/app:delegated
+      - /app/node_modules
+    ports:
+      - "9230:9229"
+
+  rag:
+    environment:
+      - LOG_LEVEL=debug
+      - REINDEX_ON_START=false
+    volumes:
+      - ../../apps/heady-rag:/app:delegated
+
+  model-runner:
+    environment:
+      - MODEL=llama3.2:3b
+      - LOG_LEVEL=debug
+    ports:
+      - "11434:11434"
+
+  web:
+    environment:
+      - NODE_ENV=development
+      - VITE_HMR=true
+    volumes:
+      - ../../apps/heady-web:/app:delegated
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: ["npm", "run", "dev"]
+
+  mcp-gateway:
+    environment:
+      - LOG_LEVEL=debug
+    volumes:
+      - ../../services/mcp-gateway:/app:delegated

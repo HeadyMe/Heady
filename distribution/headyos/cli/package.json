@@ -1,0 +1,17 @@
+{
+  "name": "@heady/cli",
+  "version": "0.1.0",
+  "description": "HeadyOS CLI — terminal-based AI assistant",
+  "bin": { "heady": "./bin/heady.js" },
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/HeadySystems/Heady" },
+  "keywords": ["heady", "ai", "cli", "assistant"],
+  "scripts": {
+    "start": "node bin/heady.js",
+    "build": "echo 'No build needed'"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "readline": "*"
+  }
+}

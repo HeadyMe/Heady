@@ -1,0 +1,43 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Enterprise Suite                                   ║
+# ║  Everything + Admin + SSO + SLA + On-Prem                  ║
+# ╚══════════════════════════════════════════════════════════╝
+
+id: enterprise-suite
+name: "Heady Enterprise Suite"
+tier: enterprise
+price: custom
+billing: annual_contract
+currency: USD
+target_audience: "Large organizations, government, healthcare"
+
+apps: all  # every single Heady app included
+
+extras:
+  - white_label_branding
+  - on_premise_deployment
+  - vpc_deployment
+  - custom_model_fine_tuning
+  - dedicated_support_engineer
+  - sla_99_9_percent
+  - sso_saml
+  - audit_logs
+  - data_residency_controls
+  - custom_integrations
+  - priority_compute
+  - advanced_analytics
+  - compliance_reporting
+
+limits:
+  everything: unlimited
+
+deployment_modes: [local_only, hybrid, cloud_only, self_hosted, air_gapped]
+
+feature_flags:
+  all: true
+
+onboarding:
+  dedicated_csm: true
+  custom_training: true
+  migration_support: true
+  pilot_program_weeks: 4

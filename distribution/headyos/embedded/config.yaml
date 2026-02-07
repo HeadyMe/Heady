@@ -1,0 +1,25 @@
+# HeadyOS Embedded Configuration
+version: "1.0.0"
+type: embedded
+
+platform:
+  default: docker-minimal
+  options:
+    - docker-minimal
+    - yocto-rpi
+    - buildroot-x86
+
+docker_profile: minimal
+api_port: 3300
+model: llama3.1:8b
+
+features:
+  voice: false
+  gui: false
+  rag: false
+  billing: false
+
+resources:
+  min_ram_mb: 512
+  min_disk_gb: 4
+  gpu_required: false

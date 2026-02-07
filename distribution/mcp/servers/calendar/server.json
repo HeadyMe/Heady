@@ -1,0 +1,51 @@
+{
+  "name": "heady-mcp-calendar",
+  "version": "1.0.0",
+  "description": "MCP server for Calendar — Google/Outlook events, scheduling",
+  "transport": "stdio",
+  "env": {
+    "GOOGLE_CLIENT_ID": { "required": false },
+    "GOOGLE_CLIENT_SECRET": { "required": false },
+    "OUTLOOK_CLIENT_ID": { "required": false }
+  },
+  "tools": [
+    {
+      "name": "calendar_list_events",
+      "description": "List upcoming calendar events",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "days_ahead": { "type": "integer", "default": 7 },
+          "calendar_id": { "type": "string", "default": "primary" }
+        }
+      }
+    },
+    {
+      "name": "calendar_create_event",
+      "description": "Create a new calendar event",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "start": { "type": "string", "description": "ISO 8601 datetime" },
+          "end": { "type": "string" },
+          "description": { "type": "string" },
+          "attendees": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["title", "start", "end"]
+      }
+    },
+    {
+      "name": "calendar_find_free_time",
+      "description": "Find available time slots",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "duration_minutes": { "type": "integer", "default": 30 },
+          "days_ahead": { "type": "integer", "default": 5 },
+          "working_hours_only": { "type": "boolean", "default": true }
+        }
+      }
+    }
+  ]
+}

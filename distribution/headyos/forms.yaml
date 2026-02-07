@@ -1,0 +1,158 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  HeadyOS Forms — All Runtime Variants                    ║
+# ║  One brain, many shells                                   ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+forms:
+
+  # ── Desktop Shell ─────────────────────────────────────────
+  desktop:
+    name: "HeadyOS Desktop"
+    description: "Full desktop shell with overlay, side panel, system tools, tray icon"
+    framework: "Tauri v2 (Rust + React)"
+    alternative: "Electron (for wider plugin compat)"
+    platforms:
+      windows:
+        installer: "headyos-desktop-setup.exe"
+        format: nsis
+        auto_update: true
+        startup: "Add to Windows Startup via registry"
+      mac:
+        installer: "HeadyOS-Desktop.dmg"
+        format: dmg
+        auto_update: true
+        startup: "Login Items"
+      linux:
+        installer: "headyos-desktop.AppImage"
+        format: appimage
+        alternatives: [deb, rpm, snap]
+        auto_update: true
+        startup: "systemd user service or autostart desktop entry"
+    features:
+      - system_tray_icon
+      - global_hotkey_ctrl_shift_h
+      - floating_buddy_orb
+      - side_panel_chat
+      - workspaces
+      - file_browser
+      - terminal_integration
+      - automation_board
+      - voice_io
+      - screenshot_understanding
+    docker_profile: full-suite
+    source: "headybrowser-desktop/ (Tauri) or desktop-overlay/ (Electron)"
+
+  # ── Browser Shell ─────────────────────────────────────────
+  browser_shell:
+    name: "HeadyOS Browser"
+    description: "Chromium-based browser with HeadyOS as the home/side panel"
+    framework: "Chromium fork or Electron with webview"
+    modes:
+      local:
+        description: "All AI runs on-device via Ollama/Docker Model Runner"
+        config: "headyos-browser-local/"
+        docker_profile: local-offline
+      hybrid:
+        description: "Local first, cloud fallback"
+        config: "headyos-browser-hybrid/"
+        docker_profile: hybrid
+      cloud:
+        description: "Thin client, all processing remote"
+        config: "headyos-browser-cloud/"
+        docker_profile: cloud-saas
+    features:
+      - tabbed_browsing
+      - ai_sidebar_on_every_page
+      - address_bar_with_ai_search
+      - ad_tracker_blocking
+      - reader_mode
+      - tab_workspaces
+      - cross_device_sync
+      - built_in_buddy_chat
+      - page_summarization
+      - form_autofill_with_ai
+    platforms: [windows, mac, linux]
+    source: "headybrowser-desktop/"
+
+  # ── Web Shell ─────────────────────────────────────────────
+  web_shell:
+    name: "HeadyOS Web"
+    description: "Browser-based OS-like workspace — panels, apps, settings"
+    framework: "React + Tailwind (Vite)"
+    deployment:
+      - vercel
+      - netlify
+      - render
+      - docker
+      - self_hosted
+    features:
+      - windowed_panels
+      - chat_workspace
+      - project_workspace
+      - automations_workspace
+      - settings_dashboard
+      - billing_profile
+      - usage_analytics
+      - voice_io_via_browser
+    docker_profile: cloud-saas
+    access_url: "https://app.headysystems.com or self-hosted"
+    source: "frontend/"
+
+  # ── Mobile Shell ──────────────────────────────────────────
+  mobile_shell:
+    name: "HeadyOS Mobile"
+    description: "Full OS-like experience on phone — panels for agents, tasks, automations"
+    framework: "React Native or Flutter"
+    platforms:
+      android:
+        apk: "headyos-mobile.apk"
+        min_sdk: 26  # Android 8.0+
+        features:
+          - foreground_service
+          - floating_bubble
+          - share_target
+          - notification_quick_actions
+          - boot_receiver
+          - battery_optimization_bypass
+      ios:
+        distribution: "TestFlight or App Store"
+        min_version: "16.0"
+        features:
+          - widget_extensions
+          - share_extension
+          - siri_shortcuts
+          - background_refresh
+    features:
+      - agent_panels
+      - task_manager
+      - chat_interface
+      - voice_assistant
+      - automation_controls
+      - cross_device_sync
+      - offline_mode
+    docker_profile: hybrid
+    source: "headybuddy-mobile/ + headybrowser-mobile/"
+
+# ── Form → Install → Docker Profile Map ────────────────────
+install_map:
+  desktop:
+    install: "Download installer from distribution/headyos/desktop/{platform}/"
+    docker: "docker compose -f base.yml -f profiles/full-suite.yml up"
+    bundle: [pro-suite, enterprise-suite]
+
+  browser_shell:
+    install: "Download from distribution/headyos/browser-shell/{mode}/"
+    docker: "Depends on mode (local-offline, hybrid, or cloud-saas)"
+    bundle: [pro-suite, creator-pack, enterprise-suite]
+
+  web_shell:
+    install: "Visit https://app.headysystems.com or deploy via Docker"
+    docker: "docker compose -f base.yml -f profiles/cloud-saas.yml up"
+    bundle: [free, personal-suite, pro-suite, enterprise-suite]
+
+  mobile_shell:
+    install: "Sideload APK or install from Play Store/TestFlight"
+    docker: "Backend: docker compose -f base.yml -f profiles/hybrid.yml up"
+    bundle: [pro-suite, enterprise-suite]

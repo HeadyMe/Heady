@@ -1,0 +1,120 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Usage Metering Configuration                      ║
+# ║  Track and bill for all consumable resources              ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+meters:
+  tokens_used:
+    display_name: "AI Tokens"
+    unit: "tokens"
+    aggregation: sum
+    billing_period: monthly
+    stripe_meter_id: "${STRIPE_METER_TOKENS}"
+    tiers:
+      - up_to: 100000
+        unit_price: 0.000  # included in free
+      - up_to: 1000000
+        unit_price: 0.002  # $2 per 1M
+      - up_to: null
+        unit_price: 0.001  # volume discount
+
+  api_calls:
+    display_name: "API Requests"
+    unit: "requests"
+    aggregation: sum
+    billing_period: monthly
+    stripe_meter_id: "${STRIPE_METER_API}"
+    tiers:
+      - up_to: 1000
+        unit_price: 0.000
+      - up_to: 100000
+        unit_price: 0.001
+      - up_to: null
+        unit_price: 0.0005
+
+  voice_minutes:
+    display_name: "Voice Minutes"
+    unit: "minutes"
+    aggregation: sum
+    billing_period: monthly
+    stripe_meter_id: "${STRIPE_METER_VOICE}"
+    tiers:
+      - up_to: 0
+        unit_price: 0.000  # free tier gets 0
+      - up_to: 300
+        unit_price: 0.08
+      - up_to: null
+        unit_price: 0.05
+
+  storage_gb:
+    display_name: "Storage"
+    unit: "GB"
+    aggregation: max
+    billing_period: monthly
+    stripe_meter_id: "${STRIPE_METER_STORAGE}"
+    tiers:
+      - up_to: 1
+        unit_price: 0.000
+      - up_to: 50
+        unit_price: 0.30
+      - up_to: null
+        unit_price: 0.20
+
+  agent_runs:
+    display_name: "Agent Task Runs"
+    unit: "runs"
+    aggregation: sum
+    billing_period: monthly
+    stripe_meter_id: "${STRIPE_METER_AGENTS}"
+    tiers:
+      - up_to: 10
+        unit_price: 0.000
+      - up_to: 1000
+        unit_price: 0.05
+      - up_to: null
+        unit_price: 0.02
+
+  rag_queries:
+    display_name: "RAG Queries"
+    unit: "queries"
+    aggregation: sum
+    billing_period: monthly
+    stripe_meter_id: "${STRIPE_METER_RAG}"
+    tiers:
+      - up_to: 100
+        unit_price: 0.000
+      - up_to: 10000
+        unit_price: 0.01
+      - up_to: null
+        unit_price: 0.005
+
+  mcp_tool_calls:
+    display_name: "MCP Tool Calls"
+    unit: "calls"
+    aggregation: sum
+    billing_period: monthly
+    stripe_meter_id: "${STRIPE_METER_MCP}"
+    tiers:
+      - up_to: 100
+        unit_price: 0.000
+      - up_to: 10000
+        unit_price: 0.005
+      - up_to: null
+        unit_price: 0.002
+
+# ── Reporting ───────────────────────────────────────────────
+reporting:
+  dashboard_refresh_interval: 60  # seconds
+  export_formats: [csv, json, pdf]
+  alerts:
+    - metric: tokens_used
+      threshold_percent: 80
+      action: notify_user
+    - metric: tokens_used
+      threshold_percent: 100
+      action: soft_limit_then_overage
+    - metric: storage_gb
+      threshold_percent: 90
+      action: notify_user

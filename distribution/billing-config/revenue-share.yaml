@@ -1,0 +1,92 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Revenue Share & Marketplace Config                ║
+# ║  3rd-party plugin/agent payouts and partner splits       ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+# ── Marketplace Revenue Split ───────────────────────────────
+marketplace:
+  default_split:
+    developer_percent: 70
+    platform_percent: 20
+    impact_fund_percent: 10  # HeadyConnection social impact fund
+
+  premium_developer_split:
+    qualification: "verified_partner"
+    developer_percent: 80
+    platform_percent: 15
+    impact_fund_percent: 5
+
+  payout:
+    minimum_threshold: 25.00
+    currency: USD
+    schedule: monthly
+    methods:
+      - stripe_connect
+      - paypal_payouts
+      - bank_transfer
+
+# ── Plugin/Agent Pricing Models ─────────────────────────────
+plugin_pricing:
+  free:
+    description: "Free plugin, developer earns nothing"
+    revenue: 0
+
+  one_time:
+    description: "One-time purchase"
+    price_range: [1.00, 500.00]
+
+  subscription:
+    description: "Monthly subscription to plugin"
+    price_range: [1.00, 50.00]
+
+  usage_based:
+    description: "Per-use billing (e.g., per agent run)"
+    price_range: [0.01, 5.00]
+
+  tip_jar:
+    description: "Free with optional tips"
+    suggested_amounts: [2, 5, 10, 25]
+
+# ── Affiliate / Referral Program ─────────────────────────────
+referral:
+  enabled: true
+  referrer_reward: "20% of referred user's first 12 months"
+  referee_reward: "1 month free on Pro plan"
+  cookie_duration_days: 90
+  payout_method: stripe_connect
+
+# ── White-Label Licensing ────────────────────────────────────
+white_label:
+  enabled: true
+  license_types:
+    basic:
+      price_monthly: 500
+      includes: [api_access, basic_branding, up_to_1000_users]
+    premium:
+      price_monthly: 2000
+      includes: [full_branding, custom_domain, unlimited_users, priority_support]
+    enterprise:
+      price: custom
+      includes: [on_premise, source_access, dedicated_infra, custom_sla]
+
+# ── Social Impact Allocation ─────────────────────────────────
+social_impact:
+  auto_allocate:
+    enabled: true
+    percent_of_revenue: 5
+    fund: "HeadyConnection Impact Fund"
+  
+  donation_matching:
+    enabled: true
+    match_ratio: "1:1 up to $100/user/year"
+    
+  round_up:
+    enabled: true
+    description: "Round up invoices to nearest dollar, donate difference"
+    opt_in_default: true
+
+  equity_planner:
+    enabled: true
+    description: "Agent that helps users plan giving and co-investment"

@@ -1,0 +1,28 @@
+{
+  "name": "HeadyOS Browser (Cloud)",
+  "version": "0.1.0",
+  "mode": "cloud",
+  "description": "Chromium-based browser with HeadyOS — lightweight cloud client",
+  "api": {
+    "endpoint": "https://api.heady.systems",
+    "fallback": null,
+    "model_endpoint": "https://models.heady.systems"
+  },
+  "features": {
+    "side_panel": true,
+    "task_helper": true,
+    "tab_intelligence": true,
+    "page_actions": true,
+    "voice_control": true,
+    "privacy_dashboard": true,
+    "on_device_inference": false,
+    "cloud_models": true
+  },
+  "privacy": {
+    "telemetry": "opt_in",
+    "data_stays_local": false,
+    "cloud_sync": true,
+    "encryption_at_rest": true,
+    "encryption_in_transit": true
+  }
+}

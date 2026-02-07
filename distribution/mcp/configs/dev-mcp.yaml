@@ -1,0 +1,66 @@
+# Heady MCP Config — Developer Focus
+# Includes filesystem, terminal, and code-heavy tools
+
+version: "1.0.0"
+profile: developer
+
+servers:
+  github:
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      GITHUB_PERSONAL_ACCESS_TOKEN: "${GITHUB_PAT}"
+
+  filesystem:
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "${WORKSPACE_ROOT}"]
+    permissions:
+      read: true
+      write: true
+      delete: false
+
+  terminal:
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "heady-mcp-terminal"]
+    permissions:
+      execute: true
+      sudo: false
+      sandbox: true
+
+  browser:
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-playwright"]
+
+  search:
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "heady-mcp-search"]
+    env:
+      SEARCH_PROVIDER: "duckduckgo"
+
+  docker:
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "heady-mcp-docker"]
+    permissions:
+      manage_containers: true
+      build_images: false
+      prune: false
+
+  database:
+    enabled: false
+    transport: stdio
+    command: "npx"
+    args: ["-y", "heady-mcp-database"]
+    permissions:
+      read_only: true

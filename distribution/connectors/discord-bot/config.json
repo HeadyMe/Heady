@@ -1,0 +1,25 @@
+{
+  "name": "heady-discord-bot",
+  "version": "0.1.0",
+  "description": "Heady AI bot for Discord — chat, commands, agent tasks",
+  "platform": "discord",
+  "auth": {
+    "type": "bot_token",
+    "env_vars": {
+      "token": "DISCORD_BOT_TOKEN",
+      "application_id": "DISCORD_APP_ID"
+    },
+    "intents": ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES", "MESSAGE_CONTENT"]
+  },
+  "features": {
+    "slash_commands": ["/heady", "/summarize", "/agent", "/voice"],
+    "message_commands": ["!heady"],
+    "thread_support": true,
+    "voice_channels": true
+  },
+  "deployment": {
+    "docker_service": "heady-discord-bot",
+    "port": 4201,
+    "health": "/health"
+  }
+}

@@ -1,0 +1,134 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Webhook & Automation Connectors                   ║
+# ║  Connect Heady to Zapier, n8n, Make, and custom webhooks ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+# ── Inbound Webhooks (external → Heady) ────────────────────
+inbound:
+  endpoint: "/api/webhook/inbound"
+  auth:
+    type: bearer
+    token_env: "HEADY_WEBHOOK_SECRET"
+  events:
+    message:
+      description: "Send a message to Heady"
+      payload: { text: "string", source: "string", workspace_id: "string?" }
+    task:
+      description: "Create a task for an agent"
+      payload: { task: "string", agent: "string?", priority: "string?" }
+    trigger:
+      description: "Fire a named automation"
+      payload: { automation_id: "string", params: "object?" }
+
+# ── Outbound Webhooks (Heady → external) ───────────────────
+outbound:
+  events:
+    - message_received
+    - task_completed
+    - agent_finished
+    - error_occurred
+    - health_changed
+    - pattern_detected
+  config:
+    url_env: "HEADY_OUTBOUND_WEBHOOK_URL"
+    retry_count: 3
+    retry_delay_ms: 1000
+    timeout_ms: 10000
+
+# ── Zapier Integration ─────────────────────────────────────
+zapier:
+  app_name: "Heady AI Assistant"
+  triggers:
+    - new_message: "Fires when Heady receives a new message"
+    - task_completed: "Fires when an agent completes a task"
+    - pattern_alert: "Fires when a new pattern is detected"
+  actions:
+    - send_message: "Send a message to Heady"
+    - run_agent: "Run a specific agent with a task"
+    - create_task: "Create a task in Heady"
+    - summarize_url: "Summarize a URL via Heady"
+  searches:
+    - find_conversation: "Search conversations by keyword"
+    - find_pattern: "Search patterns by category"
+  auth_type: api_key
+  base_url_env: "HEADY_API_URL"
+
+# ── n8n Integration ────────────────────────────────────────
+n8n:
+  node_name: "n8n-nodes-heady"
+  credentials:
+    api_url: "string"
+    api_key: "string"
+  operations:
+    - chat: "Send a chat message"
+    - run_agent: "Execute an agent task"
+    - get_patterns: "Retrieve system patterns"
+    - health_check: "Check system health"
+    - sync_tabs: "Sync browser tabs"
+    - switch_layer: "Switch Heady layer"
+
+# ── Make (Integromat) Integration ──────────────────────────
+make:
+  app_name: "Heady"
+  modules:
+    - send_message
+    - run_agent
+    - create_task
+    - get_health
+    - list_patterns
+  webhook_support: true
+
+# ── Slack Bot ──────────────────────────────────────────────
+slack_bot:
+  app_name: "HeadyBot"
+  slash_commands:
+    - /heady: "Ask Heady anything"
+    - /heady-summary: "Summarize a thread or URL"
+    - /heady-task: "Create a task for Heady"
+  event_subscriptions:
+    - message.channels
+    - app_mention
+    - message.im
+  env:
+    SLACK_BOT_TOKEN: ""
+    SLACK_APP_TOKEN: ""
+    SLACK_SIGNING_SECRET: ""
+
+# ── Discord Bot ────────────────────────────────────────────
+discord_bot:
+  app_name: "HeadyBot"
+  commands:
+    - /ask: "Ask Heady a question"
+    - /summarize: "Summarize content"
+    - /task: "Create a task"
+  env:
+    DISCORD_BOT_TOKEN: ""
+    DISCORD_APPLICATION_ID: ""
+
+# ── Email Agent ────────────────────────────────────────────
+email_agent:
+  protocols: [imap, smtp]
+  features:
+    - auto_reply_drafts
+    - email_summarization
+    - priority_inbox
+    - scheduled_send
+  env:
+    EMAIL_HOST: ""
+    EMAIL_USER: ""
+    EMAIL_PASSWORD: ""
+    EMAIL_PORT: "993"
+
+# ── Calendar Agent ─────────────────────────────────────────
+calendar_agent:
+  providers: [google, outlook]
+  features:
+    - schedule_meetings
+    - conflict_detection
+    - smart_scheduling
+    - meeting_prep_briefs
+  env:
+    GOOGLE_CREDENTIALS_PATH: ""
+    OUTLOOK_CLIENT_ID: ""

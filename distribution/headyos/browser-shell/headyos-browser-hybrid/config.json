@@ -1,0 +1,32 @@
+{
+  "name": "HeadyOS Browser (Hybrid)",
+  "version": "0.1.0",
+  "mode": "hybrid",
+  "description": "Chromium-based browser with HeadyOS — local preferred, cloud fallback",
+  "api": {
+    "endpoint": "http://localhost:3300",
+    "fallback": "https://api.heady.systems",
+    "model_runner": "http://localhost:8000",
+    "cloud_model_endpoint": "https://models.heady.systems"
+  },
+  "features": {
+    "side_panel": true,
+    "task_helper": true,
+    "tab_intelligence": true,
+    "page_actions": true,
+    "voice_control": true,
+    "privacy_dashboard": true,
+    "on_device_inference": true,
+    "cloud_models": true
+  },
+  "routing": {
+    "prefer_local": true,
+    "cloud_fallback_triggers": ["model_not_available", "task_too_large", "explicit_user_choice"],
+    "cost_awareness": true
+  },
+  "privacy": {
+    "telemetry": "opt_in",
+    "data_stays_local": "by_default",
+    "cloud_sync": "opt_in"
+  }
+}

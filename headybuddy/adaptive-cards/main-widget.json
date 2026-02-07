@@ -1,0 +1,128 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "metadata": {
+    "webUrl": "https://headysystems.com/buddy"
+  },
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://headysystems.com/assets/buddy-avatar-idle.png",
+                  "size": "Small",
+                  "style": "Person",
+                  "altText": "HeadyBuddy avatar"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "HeadyBuddy",
+                  "weight": "Bolder",
+                  "color": "Accent"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Perfect Day Companion",
+                  "size": "Small",
+                  "isSubtle": true,
+                  "spacing": "None"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://headysystems.com/assets/status-dot-green.png",
+                  "width": "12px",
+                  "altText": "Online"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "minHeight": "160px",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Hey! I'm HeadyBuddy, your perfect day AI companion. How can I help?",
+          "wrap": true,
+          "size": "Small"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${lastAssistantMessage}",
+          "wrap": true,
+          "size": "Small",
+          "$when": "${lastAssistantMessage != ''}"
+        }
+      ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Plan my day",
+          "data": { "action": "suggestion", "prompt": "Help me plan my day" },
+          "style": "positive"
+        },
+        {
+          "type": "Action.Submit",
+          "title": "Turn into tasks",
+          "data": { "action": "suggestion", "prompt": "Turn the selected text into tasks" }
+        },
+        {
+          "type": "Action.Submit",
+          "title": "Open HeadyAutoIDE",
+          "data": { "action": "open_ide" }
+        }
+      ],
+      "spacing": "Small"
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Input.Text",
+          "id": "userMessage",
+          "placeholder": "Ask anything…",
+          "isMultiline": false
+        }
+      ],
+      "spacing": "Small"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Send",
+      "data": { "action": "chat" },
+      "style": "positive"
+    }
+  ]
+}

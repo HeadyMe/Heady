@@ -1,0 +1,30 @@
+{
+  "name": "Heady Browser (Cloud)",
+  "version": "0.1.0",
+  "mode": "cloud",
+  "description": "Standalone Chromium browser with Heady AI — cloud-powered",
+  "engine": "electron",
+  "api": {
+    "endpoint": "https://api.heady.systems",
+    "model_endpoint": "https://models.heady.systems"
+  },
+  "features": {
+    "ai_sidebar": true,
+    "page_summarize": true,
+    "highlight_ask": true,
+    "auto_fill": true,
+    "tab_intelligence": true,
+    "translation": true,
+    "voice_input": true,
+    "task_helper": true,
+    "screenshot_analysis": true,
+    "privacy_dashboard": true,
+    "cloud_sync": true,
+    "cross_device": true
+  },
+  "privacy": {
+    "telemetry": "opt_in",
+    "encryption_transit": true,
+    "encryption_rest": true
+  }
+}

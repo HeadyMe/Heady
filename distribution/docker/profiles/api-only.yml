@@ -1,0 +1,23 @@
+# API Only — Headless API server, no UI containers
+# Usage: docker compose -f base.yml -f profiles/api-only.yml up
+
+services:
+  heady-api:
+    environment:
+      - CLOUD_MODELS_ENABLED=true
+      - HEADLESS=true
+
+  heady-orchestrator:
+    environment:
+      - PREFER_LOCAL_MODELS=true
+      - CLOUD_FALLBACK=true
+
+  # Disable all UI containers
+  heady-web:
+    profiles: ["disabled"]
+  heady-buddy:
+    profiles: ["disabled"]
+  heady-ide:
+    profiles: ["disabled"]
+  voice-io:
+    profiles: ["disabled"]

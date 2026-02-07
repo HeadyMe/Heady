@@ -1,0 +1,58 @@
+# HeadyOS Desktop Build Configuration
+# This file defines how to build HeadyOS Desktop for each platform
+
+version: "1.0.0"
+
+build_system: tauri
+
+platforms:
+  windows:
+    target: x86_64-pc-windows-msvc
+    installer: nsis
+    output: headyos-desktop-setup.exe
+    requirements:
+      - rust
+      - nodejs
+      - tauri-cli
+    build_commands:
+      - npm install
+      - npm run tauri build
+    
+  mac:
+    target: universal-apple-darwin
+    installer: dmg
+    output: HeadyOS-Desktop.dmg
+    requirements:
+      - rust
+      - nodejs
+      - tauri-cli
+      - xcode
+    build_commands:
+      - npm install
+      - npm run tauri build --target universal-apple-darwin
+    
+  linux:
+    target: x86_64-unknown-linux-gnu
+    installer: appimage
+    output: headyos-desktop.AppImage
+    requirements:
+      - rust
+      - nodejs
+      - tauri-cli
+      - libgtk-3-dev
+      - libwebkit2gtk-4.0-dev
+    build_commands:
+      - npm install
+      - npm run tauri build
+
+features:
+  - system_tray
+  - global_shortcut
+  - notification
+  - file_system_access
+  - shell_execute
+  - clipboard_access
+
+dependencies:
+  heady_api: "http://localhost:3300"
+  heady_buddy: "http://localhost:3400"

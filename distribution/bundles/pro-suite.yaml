@@ -1,0 +1,61 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Pro Suite                                          ║
+# ║  Full stack: Desktop + Voice + Dev + Automations           ║
+# ╚══════════════════════════════════════════════════════════╝
+
+id: pro-suite
+name: "Heady Pro Suite"
+tier: pro
+price_monthly: 12.00
+price_yearly: 120.00
+currency: USD
+target_audience: "Power users and developers"
+savings_vs_individual: "$31/mo vs $43 individually"
+
+apps:
+  - id: heady-browser-ext
+    platforms: [chrome, firefox, edge, safari]
+  - id: heady-browser-shell
+    platforms: [windows, mac, linux]
+  - id: heady-mobile-chat
+    platforms: [android, ios]
+  - id: heady-mobile-dev
+    platforms: [android, ios]
+  - id: heady-mobile-voice
+    platforms: [android, ios]
+  - id: headyos-desktop
+    platforms: [windows, mac, linux]
+  - id: headyos-web
+    platforms: [web]
+  - id: heady-ide-vscode
+    platforms: [vscode, codium]
+  - id: heady-ide-jetbrains
+    platforms: [intellij, pycharm, webstorm, rider, goland]
+  - id: heady-ide-neovim
+    platforms: [neovim, vim]
+  - id: heady-cli
+    platforms: [windows, mac, linux]
+  - id: heady-api
+    platforms: [api]
+  - id: heady-mcp-gateway
+    platforms: [docker, cloud]
+
+limits:
+  messages_per_day: 5000
+  tokens_per_month: 10000000
+  voice_minutes_per_month: 300
+  agents: 10
+  mcp_tools: unlimited
+  workspaces: unlimited
+  storage_gb: 50
+
+deployment_modes: [local_only, hybrid, cloud_only, self_hosted]
+
+feature_flags:
+  rag_pipelines: true
+  custom_agents: true
+  team_workspaces: false
+  api_access: true
+  voice_io: full
+  monte_carlo: true
+  pattern_engine: true

@@ -1,0 +1,350 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                 ║
+# ║  ━━━━━━━━━━━━━━                                                ║
+# ║  ∞ Sacred Geometry Architecture ∞                              ║
+# ║                                                                ║
+# ║  resource-diagnostics.yaml                                     ║
+# ║  On-Demand Performance Diagnostic Protocol                     ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+#
+# Structured diagnostic investigation protocol for "why is it slow?"
+# Triggered by user request, HeadyBuddy chip, or automatic escalation.
+# Complements resource-management-protocol.yaml (monitoring + mitigation)
+# with deep-dive investigation capabilities.
+#
+
+version: "1.0.0"
+status: active
+activatedAt: "2026-02-06T16:54:00.000Z"
+engine: src/hc_performance_profiler.js
+
+# ─── DIAGNOSTIC TRIGGERS ──────────────────────────────────────────────────────
+triggers:
+  userPhrases:
+    - "why is it slow"
+    - "what's taking so long"
+    - "explain my slowdown"
+    - "diagnose performance"
+    - "resource allocation issue"
+    - "things are slow"
+  automaticTriggers:
+    - condition: sustained_warn_hard_60s
+      description: WARN_HARD severity sustained for 60+ seconds after mitigation
+    - condition: pipeline_cycle_exceeds_budget
+      description: Pipeline cycle duration exceeds 2x historical median
+    - condition: task_queue_depth_high
+      description: More than 10 tasks queued for 30+ seconds
+  buddyChips:
+    - "Diagnose slowdown"
+    - "Run performance check"
+    - "Explain resource usage"
+
+# ─── DIAGNOSTIC PHASES ────────────────────────────────────────────────────────
+phases:
+  - id: snapshot
+    name: Resource Snapshot
+    description: Capture current CPU, RAM, GPU, disk, network usage
+    duration: instant
+    actions:
+      - collect_system_metrics
+      - collect_process_contributors
+      - collect_gpu_state
+      - collect_disk_io
+    output: resourceSnapshot
+
+  - id: service_health
+    name: Service Health Sweep
+    description: Ping all registered services and record latency
+    duration: 5s
+    actions:
+      - ping_heady_manager
+      - ping_postgres
+      - ping_redis
+      - ping_python_worker
+      - ping_mcp_server
+      - ping_headybuddy_widget
+    output: serviceHealthReport
+
+  - id: pipeline_analysis
+    name: Pipeline & Queue Analysis
+    description: Inspect pipeline state, queue depths, task durations
+    duration: instant
+    actions:
+      - check_pipeline_state
+      - check_continuous_mode_gates
+      - inspect_task_cache_hit_rate
+      - inspect_circuit_breaker_states
+      - measure_queue_depths
+    output: pipelineAnalysis
+
+  - id: trace_bottleneck
+    name: Bottleneck Trace
+    description: Correlate resource usage with active tasks to find root cause
+    duration: 2s
+    actions:
+      - correlate_top_processes_to_tasks
+      - identify_serial_bottlenecks
+      - identify_overloaded_services
+      - check_model_tier_misuse
+      - detect_redundant_operations
+    output: bottleneckReport
+
+  - id: historical_comparison
+    name: Historical Comparison
+    description: Compare current metrics to recent baselines
+    duration: instant
+    actions:
+      - load_baseline_metrics
+      - compute_deviation_from_baseline
+      - identify_regression_points
+      - check_config_drift
+    output: historicalComparison
+
+  - id: recommendations
+    name: Generate Recommendations
+    description: Produce actionable fixes ranked by impact and effort
+    duration: instant
+    actions:
+      - rank_root_causes
+      - generate_fast_wins
+      - generate_architectural_fixes
+      - estimate_impact_per_fix
+    output: recommendations
+
+# ─── ROOT CAUSE CATEGORIES ────────────────────────────────────────────────────
+rootCauseCategories:
+  - id: cpu_saturation
+    label: CPU Saturation
+    indicators:
+      - cpu_percent_above_hard_threshold
+      - top_process_cpu_seconds_high
+    fastWins:
+      - Reduce pipeline concurrency
+      - Pause non-critical background jobs
+      - Move heavy computation to python-worker
+    architecturalFixes:
+      - Offload CPU-bound tasks to dedicated worker pool
+      - Implement task deduplication
+
+  - id: ram_pressure
+    label: RAM Pressure / Swapping
+    indicators:
+      - ram_percent_above_hard_threshold
+      - swap_usage_detected
+      - large_heap_processes
+    fastWins:
+      - Force garbage collection on Node processes
+      - Reduce concurrent model loads
+      - Clear task result cache
+    architecturalFixes:
+      - Stream large datasets instead of buffering
+      - Implement memory-bounded caches with LRU eviction
+      - Use worker_threads for isolation
+
+  - id: gpu_contention
+    label: GPU Underuse or Overuse
+    indicators:
+      - gpu_vram_above_threshold
+      - gpu_compute_idle_while_queued
+      - mismatched_batch_sizes
+    fastWins:
+      - Reduce GPU batch sizes
+      - Use quantized models for non-critical tasks
+      - Pause training jobs
+    architecturalFixes:
+      - Implement GPU scheduler with VRAM budgeting
+      - Use mixed-precision inference
+      - Consolidate small workloads
+
+  - id: disk_io_bottleneck
+    label: Disk I/O Bottleneck
+    indicators:
+      - high_disk_queue_length
+      - slow_file_operations
+      - large_log_files
+    fastWins:
+      - Rotate and compress logs
+      - Move temp files to SSD/ramdisk
+      - Reduce checkpoint frequency
+    architecturalFixes:
+      - Use streaming writes for logs
+      - Implement async file I/O
+      - Move artifact storage to object store
+
+  - id: database_contention
+    label: Database or Redis Contention
+    indicators:
+      - postgres_query_latency_high
+      - redis_memory_near_limit
+      - connection_pool_exhaustion
+    fastWins:
+      - Add indexes to slow queries
+      - Increase connection pool size
+      - Set TTLs on Redis keys
+    architecturalFixes:
+      - Implement read replicas
+      - Use Redis pipelining for batch operations
+      - Partition hot tables
+
+  - id: orchestration_inefficiency
+    label: Orchestration & Task Decomposition Issues
+    indicators:
+      - serial_execution_where_parallel_safe
+      - over_parallelization_causing_thrash
+      - chatty_service_calls
+      - redundant_task_execution
+    fastWins:
+      - Enable parallel execution for independent stages
+      - Increase task cache TTL
+      - Batch API calls
+    architecturalFixes:
+      - Implement dependency-aware parallel scheduler
+      - Add request coalescing for identical concurrent calls
+      - Use event-driven instead of polling patterns
+
+  - id: model_tier_misuse
+    label: Model/Resource Tier Misuse
+    indicators:
+      - l_tier_used_for_trivial_tasks
+      - s_tier_used_for_critical_evaluations
+      - gpu_used_for_cpu_suitable_work
+    fastWins:
+      - Review and correct tier assignments in routing config
+      - Default new tasks to S-tier unless escalation needed
+    architecturalFixes:
+      - Implement automatic tier selection based on task complexity scoring
+      - Add cost tracking per tier per task type
+
+  - id: arena_mode_excess
+    label: Arena Mode / Monte Carlo Over-Spending
+    indicators:
+      - high_candidate_count_per_feature
+      - excessive_trials_per_candidate
+      - uniform_trial_distribution
+    fastWins:
+      - Reduce max candidates to 3
+      - Reduce trials per candidate to 5
+      - Enable early elimination
+    architecturalFixes:
+      - Implement multi-armed bandit for trial allocation
+      - Add cost ceiling per Arena run
+      - Use screening phases (cheap tests first)
+
+# ─── ANTI-PATTERNS ────────────────────────────────────────────────────────────
+antiPatterns:
+  - id: heavy_work_on_gateway
+    description: heady-manager doing CPU/GPU-bound work instead of delegating to workers
+    detection: manager_cpu_high_while_worker_idle
+    fix: Move heavy tasks to python-worker or dedicated worker process
+
+  - id: repeated_expensive_operations
+    description: Same expensive computation run multiple times without caching
+    detection: cache_miss_rate_above_50_percent
+    fix: Increase cache TTL, add content-hash keyed caching
+
+  - id: blocking_sync_calls
+    description: Synchronous operations blocking the event loop
+    detection: event_loop_lag_above_100ms
+    fix: Convert to async, use worker_threads for CPU-bound work
+
+  - id: unbounded_parallelism
+    description: Too many concurrent tasks causing context switching overhead
+    detection: running_tasks_exceed_cpu_cores_2x
+    fix: Cap concurrency at CPU count or configured limit
+
+  - id: log_flood
+    description: Excessive logging consuming disk I/O and CPU
+    detection: log_write_rate_above_1000_per_second
+    fix: Reduce log verbosity, use sampling for high-frequency events
+
+  - id: stale_connections
+    description: Database/Redis connections held open without use
+    detection: idle_connections_above_pool_half
+    fix: Configure connection idle timeouts and pool sizing
+
+# ─── FAST WINS PROFILE ────────────────────────────────────────────────────────
+# Immediate actions that can be applied without architecture changes
+fastWinsProfile:
+  reduceArenaTrials:
+    parameter: arena.maxTrialsPerCandidate
+    from: 20
+    to: 5
+    impact: "~75% reduction in Arena resource usage"
+
+  reducePipelineConcurrency:
+    parameter: pipeline.global.maxConcurrentTasks
+    from: 8
+    to: 4
+    impact: "~50% less context switching, lower peak RAM"
+
+  increaseTaskCacheTTL:
+    parameter: pipeline.cache.ttlMs
+    from: 3600000
+    to: 7200000
+    impact: "More cache hits, fewer redundant computations"
+
+  moveHeavyToWorker:
+    services: [code_analysis, model_inference, data_processing]
+    from: heady-manager
+    to: python-worker
+    impact: "Frees event loop, improves API responsiveness"
+
+  enableLightMode:
+    description: Local dev profile with minimal background agents
+    maxConcurrentTasks: 2
+    modelTier: S
+    backgroundAgents: [OBSERVER]
+    disabledAgents: [PYTHIA, SASHA, SCOUT, OCULUS]
+    impact: "~60% less CPU/RAM usage during development"
+
+# ─── OUTPUT FORMAT ────────────────────────────────────────────────────────────
+outputFormat:
+  sections:
+    - summary: 2-3 sentence plain-language explanation of what's slow and why
+    - rootCauses: Ranked list with severity and confidence
+    - fastWins: Immediate fixes with estimated impact
+    - architecturalFixes: Longer-term improvements
+    - metrics: Key numbers (CPU%, RAM%, queue depth, cache hit rate, etc.)
+    - timeline: When the issue started (if detectable from history)
+  presentAs:
+    buddyChat: Short summary + "See details" expand
+    adaptiveCard: Structured diagnostic card with action buttons
+    apiResponse: Full JSON diagnostic report
+    logFile: Append to logs/diagnostics.jsonl
+
+# ─── SELF-OPTIMIZATION HOOKS ─────────────────────────────────────────────────
+selfOptimization:
+  enabled: true
+  trackMetrics:
+    - operation: pipeline_cycle
+      measure: duration_ms
+    - operation: task_execution
+      measure: duration_ms
+      groupBy: task_name
+    - operation: api_request
+      measure: latency_ms
+      groupBy: endpoint
+    - operation: arena_run
+      measure: total_duration_ms
+    - operation: build
+      measure: duration_ms
+    - operation: test_suite
+      measure: duration_ms
+  baselineWindowDays: 7
+  regressionThresholdPercent: 50
+  autoTuneParameters:
+    - parameter: pipeline.global.maxConcurrentTasks
+      min: 2
+      max: 16
+      adjustOn: cpu_utilization_vs_throughput
+    - parameter: cache.ttlMs
+      min: 1800000
+      max: 14400000
+      adjustOn: cache_hit_rate
+    - parameter: arena.maxCandidates
+      min: 2
+      max: 10
+      adjustOn: improvement_rate_per_candidate
+  reportFrequency: daily
+  reportDestination: logs/self-optimization.jsonl

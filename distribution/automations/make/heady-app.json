@@ -1,0 +1,69 @@
+{
+  "name": "Heady AI",
+  "label": "Heady",
+  "version": "0.1.0",
+  "description": "Integrate Heady AI into Make.com scenarios",
+  "baseUrl": "https://api.heady.systems",
+  "authentication": {
+    "type": "apiKey",
+    "apiKeyPlacement": "header",
+    "apiKeyName": "Authorization",
+    "apiKeyPrefix": "Bearer "
+  },
+  "modules": [
+    {
+      "name": "sendMessage",
+      "label": "Send Message",
+      "description": "Send a message to Heady AI and get a response",
+      "type": "action",
+      "url": "/api/chat",
+      "method": "POST",
+      "body": {
+        "message": "{{parameters.message}}",
+        "agent": "{{parameters.agent}}"
+      },
+      "parameters": [
+        { "name": "message", "label": "Message", "type": "text", "required": true },
+        { "name": "agent", "label": "Agent", "type": "text", "required": false }
+      ]
+    },
+    {
+      "name": "runAgent",
+      "label": "Run Agent",
+      "description": "Invoke a Heady agent with a specific task",
+      "type": "action",
+      "url": "/api/agents/run",
+      "method": "POST",
+      "body": {
+        "agent": "{{parameters.agent}}",
+        "task": "{{parameters.task}}"
+      },
+      "parameters": [
+        { "name": "agent", "label": "Agent Name", "type": "text", "required": true },
+        { "name": "task", "label": "Task Description", "type": "text", "required": true }
+      ]
+    },
+    {
+      "name": "checkHealth",
+      "label": "Health Check",
+      "description": "Check if Heady API is running",
+      "type": "action",
+      "url": "/api/health",
+      "method": "GET"
+    }
+  ],
+  "webhooks": [
+    {
+      "name": "incomingMessage",
+      "label": "New Heady Message",
+      "type": "trigger",
+      "url": "/api/webhook/make/messages"
+    },
+    {
+      "name": "taskCompleted",
+      "label": "Agent Task Completed",
+      "type": "trigger",
+      "url": "/api/webhook/make/tasks"
+    }
+  ]
+}

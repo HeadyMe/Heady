@@ -1,0 +1,50 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Dev Pack                                           ║
+# ║  Browser + IDE extensions + Mobile Dev + API               ║
+# ╚══════════════════════════════════════════════════════════╝
+
+id: dev-pack
+name: "Heady Dev Pack"
+tier: pro
+price_monthly: 12.00
+price_yearly: 120.00
+currency: USD
+target_audience: "Developers and engineers"
+
+apps:
+  - id: heady-browser-ext
+    platforms: [chrome, firefox, edge, safari]
+  - id: heady-mobile-dev
+    platforms: [android, ios]
+  - id: heady-ide-vscode
+    platforms: [vscode, codium]
+  - id: heady-ide-jetbrains
+    platforms: [intellij, pycharm, webstorm, rider, goland]
+  - id: heady-ide-neovim
+    platforms: [neovim, vim]
+  - id: heady-cli
+    platforms: [windows, mac, linux]
+  - id: heady-api
+    platforms: [api]
+  - id: heady-mcp-gateway
+    platforms: [docker, cloud]
+
+limits:
+  messages_per_day: 5000
+  tokens_per_month: 10000000
+  voice_minutes_per_month: 60
+  agents: 10
+  mcp_tools: unlimited
+  workspaces: unlimited
+  storage_gb: 50
+
+deployment_modes: [local_only, hybrid, cloud_only]
+
+feature_flags:
+  rag_pipelines: true
+  custom_agents: true
+  code_completions: true
+  inline_refactors: true
+  test_generation: true
+  doc_generation: true
+  api_access: true

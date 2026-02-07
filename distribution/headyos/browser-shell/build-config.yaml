@@ -1,0 +1,138 @@
+# Heady Browser Shell Build Configuration
+# Chromium-based browser with integrated HeadyOS
+
+version: "1.0.0"
+
+build_system: electron
+
+# ═══════════════════════════════════════════════════════════
+# Browser Variants
+# ═══════════════════════════════════════════════════════════
+
+variants:
+  local:
+    name: "Heady Browser (Local)"
+    description: "Offline-first browser with on-device AI"
+    mode: local
+    api_endpoint: "http://localhost:3300"
+    model_endpoint: "http://localhost:11434"
+    features:
+      - ollama_integration
+      - local_rag
+      - offline_chat
+      - no_cloud_calls
+    docker_profile: local-offline
+
+  hybrid:
+    name: "Heady Browser (Hybrid)"
+    description: "Local AI with cloud fallback"
+    mode: hybrid
+    api_endpoint: "http://localhost:3300"
+    fallback_endpoint: "https://heady-manager-headysystems.onrender.com"
+    features:
+      - local_priority
+      - cloud_fallback
+      - smart_routing
+      - latency_optimization
+    docker_profile: hybrid
+
+  cloud:
+    name: "Heady Browser (Cloud)"
+    description: "Thin client, all processing remote"
+    mode: cloud
+    api_endpoint: "https://heady-manager-headysystems.onrender.com"
+    features:
+      - minimal_local_processing
+      - fast_sync
+      - any_device_access
+    docker_profile: cloud-saas
+
+# ═══════════════════════════════════════════════════════════
+# Browser Features
+# ═══════════════════════════════════════════════════════════
+
+browser_features:
+  - tabbed_browsing
+  - address_bar_ai_search
+  - ai_sidebar
+  - reader_mode
+  - ad_tracker_blocking
+  - tab_workspaces
+  - cross_device_sync
+  - built_in_chat
+  - page_summarization
+  - form_autofill_ai
+  - screenshot_understanding
+  - voice_commands
+
+ai_panel_features:
+  - chat_interface
+  - page_context_aware
+  - summarize_page
+  - answer_questions
+  - extract_data
+  - compare_products
+  - fill_forms
+  - draft_responses
+
+# ═══════════════════════════════════════════════════════════
+# Platforms
+# ═══════════════════════════════════════════════════════════
+
+platforms:
+  windows:
+    output: heady-browser-setup.exe
+    format: nsis
+    arch: [x64, arm64]
+    
+  mac:
+    output: heady-browser.dmg
+    format: dmg
+    arch: [x64, arm64, universal]
+    
+  linux:
+    output: heady-browser.AppImage
+    format: appimage
+    arch: [x64, arm64]
+    alternatives: [deb, rpm, snap]
+
+# ═══════════════════════════════════════════════════════════
+# Build Commands
+# ═══════════════════════════════════════════════════════════
+
+commands:
+  build_all: |
+    cd headybrowser-desktop
+    npm install
+    npm run build:all
+    
+  build_variant: |
+    cd headybrowser-desktop
+    npm install
+    HEADY_MODE={mode} npm run build
+    
+  build_windows: |
+    npm run build:win
+    
+  build_mac: |
+    npm run build:mac
+    
+  build_linux: |
+    npm run build:linux
+
+# ═══════════════════════════════════════════════════════════
+# Source Code
+# ═══════════════════════════════════════════════════════════
+
+source: headybrowser-desktop/
+entry: src-tauri/src/main.rs  # or src/main.js for Electron
+
+# ═══════════════════════════════════════════════════════════
+# Distribution
+# ═══════════════════════════════════════════════════════════
+
+output_dir: distribution/headyos/browser-shell/
+auto_update:
+  provider: github
+  repo: HeadySystems/Heady
+  channel: stable

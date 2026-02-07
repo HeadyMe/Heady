@@ -1,0 +1,220 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady MCP Server Configuration                          ║
+# ║  Model Context Protocol tools available to all agents     ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+# ── MCP Gateway Settings ───────────────────────────────────
+gateway:
+  port: 4000
+  host: "0.0.0.0"
+  auth:
+    type: bearer
+    token_env: "MCP_GATEWAY_TOKEN"
+  cors:
+    origins: ["http://localhost:*", "https://*.headysystems.com"]
+
+# ── Available MCP Servers / Tools ──────────────────────────
+servers:
+
+  github:
+    name: "GitHub"
+    description: "Repository management, issues, PRs, code search"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      GITHUB_PERSONAL_ACCESS_TOKEN: "${GITHUB_TOKEN}"
+    capabilities:
+      - search_repositories
+      - get_file_contents
+      - create_or_update_file
+      - push_files
+      - create_issue
+      - create_pull_request
+      - list_issues
+      - list_commits
+    required_plan: free
+
+  slack:
+    name: "Slack"
+    description: "Send messages, read channels, manage threads"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-server-slack"]
+    env:
+      SLACK_BOT_TOKEN: "${SLACK_TOKEN}"
+      SLACK_TEAM_ID: "${SLACK_TEAM_ID}"
+    capabilities:
+      - send_message
+      - read_channel
+      - search_messages
+      - list_channels
+    required_plan: pro
+
+  notion:
+    name: "Notion"
+    description: "Read/write Notion pages, databases, and blocks"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@notionhq/mcp-server-notion"]
+    env:
+      NOTION_TOKEN: "${NOTION_TOKEN}"
+    capabilities:
+      - search_pages
+      - read_page
+      - create_page
+      - update_page
+      - query_database
+    required_plan: pro
+
+  google_drive:
+    name: "Google Drive"
+    description: "File management, document access, search"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-server-gdrive"]
+    env:
+      GOOGLE_CREDENTIALS: "${GOOGLE_CREDENTIALS_PATH}"
+    capabilities:
+      - search_files
+      - read_file
+      - create_file
+      - list_folder
+    required_plan: pro
+
+  docker:
+    name: "Docker"
+    description: "Container management, image ops, compose control"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-server-docker"]
+    capabilities:
+      - list_containers
+      - start_container
+      - stop_container
+      - container_logs
+      - list_images
+    required_plan: pro
+
+  filesystem:
+    name: "Filesystem"
+    description: "Local file read/write with permission controls"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-filesystem"]
+    env:
+      ALLOWED_DIRECTORIES: "${HEADY_WORKSPACE:-/home/coder/project}"
+    capabilities:
+      - read_file
+      - write_file
+      - list_directory
+      - search_files
+      - move_file
+    required_plan: free
+
+  web_search:
+    name: "Web Search"
+    description: "DuckDuckGo and Brave search for research tasks"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-server-brave-search"]
+    env:
+      BRAVE_API_KEY: "${BRAVE_SEARCH_KEY:-}"
+    capabilities:
+      - web_search
+      - news_search
+    required_plan: free
+
+  calendar:
+    name: "Calendar"
+    description: "Google/Outlook calendar management"
+    enabled: false
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-server-google-calendar"]
+    env:
+      GOOGLE_CREDENTIALS: "${GOOGLE_CREDENTIALS_PATH}"
+    capabilities:
+      - list_events
+      - create_event
+      - update_event
+      - delete_event
+    required_plan: pro
+
+  email:
+    name: "Email"
+    description: "IMAP/SMTP email management"
+    enabled: false
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-server-email"]
+    env:
+      EMAIL_HOST: "${EMAIL_HOST}"
+      EMAIL_USER: "${EMAIL_USER}"
+      EMAIL_PASSWORD: "${EMAIL_PASSWORD}"
+    capabilities:
+      - read_inbox
+      - send_email
+      - search_emails
+    required_plan: pro
+
+  browser:
+    name: "Browser Control"
+    description: "Playwright-based browser automation"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-server-puppeteer"]
+    capabilities:
+      - navigate
+      - screenshot
+      - click
+      - fill_form
+      - evaluate_js
+    required_plan: pro
+
+  memory:
+    name: "Memory"
+    description: "Persistent knowledge graph for long-term memory"
+    enabled: true
+    transport: stdio
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-memory"]
+    capabilities:
+      - create_entities
+      - create_relations
+      - search_nodes
+      - read_graph
+    required_plan: free
+
+# ── Permission Groups ──────────────────────────────────────
+permission_groups:
+  minimal:
+    description: "Read-only, no external calls"
+    servers: [filesystem, memory]
+    mode: read_only
+
+  standard:
+    description: "Common tools for everyday use"
+    servers: [filesystem, memory, web_search, github]
+    mode: read_write
+
+  full:
+    description: "All tools enabled"
+    servers: all
+    mode: read_write
+
+  enterprise:
+    description: "All tools + audit logging"
+    servers: all
+    mode: read_write
+    audit_log: true

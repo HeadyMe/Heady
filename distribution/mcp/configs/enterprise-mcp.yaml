@@ -1,0 +1,96 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady MCP Configuration — Enterprise                   ║
+# ║  Full tool set with audit logging and approval gates     ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0"
+description: "Enterprise MCP config — all tools enabled with audit logging and approval requirements"
+
+audit:
+  enabled: true
+  log_all_tool_calls: true
+  log_destination: "heady-api:/api/audit/mcp"
+  retention_days: 365
+
+servers:
+  filesystem:
+    enabled: true
+    scope: ["$WORKSPACE_ROOT"]
+    permissions: [read, write, create, delete]
+    requireApproval: true
+    audit: true
+
+  terminal:
+    enabled: true
+    allowedCommands: [git, npm, node, python, docker, kubectl, terraform, aws, gcloud, az]
+    requireApproval: true
+    audit: true
+    timeout_seconds: 300
+
+  github:
+    enabled: true
+    auth: oauth
+    scopes: [repo, read:org, write:org, admin:repo_hook]
+    audit: true
+
+  slack:
+    enabled: true
+    auth: oauth
+    scopes: [chat:write, channels:read, channels:history, users:read]
+    audit: true
+
+  notion:
+    enabled: true
+    auth: token
+    permissions: [read, write, create]
+    audit: true
+
+  drive:
+    enabled: true
+    auth: oauth
+    scopes: [drive.readonly, drive.file]
+    audit: true
+
+  docker:
+    enabled: true
+    allowedActions: [list, logs, start, stop, restart, inspect, exec]
+    requireApproval: true
+    audit: true
+
+  calendar:
+    enabled: true
+    provider: google  # or outlook
+    auth: oauth
+    permissions: [read, write, create_events]
+    audit: true
+
+  browser:
+    enabled: true
+    headless: true
+    maxPages: 20
+    audit: true
+
+  duckduckgo:
+    enabled: true
+    maxResults: 20
+
+  email:
+    enabled: true
+    protocol: imap
+    auth: oauth
+    permissions: [read, send_draft]
+    requireApproval: true  # Sending requires approval
+    audit: true
+
+  crm:
+    enabled: false  # Enable per workspace
+    providers: [salesforce, hubspot]
+    auth: oauth
+    audit: true
+
+  kubernetes:
+    enabled: false  # Enable for DevOps workspaces
+    auth: kubeconfig
+    allowedActions: [get, list, describe, logs]
+    requireApproval: true
+    audit: true

@@ -1,0 +1,74 @@
+# HeadyOS Desktop Configuration
+version: "1.0.0"
+form: desktop
+
+platforms:
+  windows:
+    installer: "HeadyOS-Setup.exe"
+    format: "nsis"
+    arch: [x86_64]
+  mac:
+    installer: "HeadyOS.dmg"
+    format: "dmg"
+    arch: [universal, aarch64, x86_64]
+  linux:
+    installer: "HeadyOS.AppImage"
+    formats: [appimage, deb, rpm]
+    arch: [x86_64, aarch64]
+
+modes:
+  local:
+    description: "All processing on-device"
+    api_endpoint: "http://localhost:3300"
+    model_runner: "docker://model-runner:8000"
+    requires_docker: true
+  hybrid:
+    description: "Local preferred, cloud fallback"
+    api_endpoint: "http://localhost:3300"
+    cloud_fallback: "https://api.heady.systems"
+    model_router: true
+  cloud:
+    description: "Thin client, cloud processing"
+    api_endpoint: "https://api.heady.systems"
+
+features:
+  system_tray: true
+  global_hotkey: "Ctrl+Shift+H"
+  floating_orb: true
+  side_panel: true
+  file_system_access: true
+  notifications: true
+  autostart: false
+  voice_io: true
+  agent_dock: true
+  workspaces: true
+  automation_board: true
+  trust_consent_ui: true
+
+ux_modes:
+  silent_copilot:
+    description: "Text only, no voice"
+    voice: false
+    avatar: false
+  talkative_companion:
+    description: "TTS + small avatar"
+    voice: true
+    avatar: true
+  heads_down:
+    description: "Background automations only"
+    voice: false
+    avatar: false
+    notifications_only: true
+
+agent_dock:
+  pinned:
+    - researcher
+    - grant-writer
+    - bd-partner
+    - os-admin
+    - coding-assistant
+  quick_actions:
+    - "Summarize PDF"
+    - "Plan sprint"
+    - "Draft grant"
+    - "Analyze budget"

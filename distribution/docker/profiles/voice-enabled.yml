@@ -1,0 +1,30 @@
+# Voice Enabled — API + orchestrator + voice IO + local models
+# Usage: docker compose -f base.yml -f profiles/voice-enabled.yml up
+
+services:
+  heady-api:
+    environment:
+      - VOICE_ENABLED=true
+
+  voice-io:
+    environment:
+      - STT_ENGINE=whisper
+      - TTS_ENGINE=coqui
+      - STREAMING=true
+      - BARGE_IN=true
+
+  model-runner:
+    environment:
+      - OLLAMA_MODELS=llama3.1:8b,whisper
+
+  # Disable non-essential services
+  heady-web:
+    profiles: ["disabled"]
+  heady-buddy:
+    profiles: ["disabled"]
+  billing:
+    profiles: ["disabled"]
+  telemetry:
+    profiles: ["disabled"]
+  heady-ide:
+    profiles: ["disabled"]

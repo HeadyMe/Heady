@@ -1,0 +1,196 @@
+# HEADY_BRAND:BEGIN
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                    ║
+# ║  ∞ SACRED GEOMETRY ∞  Organic Systems · Breathing Interfaces     ║
+# ║  FILE: configs/heady-buddy-always-on.yaml                        ║
+# ║  LAYER: root                                                      ║
+# ╚══════════════════════════════════════════════════════════════════╝
+# HEADY_BRAND:END
+
+version: "1.0.0"
+description: "Heady Buddy — always-on AI assistant behavior spec per platform"
+sourceOfTruth: "docs/HEADY_BROWSER_BUDDY_IDE_PROTOCOL.md"
+
+# ─── BUDDY BACKEND (Shared) ────────────────────────────────────────
+backend:
+  port: 3301
+  framework: express
+  language: node
+  llmRouter:
+    preferLocal: true
+    localProvider:
+      name: ollama
+      endpoint: "http://localhost:11434"
+      defaultModel: "llama3.2"
+      fallbackModel: "mistral"
+    cloudProviders:
+      - name: openai
+        envVar: OPENAI_API_KEY
+        model: "gpt-4o-mini"
+      - name: anthropic
+        envVar: ANTHROPIC_API_KEY
+        model: "claude-3-haiku-20240307"
+    fallbackBehavior: "If all providers fail, return honest error — never fabricate"
+
+  memory:
+    engine: sqlcipher
+    dbPath: "$HOME/.heady/buddy-memory.db"
+    encryption: "AES-256"
+    maxConversationHistory: 100
+    maxFacts: 10000
+    embeddingModel: "local" # Use local embeddings for recall
+
+  api:
+    endpoints:
+      - method: POST
+        path: /buddy/chat
+        description: "Send message + context, get response"
+      - method: POST
+        path: /buddy/stream
+        description: "SSE streaming chat response"
+      - method: POST
+        path: /buddy/summarize
+        description: "Summarize URL or text"
+      - method: POST
+        path: /buddy/explain
+        description: "Explain selected text"
+      - method: POST
+        path: /buddy/translate
+        description: "Translate text"
+      - method: GET
+        path: /buddy/status
+        description: "Buddy health + active model"
+      - method: POST
+        path: /memory/store
+        description: "Save context/fact to memory"
+      - method: GET
+        path: /memory/recall
+        description: "Recall relevant memories"
+      - method: DELETE
+        path: /memory/forget
+        description: "Remove specific memories"
+      - method: POST
+        path: /actions/execute
+        description: "Execute action (search, open tab, annotate)"
+      - method: GET
+        path: /actions/available
+        description: "List available actions"
+
+# ─── ANDROID (OnePlus Open) ────────────────────────────────────────
+android:
+  persistenceModel: foreground-service
+  serviceType: dataSync
+  notificationChannel:
+    id: heady_buddy_always_on
+    name: "Heady Buddy Always On"
+    importance: LOW # No sound, just persistent
+    showBadge: false
+  notification:
+    title: "Heady Buddy"
+    text: "Always on — tap to open"
+    actions:
+      - label: "Chat"
+        action: openChatActivity
+      - label: "Stop"
+        action: stopService
+  returnFlag: START_STICKY
+  bootReceiver: true
+  batteryOptimization:
+    requestExemption: true
+    oneplusSpecific:
+      - "Settings → Battery → Battery Optimization → Heady Buddy → Don't Optimize"
+      - "Settings → Apps → Heady Buddy → Allow background activity"
+      - "Settings → Battery → Advanced → Optimized charging → exclude Heady Buddy"
+  floatingBubble:
+    enabled: true
+    requiresOverlayPermission: true
+    defaultPosition: "right-center"
+    draggable: true
+  shareTarget:
+    mimeTypes: ["text/plain", "text/html", "image/*"]
+    action: "android.intent.action.SEND"
+  quickTile:
+    enabled: true
+    label: "Ask Heady"
+
+# ─── WINDOWS ────────────────────────────────────────────────────────
+windows:
+  persistenceModel: tray-app
+  framework: tauri
+  trayIcon:
+    tooltip: "Heady Buddy — Always On"
+    menuItems:
+      - label: "Open Buddy"
+        action: showWindow
+      - label: "Quick Chat"
+        action: showMiniChat
+      - separator: true
+      - label: "Settings"
+        action: showSettings
+      - label: "Quit"
+        action: quit
+  autoStart:
+    method: registry
+    key: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Run'
+    valueName: HeadyBuddy
+  globalHotkey: "CmdOrCtrl+Space"
+  windowBehavior:
+    closeAction: hideToTray
+    minimizeAction: hideToTray
+    startMinimized: true
+  miniChat:
+    width: 400
+    height: 500
+    position: "bottom-right"
+    alwaysOnTop: true
+
+# ─── LINUX ──────────────────────────────────────────────────────────
+linux:
+  persistenceModel: systemd-user-service
+  serviceFile: "~/.config/systemd/user/heady-buddy.service"
+  serviceConfig:
+    type: simple
+    restart: always
+    restartSec: 5
+    execStart: "/opt/heady/buddy-backend serve --port 3301"
+    wantedBy: default.target
+  lingering: true # loginctl enable-linger $USER
+  autoStartGui:
+    method: xdg-autostart
+    desktopFile: "~/.config/autostart/heady-buddy.desktop"
+  globalHotkey: "Super+Space"
+  traySupport:
+    gnome: appindicator
+    kde: systray
+    xfce: systray
+
+# ─── CROSS-PLATFORM SYNC ───────────────────────────────────────────
+sync:
+  enabled: true
+  encryption: "E2E (AES-256-GCM)"
+  conflictResolution: "last-write-wins + merge for lists"
+  syncTargets:
+    conversations: true
+    memory: true
+    preferences: true
+  doNotSync:
+    - passwords
+    - localModelCache
+    - tempFiles
+  syncInterval: "30s when changes detected"
+
+# ─── RESPONSIBLE AI ─────────────────────────────────────────────────
+responsibleAI:
+  dataOwnership: user
+  dataDeletion: "User can delete all Buddy memory at any time"
+  cloudConsent: "Explicit opt-in required for cloud LLM usage"
+  localDefault: true
+  biasAuditing: "Quarterly review of Buddy response patterns"
+  transparency:
+    - "User can inspect all stored memories"
+    - "User can see which LLM provider was used for each response"
+    - "User can export all their data"
+  contentPolicy:
+    - "Never provide medical, legal, or financial advice as definitive"
+    - "Always offer to search for current, authoritative sources"
+    - "Flag uncertainty explicitly"

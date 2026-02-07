@@ -1,0 +1,72 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Social Impact Pack                                ║
+# ║  Full suite at sliding scale — for nonprofits, students  ║
+# ╚══════════════════════════════════════════════════════════╝
+
+name: "Heady Social Impact Pack"
+id: social-impact-pack
+version: "1.0.0"
+
+description: >
+  Full HeadyOS suite at sliding scale pricing. Designed for nonprofits,
+  students, community organizations, and social impact projects. Includes
+  dedicated agents for wealth redistribution planning, grant writing,
+  and community organizing.
+
+target_audience:
+  - Nonprofits (501c3 or equivalent)
+  - Students (verified edu email or ID)
+  - Community organizations
+  - Social impact researchers
+  - Cooperative businesses
+
+apps:
+  - heady-browser-ext
+  - heady-mobile-chat
+  - heady-mobile-voice
+  - headyos-desktop
+  - headyos-web
+  - heady-ide-vscode
+  - heady-ide-neovim
+  - heady-cli
+  - heady-api
+  - heady-mcp-gateway
+
+agents_included:
+  - researcher
+  - grant-writer
+  - wealth-redistribution
+  - ethics-checker
+  - wellbeing-coach
+  - teaching-mentor
+
+pricing:
+  model: sliding_scale
+  range:
+    min: 0.00
+    max: 15.00
+  default: 5.00
+  currency: USD
+
+  student_price: 0.00
+  nonprofit_discount_percent: 75
+  ppp_enabled: true
+  sponsored_seats_pool: "HeadyConnection Impact Fund"
+
+features:
+  - all_pro_features
+  - grant_writing_templates
+  - nonprofit_compliance_tools
+  - impact_metrics_dashboard
+  - community_workspace
+  - donation_flow_integration
+  - cooperative_platform_recommendations
+
+social_impact_defaults:
+  recommend_open_source: true
+  donation_round_up: true
+  impact_tracking: true
+  cooperative_suggestions: true
+
+deployment_mode: hybrid
+docker_profile: hybrid

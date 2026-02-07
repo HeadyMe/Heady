@@ -1,0 +1,374 @@
+# HEADY_BRAND:BEGIN
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                    ║
+# ║  ∞ SACRED GEOMETRY ∞  Organic Systems · Breathing Interfaces     ║
+# ║  FILE: docs/DOC_OWNERS.yaml                                       ║
+# ║  LAYER: root                                                      ║
+# ╚══════════════════════════════════════════════════════════════════╝
+# HEADY_BRAND:END
+
+#
+# Document Ownership & Review Tracker
+# Live documents must track reality. Historical logs don't need updates.
+# When a review is due, HCFullPipeline opens a task automatically.
+
+version: "2.0.0"
+
+# ─── LIVE DOCUMENTS (Must track reality) ─────────────────────────────
+liveDocuments:
+  - path: README.md
+    type: orientation
+    owner: system
+    reviewCadence: on_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Project quick start and architecture overview
+
+  - path: CLAUDE.md
+    type: agent-protocol
+    owner: system
+    reviewCadence: on_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Claude Code integration protocol and commands
+
+  - path: .github/copilot-instructions.md
+    type: agent-protocol
+    owner: system
+    reviewCadence: on_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Copilot instructions and documentation protocol
+
+  - path: .windsurfrules
+    type: agent-protocol
+    owner: system
+    reviewCadence: on_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Windsurf Cascade instructions
+
+  - path: docs/CHECKPOINT_PROTOCOL.md
+    type: operational
+    owner: system
+    reviewCadence: quarterly
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Master protocol for keeping all files in sync at every checkpoint
+
+  - path: docs/heady-services-manual.md
+    type: reference
+    owner: system
+    reviewCadence: monthly
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-03-06"
+    description: Comprehensive services manual
+
+  - path: heady-registry.json
+    type: registry
+    owner: system
+    reviewCadence: on_checkpoint
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Central catalog of all services, workflows, artifacts, environments (v3.0.0)
+
+  - path: docs/notion-quick-start.md
+    type: onboarding
+    owner: owner
+    reviewCadence: on_major_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Notion Quick Start notebook template
+
+  - path: docs/notion-project-notebook.md
+    type: project-tracking
+    owner: owner
+    reviewCadence: on_major_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Notion Project Notebook — comprehensive project overview
+
+  - path: docs/heady-notebooklm-source.md
+    type: comprehensive-reference
+    owner: owner
+    reviewCadence: on_major_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: NotebookLM-ready comprehensive project reference document
+
+  - path: docs/HEADY_STACK_DISTRIBUTION_PROTOCOL.md
+    type: architecture
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: HeadyStack Distribution Protocol — 25-section master blueprint for mono-repo, hybrid architecture, payment schemes, all extensions, MCP, Docker profiles, HeadyOS forms, E:\ mirror
+
+  - path: scripts/sync-to-e-drive.ps1
+    type: script
+    owner: system
+    reviewCadence: on_major_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Sync distribution pack to OnePlus Open CrossDevice E:\ drive via robocopy
+
+  - path: docs/HEADY_BROWSER_BUDDY_IDE_PROTOCOL.md
+    type: architecture
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Heady Browser + Buddy + IDE — 25-section master build protocol for Android/Windows/Linux
+
+  - path: configs/heady-browser.yaml
+    type: config
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Heady Browser architecture config — platforms, layers, feature fusion, build phases
+
+  - path: configs/heady-buddy-always-on.yaml
+    type: config
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Buddy always-on behavior spec — Android foreground service, Windows tray, Linux systemd, LLM router
+
+  - path: scripts/phone-ssh-setup.sh
+    type: script
+    owner: system
+    reviewCadence: on_major_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Termux SSH setup script for Android — installs sshd, creates helper commands, auto-start on boot
+
+  - path: docs/HEADY_AUTO_IDE.md
+    type: system-prompt
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: HeadyAutoIDE master instruction set — 24 sections covering orchestration, routing, two-base fusion, Drupal, connection kits, all-follow mode
+
+  - path: HeadyConnectionKits/00-Overview/README.md
+    type: distribution
+    owner: system
+    reviewCadence: on_major_release
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Connection Kits overview — 10 subfolders covering every way to connect (Docker, K8s, CLI, SDK, API, email, enterprise, custom)
+
+  - path: docs/MULTI_AGENT_TRANSPARENCY.md
+    type: governance
+    owner: system
+    reviewCadence: quarterly
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Multi-agent transparency policy — Arena Mode evidence, enforcement rules, burden of proof
+
+  - path: docs/ITERATIVE_REBUILD_PROTOCOL.md
+    type: governance
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Iterative rebuild protocol — error-elimination, convergence model, testing pyramid, retrospectives
+
+  # ─── CONFIGS (Auto-validated at pipeline run) ─────────────────────
+  - path: configs/hcfullpipeline.yaml
+    type: pipeline-config
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Master pipeline definition (v3.0.0, 9 stages)
+
+  - path: configs/resource-policies.yaml
+    type: resource-config
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Concurrency, rate limits, cost budgets
+
+  - path: configs/service-catalog.yaml
+    type: service-config
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: All services, agents, tools, SLOs
+
+  - path: configs/system-components.yaml
+    type: component-map
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Canonical registry of system components
+
+  - path: configs/governance-policies.yaml
+    type: governance
+    owner: system
+    reviewCadence: quarterly
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Access control, data domains, cost governance
+
+  - path: configs/story-driver.yaml
+    type: narrative
+    owner: system
+    reviewCadence: quarterly
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Story Driver narrative intelligence config
+
+  - path: configs/monte-carlo-scheduler.yaml
+    type: optimizer-config
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Monte Carlo UCB1 plan scheduler — strategies, speed modes, drift thresholds
+
+  - path: configs/speed-and-patterns-protocol.yaml
+    type: protocol
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Standing directive for speed optimization and pattern evolution
+
+  - path: configs/system-self-awareness.yaml
+    type: directive
+    owner: system
+    reviewCadence: quarterly
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Self-knowledge, non-optimization assumption, continuous self-diagnosis
+
+  - path: configs/connection-integrity.yaml
+    type: networking-config
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: 7-channel smart gateway with per-channel quality targets
+
+  - path: configs/extension-pricing.yaml
+    type: business-config
+    owner: owner
+    reviewCadence: quarterly
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: 4-tier pricing model (Free/Pro/Team/Enterprise) + fair access
+
+  - path: configs/heady-buddy.yaml
+    type: companion-config
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Heady Buddy cross-device companion — launch modes, channels, sync
+
+  - path: configs/aloha-protocol.yaml
+    type: governance
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Hawaiian-inspired Aloha Mode — priority stack, no-assist guard, web baseline, crew roles
+
+  - path: configs/de-optimization-protocol.yaml
+    type: governance
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: De-optimization protocol — simplicity over speed, KISS/YAGNI defaults, checklist
+
+  - path: configs/stability-first.yaml
+    type: governance
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Stability First — crash prevention, diagnostic mode, local machine protection
+
+  # ─── WORKFLOWS ─────────────────────────────────────────────────────
+  - path: .windsurf/workflows/monte-carlo-optimization.md
+    type: workflow
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: MC optimization and pattern recognition workflow
+
+  - path: .windsurf/workflows/heady-full-system.md
+    type: workflow
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Full system verification workflow (23 steps)
+
+  - path: .windsurf/workflows/two-base-fusion.md
+    type: workflow
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Two-Base Fusion workflow — reusable pattern for fusing two platforms into one app
+
+  - path: .windsurf/workflows/hc-full-pipeline.md
+    type: workflow
+    owner: system
+    reviewCadence: on_pipeline_run
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: HCFullPipeline archive and rebuild workflow
+
+  # ─── NOTEBOOKS ─────────────────────────────────────────────────────
+  - path: notebooks/quick-start/heady-quick-start.ipynb
+    type: notebook
+    owner: system
+    reviewCadence: on_api_change
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Quick start Colab notebook
+
+  - path: notebooks/tutorials/hcfullpipeline-walkthrough.ipynb
+    type: notebook
+    owner: system
+    reviewCadence: on_pipeline_change
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: HCFullPipeline tutorial notebook
+
+  - path: notebooks/examples/registry-api-demo.ipynb
+    type: notebook
+    owner: system
+    reviewCadence: on_registry_change
+    lastReviewed: "2026-02-06"
+    reviewBy: "2026-05-06"
+    description: Registry API demonstration notebook
+
+# ─── HISTORICAL DOCUMENTS (Don't need updates) ──────────────────────
+historicalDocuments:
+  - path: docs/email-greg-lewis-csu-project-update.md
+    type: correspondence
+    description: Historical email correspondence
+  - path: docs/heady-vs-agentic-coding-landscape.md
+    type: analysis
+    description: Market analysis snapshot
+
+# ─── REVIEW RULES ────────────────────────────────────────────────────
+reviewRules:
+  overdueBehavior: create_hcfullpipeline_task
+  overdueEscalation: owner
+  driftDetectedBehavior: create_incident_task
+  staleness:
+    warning: 7d   # Days past reviewBy before warning
+    critical: 30d # Days past reviewBy before escalation

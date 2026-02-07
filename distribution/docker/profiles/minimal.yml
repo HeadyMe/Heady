@@ -1,0 +1,36 @@
+# Minimal — Bare minimum: API + local model runner only
+# Usage: docker compose -f base.yml -f profiles/minimal.yml up
+
+services:
+  heady-api:
+    environment:
+      - MINIMAL_MODE=true
+      - CLOUD_MODELS_ENABLED=false
+
+  model-runner:
+    environment:
+      - OLLAMA_MODELS=llama3.2:3b
+
+  # Disable everything else
+  heady-orchestrator:
+    profiles: ["disabled"]
+  heady-rag:
+    profiles: ["disabled"]
+  mcp-gateway:
+    profiles: ["disabled"]
+  heady-web:
+    profiles: ["disabled"]
+  heady-buddy:
+    profiles: ["disabled"]
+  billing:
+    profiles: ["disabled"]
+  telemetry:
+    profiles: ["disabled"]
+  voice-io:
+    profiles: ["disabled"]
+  heady-ide:
+    profiles: ["disabled"]
+  postgres:
+    profiles: ["disabled"]
+  redis:
+    profiles: ["disabled"]

@@ -1,0 +1,36 @@
+{
+  "name": "Heady Browser (Hybrid)",
+  "version": "0.1.0",
+  "mode": "hybrid",
+  "description": "Standalone Chromium browser with Heady AI — local preferred, cloud fallback",
+  "engine": "electron",
+  "api": {
+    "endpoint": "http://localhost:3300",
+    "model_runner": "http://localhost:8000",
+    "cloud_fallback": "https://api.heady.systems",
+    "cloud_models": "https://models.heady.systems"
+  },
+  "routing": {
+    "prefer_local": true,
+    "cloud_triggers": ["model_unavailable", "task_exceeds_local", "user_override"],
+    "cost_display": true
+  },
+  "features": {
+    "ai_sidebar": true,
+    "page_summarize": true,
+    "highlight_ask": true,
+    "auto_fill": true,
+    "tab_intelligence": true,
+    "translation": true,
+    "voice_input": true,
+    "task_helper": true,
+    "screenshot_analysis": true,
+    "privacy_dashboard": true,
+    "cloud_sync": true
+  },
+  "privacy": {
+    "telemetry": "opt_in",
+    "data_local_by_default": true,
+    "cloud_sync_opt_in": true
+  }
+}

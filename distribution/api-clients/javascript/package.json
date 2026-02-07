@@ -1,0 +1,20 @@
+{
+  "name": "@heady/sdk",
+  "version": "0.1.0",
+  "description": "Heady AI — JavaScript/TypeScript SDK for HeadyStack API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/HeadySystems/Heady" },
+  "keywords": ["heady", "ai", "assistant", "sdk", "mcp"],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.0"
+  }
+}

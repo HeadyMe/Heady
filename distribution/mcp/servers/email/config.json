@@ -1,0 +1,29 @@
+{
+  "name": "heady-mcp-email",
+  "description": "MCP server for Email: IMAP/SMTP read and send",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "auth": {
+    "type": "app_password",
+    "env_vars": {
+      "imap_host": "EMAIL_IMAP_HOST",
+      "smtp_host": "EMAIL_SMTP_HOST",
+      "username": "EMAIL_USERNAME",
+      "password": "EMAIL_APP_PASSWORD"
+    }
+  },
+  "tools": [
+    "list_emails",
+    "read_email",
+    "search_emails",
+    "send_email",
+    "reply_to_email",
+    "forward_email",
+    "list_folders",
+    "move_email"
+  ],
+  "billing": {
+    "tier": "pro",
+    "credits_per_call": 2
+  }
+}

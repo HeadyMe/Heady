@@ -1,0 +1,44 @@
+{
+  "name": "heady-mcp-database",
+  "version": "1.0.0",
+  "description": "MCP server for database operations — SQL/NoSQL query, schema inspect",
+  "transport": "stdio",
+  "env": {
+    "DATABASE_URL": { "required": true, "description": "Connection string (postgres://, mongodb://, etc.)" }
+  },
+  "tools": [
+    {
+      "name": "db_query",
+      "description": "Execute a read-only SQL query",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" },
+          "limit": { "type": "integer", "default": 100 }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "db_schema",
+      "description": "Get database schema (tables, columns, types)",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "table": { "type": "string" } }
+      }
+    },
+    {
+      "name": "db_execute",
+      "description": "Execute a write query (INSERT/UPDATE/DELETE)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" },
+          "params": { "type": "array" }
+        },
+        "required": ["query"]
+      },
+      "requiresApproval": true
+    }
+  ]
+}

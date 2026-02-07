@@ -1,0 +1,33 @@
+{
+  "name": "heady-email-agent",
+  "version": "0.1.0",
+  "description": "Heady AI email agent — IMAP/SMTP for reading, drafting, and sending emails",
+  "auth": {
+    "env_vars": {
+      "imap_host": "EMAIL_IMAP_HOST",
+      "imap_port": "EMAIL_IMAP_PORT",
+      "smtp_host": "EMAIL_SMTP_HOST",
+      "smtp_port": "EMAIL_SMTP_PORT",
+      "username": "EMAIL_USERNAME",
+      "password": "EMAIL_APP_PASSWORD"
+    }
+  },
+  "features": {
+    "read_inbox": true,
+    "search_emails": true,
+    "draft_replies": true,
+    "send_emails": true,
+    "auto_categorize": true,
+    "summarize_threads": true,
+    "priority_inbox": true
+  },
+  "polling": {
+    "interval_seconds": 60,
+    "max_emails_per_poll": 50
+  },
+  "deployment": {
+    "docker_service": "heady-email-agent",
+    "port": 4203,
+    "health": "/health"
+  }
+}

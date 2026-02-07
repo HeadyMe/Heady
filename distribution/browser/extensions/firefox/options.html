@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Heady AI - Settings</title>
+  <style>
+    body { max-width: 600px; margin: 40px auto; font-family: -apple-system, sans-serif; background: #0d0d1a; color: #e0e0e0; padding: 20px; }
+    h1 { margin-bottom: 24px; }
+    label { display: block; margin: 16px 0 6px; font-weight: 500; }
+    input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(124,58,237,0.3); background: rgba(255,255,255,0.05); color: #e0e0e0; font-size: 14px; }
+    button { margin-top: 20px; padding: 12px 24px; border-radius: 8px; border: none; background: #7c3aed; color: white; cursor: pointer; font-size: 14px; }
+    .saved { color: #22c55e; margin-left: 12px; display: none; }
+  </style>
+</head>
+<body>
+  <h1>&#x2B22; Heady AI Settings</h1>
+  <label>API Endpoint</label>
+  <input id="apiUrl" placeholder="http://localhost:3300">
+  <label>Mode</label>
+  <select id="mode">
+    <option value="local">Local Only</option>
+    <option value="hybrid" selected>Hybrid (Local + Cloud)</option>
+    <option value="cloud">Cloud Only</option>
+  </select>
+  <label>Workspace</label>
+  <input id="workspace" placeholder="default">
+  <label>Agent Persona</label>
+  <select id="persona">
+    <option value="buddy">Buddy (Friendly)</option>
+    <option value="researcher">Researcher (Analytical)</option>
+    <option value="coder">Coder (Technical)</option>
+    <option value="coach">Coach (Supportive)</option>
+  </select>
+  <button id="save">Save Settings</button>
+  <span class="saved" id="saved">Saved!</span>
+  <script>
+    const fields = ['apiUrl', 'mode', 'workspace', 'persona'];
+    browser.storage.sync.get(fields).then(r => {
+      fields.forEach(f => { if (r[f]) document.getElementById(f).value = r[f]; });
+    });
+    document.getElementById('save').addEventListener('click', () => {
+      const data = {};
+      fields.forEach(f => data[f] = document.getElementById(f).value);
+      browser.storage.sync.set(data).then(() => {
+        const s = document.getElementById('saved');
+        s.style.display = 'inline'; setTimeout(() => s.style.display = 'none', 2000);
+      });
+    });
+  </script>
+</body>
+</html>

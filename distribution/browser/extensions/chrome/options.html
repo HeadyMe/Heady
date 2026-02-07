@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Heady AI — Settings</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d0d1a; color: #e0e0e0; padding: 24px; max-width: 600px; margin: 0 auto;
+    }
+    h1 { font-size: 24px; margin-bottom: 4px; }
+    .subtitle { color: #888; margin-bottom: 24px; }
+    .section { margin-bottom: 24px; }
+    .section h2 { font-size: 16px; color: #c4b5fd; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px; }
+    label { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; cursor: pointer; }
+    input[type="text"], input[type="url"] {
+      width: 100%; padding: 10px 14px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);
+      color: #e0e0e0; font-size: 14px; margin-bottom: 12px;
+    }
+    select {
+      padding: 10px 14px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);
+      color: #e0e0e0; font-size: 14px; width: 100%; margin-bottom: 12px;
+    }
+    button {
+      padding: 12px 24px; border-radius: 8px; border: none;
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      color: white; cursor: pointer; font-weight: 600; font-size: 14px;
+    }
+    .saved { color: #6ee7b7; display: none; margin-left: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Heady AI Settings</h1>
+  <p class="subtitle">Configure your AI assistant</p>
+
+  <div class="section">
+    <h2>Connection</h2>
+    <label>API Endpoint</label>
+    <input type="url" id="apiEndpoint" value="http://localhost:3300" />
+    <label>API Key (optional)</label>
+    <input type="text" id="apiKey" placeholder="heady_..." />
+  </div>
+
+  <div class="section">
+    <h2>Mode</h2>
+    <select id="mode">
+      <option value="local">Local Only</option>
+      <option value="hybrid" selected>Hybrid (Local + Cloud)</option>
+      <option value="cloud">Cloud Only</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <h2>Workspace</h2>
+    <select id="workspace">
+      <option value="default">Default</option>
+      <option value="personal">Personal</option>
+      <option value="headyconnection">HeadyConnection (Nonprofit)</option>
+      <option value="headysystems">HeadySystems (C-Corp)</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <h2>Permissions</h2>
+    <label><input type="checkbox" id="autoRead" checked /> Auto-read page content</label>
+    <label><input type="checkbox" id="contextMenu" checked /> Show context menu items</label>
+    <label><input type="checkbox" id="notifications" checked /> Show notifications</label>
+    <label><input type="checkbox" id="voiceInput" /> Enable voice input</label>
+  </div>
+
+  <div class="section">
+    <h2>Persona</h2>
+    <select id="persona">
+      <option value="assistant">General Assistant</option>
+      <option value="researcher">Researcher</option>
+      <option value="developer">Developer</option>
+      <option value="writer">Writer</option>
+      <option value="bd">Business Development</option>
+      <option value="grant-writer">Grant Writer</option>
+    </select>
+  </div>
+
+  <button id="save">Save Settings</button>
+  <span class="saved" id="saved">Saved!</span>
+
+  <script>
+    document.getElementById('save').addEventListener('click', () => {
+      const settings = {
+        apiEndpoint: document.getElementById('apiEndpoint').value,
+        apiKey: document.getElementById('apiKey').value,
+        mode: document.getElementById('mode').value,
+        workspace: document.getElementById('workspace').value,
+        autoRead: document.getElementById('autoRead').checked,
+        contextMenu: document.getElementById('contextMenu').checked,
+        notifications: document.getElementById('notifications').checked,
+        voiceInput: document.getElementById('voiceInput').checked,
+        persona: document.getElementById('persona').value
+      };
+      chrome.storage.sync.set({ headySettings: settings }, () => {
+        const el = document.getElementById('saved');
+        el.style.display = 'inline';
+        setTimeout(() => el.style.display = 'none', 2000);
+      });
+    });
+
+    chrome.storage.sync.get('headySettings', ({ headySettings }) => {
+      if (!headySettings) return;
+      document.getElementById('apiEndpoint').value = headySettings.apiEndpoint || 'http://localhost:3300';
+      document.getElementById('apiKey').value = headySettings.apiKey || '';
+      document.getElementById('mode').value = headySettings.mode || 'hybrid';
+      document.getElementById('workspace').value = headySettings.workspace || 'default';
+      document.getElementById('autoRead').checked = headySettings.autoRead !== false;
+      document.getElementById('contextMenu').checked = headySettings.contextMenu !== false;
+      document.getElementById('notifications').checked = headySettings.notifications !== false;
+      document.getElementById('voiceInput').checked = headySettings.voiceInput || false;
+      document.getElementById('persona').value = headySettings.persona || 'assistant';
+    });
+  </script>
+</body>
+</html>

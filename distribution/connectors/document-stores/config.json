@@ -1,0 +1,28 @@
+{
+  "name": "heady-document-stores",
+  "version": "0.1.0",
+  "description": "Heady AI document store adapters — Drive, Dropbox, Notion, Obsidian",
+  "providers": {
+    "google_drive": {
+      "auth": { "type": "oauth2", "scopes": ["https://www.googleapis.com/auth/drive"] },
+      "features": ["list", "search", "read", "upload", "share"]
+    },
+    "dropbox": {
+      "auth": { "type": "oauth2", "env_var": "DROPBOX_TOKEN" },
+      "features": ["list", "search", "read", "upload"]
+    },
+    "notion": {
+      "auth": { "type": "integration_token", "env_var": "NOTION_TOKEN" },
+      "features": ["search", "read_page", "create_page", "query_database"]
+    },
+    "obsidian": {
+      "auth": { "type": "local_vault", "path": "~/obsidian-vault" },
+      "features": ["search", "read", "create", "link_graph"]
+    }
+  },
+  "deployment": {
+    "docker_service": "heady-document-stores",
+    "port": 4206,
+    "health": "/health"
+  }
+}

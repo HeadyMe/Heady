@@ -1,0 +1,49 @@
+{
+  "name": "Heady AI",
+  "version": "0.1.0",
+  "description": "Connect Heady AI to 5000+ apps via Zapier",
+  "authentication": {
+    "type": "api_key",
+    "fields": [
+      { "key": "api_key", "label": "Heady API Key", "required": true },
+      { "key": "api_url", "label": "API URL", "default": "https://api.heady.systems", "required": false }
+    ],
+    "test": {
+      "url": "{{api_url}}/api/health",
+      "method": "GET",
+      "headers": { "Authorization": "Bearer {{api_key}}" }
+    }
+  },
+  "triggers": {
+    "new_message": {
+      "label": "New Message",
+      "description": "Triggers when Heady receives a new message",
+      "type": "polling",
+      "url": "{{api_url}}/api/webhook/zapier/messages",
+      "sample": { "id": "msg_123", "text": "Hello from Heady", "agent": "researcher", "ts": "2026-01-01T00:00:00Z" }
+    },
+    "task_completed": {
+      "label": "Task Completed",
+      "description": "Triggers when an agent completes a task",
+      "type": "polling",
+      "url": "{{api_url}}/api/webhook/zapier/tasks",
+      "sample": { "id": "task_456", "agent": "grant-writer", "status": "completed", "result": "Draft ready" }
+    }
+  },
+  "actions": {
+    "send_message": {
+      "label": "Send Message to Heady",
+      "description": "Send a message or prompt to Heady",
+      "url": "{{api_url}}/api/chat",
+      "method": "POST",
+      "body": { "message": "{{message}}", "agent": "{{agent}}" }
+    },
+    "run_agent": {
+      "label": "Run Agent",
+      "description": "Invoke a specific Heady agent with a task",
+      "url": "{{api_url}}/api/agents/run",
+      "method": "POST",
+      "body": { "agent": "{{agent}}", "task": "{{task}}", "context": "{{context}}" }
+    }
+  }
+}

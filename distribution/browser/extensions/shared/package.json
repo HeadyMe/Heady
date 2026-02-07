@@ -1,0 +1,41 @@
+{
+  "name": "heady-browser-extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Heady AI Browser Extension — cross-browser (Chrome, Edge, Firefox, Safari)",
+  "scripts": {
+    "dev": "wxt dev",
+    "dev:chrome": "wxt dev -b chrome",
+    "dev:firefox": "wxt dev -b firefox",
+    "build:all": "npm run build:chrome && npm run build:firefox && npm run build:edge && npm run build:safari",
+    "build:chrome": "wxt build -b chrome --outDir ../chrome/dist",
+    "build:firefox": "wxt build -b firefox --outDir ../firefox/dist",
+    "build:edge": "wxt build -b chrome --outDir ../edge/dist --mv3",
+    "build:safari": "wxt build -b safari --outDir ../safari/dist",
+    "zip:all": "wxt zip -b chrome && wxt zip -b firefox",
+    "lint": "eslint src/",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "lucide-react": "^0.344.0",
+    "zustand": "^4.5.1",
+    "webextension-polyfill": "^0.12.0",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-popover": "^1.0.7"
+  },
+  "devDependencies": {
+    "wxt": "^0.19.0",
+    "@types/webextension-polyfill": "^0.10.7",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.0",
+    "eslint": "^8.57.0",
+    "vitest": "^1.6.0"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "n8n-nodes-heady",
+  "version": "0.1.0",
+  "description": "n8n community node for Heady AI",
+  "keywords": ["n8n-community-node-package", "heady", "ai", "assistant"],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "nodes": ["dist/nodes/Heady/Heady.node.js"],
+    "credentials": ["dist/credentials/HeadyApi.credentials.js"]
+  },
+  "scripts": {
+    "build": "tsc && node scripts/copy-icons.js",
+    "dev": "tsc --watch",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "n8n-workflow": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "n8n-core": "*"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,143 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  HeadyIDE Configuration                                  ║
+# ║  AI-Native Development Environment                       ║
+# ║  code-server + Heady Extensions + Sacred Geometry Theme  ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+updated_at: "2026-02-06"
+
+# ── Deployment ──────────────────────────────────────────────
+deployment:
+  engine: code-server
+  version: "latest"
+  port: 8443
+  bind_addr: "0.0.0.0:8443"
+  auth: password
+  # Set via CODE_SERVER_PASSWORD env var or ~/.config/code-server/config.yaml
+
+# ── Platform-Specific Setup ─────────────────────────────────
+platforms:
+  windows:
+    install: "npm install -g code-server"
+    start: "code-server --bind-addr 0.0.0.0:8443"
+    autostart: "Add to Windows Startup folder or Task Scheduler"
+    config_path: "%APPDATA%/code-server/config.yaml"
+
+  linux:
+    install: "curl -fsSL https://code-server.dev/install.sh | sh"
+    start: "systemctl --user start code-server"
+    autostart: "systemctl --user enable code-server"
+    config_path: "~/.config/code-server/config.yaml"
+
+  docker:
+    image: "codercom/code-server:latest"
+    ports:
+      - "8443:8443"
+    volumes:
+      - "$HOME/.local:/home/coder/.local"
+      - "$HOME/Heady:/home/coder/project"
+    environment:
+      PASSWORD: "${HEADY_IDE_PASSWORD}"
+
+  android_termux:
+    note: "Access code-server running on desktop via phone browser"
+    access_url: "http://<desktop-ip>:8443"
+    alternative: "Install code-server in Termux (pkg install code-server)"
+
+# ── Extensions ──────────────────────────────────────────────
+extensions:
+  required:
+    - id: "continue.continue"
+      name: "Continue (AI Assistant)"
+      config:
+        models:
+          - title: "HeadyBuddy"
+            provider: "openai-compatible"
+            apiBase: "http://localhost:3300/api/buddy"
+            model: "heady-buddy"
+
+    - id: "bradlc.vscode-tailwindcss"
+      name: "Tailwind CSS IntelliSense"
+
+    - id: "dsznajder.es7-react-js-snippets"
+      name: "ES7+ React/Redux/React-Native snippets"
+
+    - id: "ms-python.python"
+      name: "Python"
+
+    - id: "redhat.vscode-yaml"
+      name: "YAML"
+
+  recommended:
+    - id: "eamodio.gitlens"
+      name: "GitLens"
+
+    - id: "ms-azuretools.vscode-docker"
+      name: "Docker"
+
+    - id: "rust-lang.rust-analyzer"
+      name: "rust-analyzer"
+
+    - id: "esbenp.prettier-vscode"
+      name: "Prettier"
+
+# ── Theme ───────────────────────────────────────────────────
+theme:
+  name: "Heady Sacred Geometry"
+  type: dark
+  colors:
+    editor.background: "#0a0e17"
+    editor.foreground: "#e2e8f0"
+    sideBar.background: "#111827"
+    activityBar.background: "#0a0e17"
+    statusBar.background: "#111827"
+    titleBar.activeBackground: "#0a0e17"
+    tab.activeBackground: "#111827"
+    tab.inactiveBackground: "#0a0e17"
+    focusBorder: "#22d3ee"
+    button.background: "#22d3ee"
+    button.foreground: "#0a0e17"
+    badge.background: "#22d3ee"
+    terminal.background: "#0a0e17"
+    terminal.foreground: "#e2e8f0"
+    terminal.ansiCyan: "#22d3ee"
+    terminal.ansiGreen: "#34d399"
+    terminal.ansiYellow: "#fbbf24"
+    terminal.ansiMagenta: "#c084fc"
+
+# ── Integration with Heady Ecosystem ────────────────────────
+integration:
+  heady_manager:
+    url: "http://localhost:3300"
+    health_endpoint: "/api/health"
+    buddy_endpoint: "/api/buddy/chat"
+
+  buddy_sidebar:
+    enabled: true
+    position: right
+    width: 400
+    features:
+      - chat
+      - code_explain
+      - code_refactor
+      - test_generation
+      - documentation
+
+  cross_device:
+    enabled: true
+    sync_settings: true
+    sync_extensions: true
+    sync_keybindings: true
+
+# ── Workspace Settings ──────────────────────────────────────
+workspace:
+  default_project: "~/Heady"
+  terminal_shell:
+    windows: "pwsh"
+    linux: "bash"
+  auto_save: afterDelay
+  auto_save_delay: 1000
+  format_on_save: true
+  bracket_pair_colorization: true
+  minimap: false

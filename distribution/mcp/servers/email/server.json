@@ -1,0 +1,61 @@
+{
+  "name": "heady-mcp-email",
+  "version": "1.0.0",
+  "description": "MCP server for Email — IMAP/SMTP read, draft, send",
+  "transport": "stdio",
+  "env": {
+    "EMAIL_PROVIDER": { "required": true, "description": "gmail, outlook, or custom" },
+    "EMAIL_OAUTH_TOKEN": { "required": false },
+    "EMAIL_APP_PASSWORD": { "required": false }
+  },
+  "tools": [
+    {
+      "name": "email_list_inbox",
+      "description": "List recent inbox messages",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": { "type": "integer", "default": 10 },
+          "unread_only": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    {
+      "name": "email_read",
+      "description": "Read a specific email by ID",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "message_id": { "type": "string" } },
+        "required": ["message_id"]
+      }
+    },
+    {
+      "name": "email_draft",
+      "description": "Create an email draft",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "to": { "type": "array", "items": { "type": "string" } },
+          "subject": { "type": "string" },
+          "body": { "type": "string" },
+          "cc": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["to", "subject", "body"]
+      }
+    },
+    {
+      "name": "email_send",
+      "description": "Send an email (requires explicit user approval)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "to": { "type": "array", "items": { "type": "string" } },
+          "subject": { "type": "string" },
+          "body": { "type": "string" }
+        },
+        "required": ["to", "subject", "body"]
+      },
+      "requiresApproval": true
+    }
+  ]
+}

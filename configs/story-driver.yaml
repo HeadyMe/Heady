@@ -1,0 +1,259 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS                                                 ║
+# ║  ━━━━━━━━━━━━━━                                                ║
+# ║  ∞ Sacred Geometry Architecture ∞                              ║
+# ║                                                                ║
+# ║  story-driver.yaml - Narrative Intelligence Configuration      ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+#
+# The Story Driver turns system events into coherent narratives at
+# project, feature, incident, and experiment scopes. It keeps humans
+# and agents aligned on where we are, what we tried, what worked,
+# and what we're doing next.
+
+version: "1.0.0"
+service: hc-story-driver
+
+# ─── STORY SCOPES ──────────────────────────────────────────────────────
+scopes:
+  - id: project
+    description: High-level project evolution narrative
+    retention: 365d
+    summaryInterval: weekly
+
+  - id: feature
+    description: Per-feature lifecycle from spec to deployed
+    retention: 180d
+    summaryInterval: on_completion
+
+  - id: incident
+    description: Incident response and resolution timeline
+    retention: 365d
+    summaryInterval: on_resolution
+
+  - id: experiment
+    description: A/B tests, arena runs, routing experiments
+    retention: 90d
+    summaryInterval: on_completion
+
+# ─── EVENT SOURCES ─────────────────────────────────────────────────────
+eventSources:
+  - id: hcfullpipeline
+    description: Pipeline stage transitions, gate results, cycle completions
+    eventTypes:
+      - PIPELINE_CYCLE_START
+      - PIPELINE_CYCLE_COMPLETE
+      - PIPELINE_GATE_PASS
+      - PIPELINE_GATE_FAIL
+      - PIPELINE_STAGE_TRANSITION
+
+  - id: build_system
+    description: Build, test, and deployment outcomes
+    eventTypes:
+      - BUILD_SUCCESS
+      - BUILD_FAILED
+      - TEST_PASS
+      - TEST_FAIL
+      - DEPLOY_SUCCESS
+      - DEPLOY_FAILED
+
+  - id: arena_mode
+    description: Arena Mode candidate runs and winner selection
+    eventTypes:
+      - ARENA_RUN_START
+      - ARENA_CANDIDATE_SCORED
+      - ARENA_WINNER_CHOSEN
+      - ARENA_SQUASH_MERGE
+
+  - id: resource_manager
+    description: Resource events, mitigations, and escalations
+    eventTypes:
+      - RESOURCE_INFO
+      - RESOURCE_WARN_SOFT
+      - RESOURCE_WARN_HARD
+      - RESOURCE_CRITICAL
+      - RESOURCE_SAFE_MODE_ENTER
+      - RESOURCE_SAFE_MODE_EXIT
+
+  - id: registry
+    description: Registry changes — nodes, patterns, prompts, schemas
+    eventTypes:
+      - NODE_ACTIVATED
+      - NODE_DEACTIVATED
+      - PATTERN_ADDED
+      - PATTERN_DEPRECATED
+      - PROMPT_UPDATED
+      - SCHEMA_MIGRATED
+
+  - id: buddy_conversations
+    description: High-level directives and user decisions from HeadyBuddy
+    eventTypes:
+      - USER_DIRECTIVE
+      - USER_DECISION
+      - USER_PIVOT
+      - USER_ANNOTATION
+
+# ─── STORY OBJECTS ─────────────────────────────────────────────────────
+storySchema:
+  Story:
+    fields:
+      - name: id
+        type: string
+        description: Unique story identifier (UUID)
+      - name: scope
+        type: enum
+        values: [project, feature, incident, experiment]
+      - name: title
+        type: string
+        description: Human-readable story title
+      - name: summary
+        type: string
+        description: Current narrative summary (auto-generated)
+      - name: status
+        type: enum
+        values: [ongoing, completed, archived]
+      - name: timeline
+        type: array
+        items: StoryEvent
+      - name: links
+        type: object
+        description: References to tasks, branches, artifacts
+      - name: createdAt
+        type: datetime
+      - name: updatedAt
+        type: datetime
+      - name: pinnedEvents
+        type: array
+        items: string
+        description: IDs of user-pinned important events
+
+  StoryEvent:
+    fields:
+      - name: id
+        type: string
+        description: Unique event identifier
+      - name: timestamp
+        type: datetime
+      - name: type
+        type: string
+        description: Event type from eventSources
+      - name: description
+        type: string
+        description: Human-readable narrative text
+      - name: refs
+        type: object
+        description: "Task IDs, commit hashes, arena IDs, schema IDs, etc."
+      - name: severity
+        type: enum
+        values: [info, notable, critical]
+      - name: source
+        type: string
+        description: Which eventSource produced this
+
+# ─── NARRATIVE GENERATION ──────────────────────────────────────────────
+narrativeRules:
+  # Be selective — don't log every micro event
+  filterPolicy:
+    ignore:
+      - RESOURCE_INFO      # Too noisy for narratives
+      - TEST_PASS           # Only log failures or summaries
+    alwaysInclude:
+      - BUILD_FAILED
+      - ARENA_WINNER_CHOSEN
+      - PIPELINE_GATE_FAIL
+      - RESOURCE_CRITICAL
+      - SCHEMA_MIGRATED
+      - USER_DIRECTIVE
+      - USER_PIVOT
+
+  # Standard phrasing templates for consistency
+  phrasingTemplates:
+    attempted: "We attempted {action} using {pattern}."
+    failed: "This failed because {reason}."
+    responded: "We responded by {response}."
+    result: "As a result, {outcome}."
+    arenaWin: "Arena Mode selected {candidate} ({score} pass probability) and squashed into main."
+    resourceIncident: "Resources constrained; {mitigation} to protect {protected}."
+    schemaChange: "Schema migrated: {description}."
+
+  # Time-scale support
+  summaryLevels:
+    - level: fine
+      description: Debugging a specific incident
+      maxEvents: 50
+    - level: standard
+      description: Daily/weekly project overview
+      maxEvents: 20
+    - level: coarse
+      description: Months of project evolution
+      maxEvents: 10
+
+# ─── INTEGRATION HOOKS ────────────────────────────────────────────────
+integrations:
+  registry:
+    description: Stories reference registry for human names and descriptions
+    lookupFields: [tasks, nodes, patterns]
+
+  maid:
+    description: Maid archives old stories and cleans broken references
+    actions:
+      - archiveCompletedStories
+      - cleanBrokenTimelineRefs
+      - enforceStorySchema
+
+  archive:
+    description: Old stories move to warm/cold storage but remain queryable
+    hotRetention: 30d
+    warmRetention: 180d
+    coldRetention: 365d
+
+  buddy:
+    description: HeadyBuddy calls story APIs for context and summaries
+    capabilities:
+      - getStoryTimeline
+      - getStorySummary
+      - answerWhatChanged
+      - provideDecisionContext
+
+  dataProcessing:
+    description: Stories feed analytics, fine-tuning, and documentation
+    consumers:
+      - analytics_dashboard
+      - prompt_tuning_pipeline
+      - auto_documentation
+
+# ─── API ENDPOINTS ────────────────────────────────────────────────────
+api:
+  basePath: /api/stories
+  endpoints:
+    - method: GET
+      path: /
+      description: List all active stories
+    - method: GET
+      path: /:storyId
+      description: Get full story with timeline
+    - method: GET
+      path: /:storyId/timeline
+      description: Get story timeline events
+    - method: GET
+      path: /:storyId/summary
+      description: Get generated narrative summary
+    - method: POST
+      path: /
+      description: Create a new story
+    - method: POST
+      path: /:storyId/events
+      description: Add event to a story
+    - method: POST
+      path: /:storyId/pin/:eventId
+      description: Pin an important event
+    - method: POST
+      path: /:storyId/annotate
+      description: Add user annotation to story
+    - method: GET
+      path: /recent
+      description: Recent events across all stories
+    - method: GET
+      path: /summary
+      description: System-wide narrative summary

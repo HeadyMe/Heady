@@ -1,0 +1,60 @@
+{
+  "name": "heady-mcp-browser",
+  "version": "1.0.0",
+  "description": "MCP server for browser automation — navigate, read, screenshot",
+  "transport": "stdio",
+  "env": {},
+  "tools": [
+    {
+      "name": "browser_navigate",
+      "description": "Navigate to a URL",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "url": { "type": "string" } },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "browser_get_content",
+      "description": "Get text content of current page",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "max_length": { "type": "integer", "default": 50000 } }
+      }
+    },
+    {
+      "name": "browser_screenshot",
+      "description": "Take a screenshot of current page",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "full_page": { "type": "boolean", "default": false },
+          "selector": { "type": "string" }
+        }
+      }
+    },
+    {
+      "name": "browser_click",
+      "description": "Click an element on the page",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "selector": { "type": "string" } },
+        "required": ["selector"]
+      },
+      "requiresApproval": true
+    },
+    {
+      "name": "browser_search",
+      "description": "Perform a web search and return results",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" },
+          "engine": { "type": "string", "enum": ["duckduckgo", "google", "bing"], "default": "duckduckgo" },
+          "max_results": { "type": "integer", "default": 10 }
+        },
+        "required": ["query"]
+      }
+    }
+  ]
+}

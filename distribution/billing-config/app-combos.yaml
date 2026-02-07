@@ -1,0 +1,237 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady App Combinations & SKUs                           ║
+# ║  Single apps and package bundles with pricing             ║
+# ╚══════════════════════════════════════════════════════════╝
+
+version: "1.0.0"
+
+# ── Individual App SKUs ─────────────────────────────────────
+single_apps:
+  heady-browser-ext:
+    name: "Heady Browser Assistant"
+    description: "AI sidebar for Chrome/Edge/Firefox/Safari"
+    platforms: [chrome, firefox, edge, safari]
+    price_monthly: 0.00  # free with any plan
+    included_in: [free, personal, pro, team, enterprise]
+
+  heady-browser-shell:
+    name: "HeadyOS Browser"
+    description: "Full Chromium-based browser with HeadyOS built in"
+    platforms: [windows, mac, linux]
+    price_monthly: 5.00
+    included_in: [pro, team, enterprise]
+
+  heady-mobile-chat:
+    name: "Heady Chat Mobile"
+    description: "AI chat companion for Android/iOS"
+    platforms: [android, ios]
+    price_monthly: 0.00
+    included_in: [free, personal, pro, team, enterprise]
+
+  heady-mobile-dev:
+    name: "Heady Dev Mobile"
+    description: "Mobile dev assistant with code context"
+    platforms: [android, ios]
+    price_monthly: 5.00
+    included_in: [pro, team, enterprise]
+
+  heady-mobile-voice:
+    name: "Heady Voice Mobile"
+    description: "Voice-first AI assistant with STT/TTS"
+    platforms: [android, ios]
+    price_monthly: 5.00
+    included_in: [pro, team, enterprise]
+
+  heady-mobile-automations:
+    name: "Heady Automations Mobile"
+    description: "Mobile automation control panel"
+    platforms: [android, ios]
+    price_monthly: 5.00
+    included_in: [pro, team, enterprise]
+
+  headyos-mobile:
+    name: "HeadyOS Mobile Shell"
+    description: "Full OS-like experience on phone"
+    platforms: [android, ios]
+    price_monthly: 8.00
+    included_in: [pro, team, enterprise]
+
+  headyos-desktop:
+    name: "HeadyOS Desktop"
+    description: "Desktop shell with overlay, side panel, system tools"
+    platforms: [windows, mac, linux]
+    price_monthly: 8.00
+    included_in: [pro, team, enterprise]
+
+  headyos-web:
+    name: "HeadyOS Web"
+    description: "Browser-based OS-like workspace"
+    platforms: [web]
+    price_monthly: 0.00
+    included_in: [free, personal, pro, team, enterprise]
+
+  heady-ide-vscode:
+    name: "Heady Dev Companion (VS Code)"
+    description: "AI code assistant for VS Code / Codium"
+    platforms: [vscode, codium]
+    price_monthly: 0.00
+    included_in: [free, personal, pro, team, enterprise]
+
+  heady-ide-jetbrains:
+    name: "Heady Dev Companion (JetBrains)"
+    description: "AI code assistant for IntelliJ, PyCharm, WebStorm"
+    platforms: [intellij, pycharm, webstorm, rider, goland]
+    price_monthly: 5.00
+    included_in: [pro, team, enterprise]
+
+  heady-ide-neovim:
+    name: "Heady Dev Companion (Neovim)"
+    description: "AI code assistant for Neovim/Vim"
+    platforms: [neovim, vim]
+    price_monthly: 0.00
+    included_in: [free, personal, pro, team, enterprise]
+
+  heady-cli:
+    name: "Heady CLI"
+    description: "Command-line AI assistant"
+    platforms: [windows, mac, linux]
+    price_monthly: 0.00
+    included_in: [free, personal, pro, team, enterprise]
+
+  heady-api:
+    name: "Heady API Access"
+    description: "REST/WebSocket API for custom integrations"
+    platforms: [api]
+    price_monthly: 0.00  # usage-based
+    included_in: [pro, team, enterprise]
+
+  heady-mcp-gateway:
+    name: "Heady MCP Gateway"
+    description: "Model Context Protocol bridge to external tools"
+    platforms: [docker, cloud]
+    price_monthly: 5.00
+    included_in: [pro, team, enterprise]
+
+# ── Package Bundles ─────────────────────────────────────────
+bundles:
+  personal-suite:
+    name: "Heady Personal Suite"
+    apps:
+      - heady-browser-ext
+      - heady-mobile-chat
+      - headyos-web
+      - heady-ide-vscode
+      - heady-ide-neovim
+      - heady-cli
+    plan: personal
+    price_monthly: 5.00
+    savings_vs_individual: "Free (all apps are free/personal tier)"
+
+  pro-suite:
+    name: "Heady Pro Suite"
+    apps:
+      - heady-browser-ext
+      - heady-browser-shell
+      - heady-mobile-chat
+      - heady-mobile-dev
+      - heady-mobile-voice
+      - headyos-desktop
+      - headyos-web
+      - heady-ide-vscode
+      - heady-ide-jetbrains
+      - heady-ide-neovim
+      - heady-cli
+      - heady-api
+      - heady-mcp-gateway
+    plan: pro
+    price_monthly: 12.00
+    savings_vs_individual: "$31/mo (vs $43 individually)"
+
+  dev-pack:
+    name: "Heady Dev Pack"
+    apps:
+      - heady-browser-ext
+      - heady-mobile-dev
+      - heady-ide-vscode
+      - heady-ide-jetbrains
+      - heady-ide-neovim
+      - heady-cli
+      - heady-api
+      - heady-mcp-gateway
+    plan: pro
+    price_monthly: 12.00
+    target_audience: "Developers and engineers"
+
+  creator-pack:
+    name: "Heady Creator Pack"
+    apps:
+      - heady-browser-ext
+      - heady-browser-shell
+      - heady-mobile-chat
+      - heady-mobile-voice
+      - heady-mobile-automations
+      - headyos-desktop
+    plan: pro
+    price_monthly: 15.00
+    target_audience: "Content creators, writers, researchers"
+
+  automations-pack:
+    name: "Heady Automations Pack"
+    apps:
+      - heady-browser-ext
+      - heady-mobile-automations
+      - headyos-web
+      - heady-api
+      - heady-mcp-gateway
+    plan: pro
+    price_monthly: 12.00
+    target_audience: "Ops, automation engineers, power users"
+
+  enterprise-suite:
+    name: "Heady Enterprise Suite"
+    apps: all
+    plan: enterprise
+    price: custom
+    includes:
+      - all_apps
+      - white_label
+      - on_premise
+      - dedicated_support
+      - custom_sla
+      - audit_logs
+      - sso_saml
+      - data_residency
+
+# ── Deployment Mode Combos ──────────────────────────────────
+deployment_modes:
+  local_only:
+    name: "Local Only"
+    description: "Everything runs on-device, zero cloud"
+    docker_profile: local-offline
+    requires_internet: false
+    model_source: local_ollama_or_docker_model_runner
+    suitable_for: [personal-suite, pro-suite, dev-pack]
+
+  hybrid:
+    name: "Hybrid Local + Cloud"
+    description: "Local first, cloud fallback for heavy tasks"
+    docker_profile: hybrid
+    requires_internet: true
+    model_source: local_preferred_cloud_fallback
+    suitable_for: [personal-suite, pro-suite, dev-pack, creator-pack]
+
+  cloud_only:
+    name: "Cloud Only"
+    description: "Thin clients, all processing in cloud"
+    docker_profile: cloud-saas
+    requires_internet: true
+    model_source: cloud_apis
+    suitable_for: [personal-suite, pro-suite, enterprise-suite]
+
+  self_hosted:
+    name: "Self-Hosted"
+    description: "Your own servers, your data, your rules"
+    docker_profile: full-suite
+    requires_internet: false
+    model_source: custom
+    suitable_for: [enterprise-suite]

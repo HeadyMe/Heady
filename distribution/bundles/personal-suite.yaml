@@ -1,0 +1,50 @@
+# ╔══════════════════════════════════════════════════════════╗
+# ║  Heady Personal Suite                                     ║
+# ║  Browser + Mobile Chat — everyday AI assistance            ║
+# ╚══════════════════════════════════════════════════════════╝
+
+id: personal-suite
+name: "Heady Personal Suite"
+tier: personal
+price_monthly: 5.00
+price_yearly: 48.00
+currency: USD
+target_audience: "Individuals wanting AI across devices"
+
+apps:
+  - id: heady-browser-ext
+    name: "Heady Browser Assistant"
+    platforms: [chrome, firefox, edge, safari]
+  - id: heady-mobile-chat
+    name: "Heady Chat Mobile"
+    platforms: [android, ios]
+  - id: headyos-web
+    name: "HeadyOS Web"
+    platforms: [web]
+  - id: heady-ide-vscode
+    name: "Heady for VS Code"
+    platforms: [vscode]
+  - id: heady-ide-neovim
+    name: "Heady for Neovim"
+    platforms: [neovim]
+  - id: heady-cli
+    name: "Heady CLI"
+    platforms: [windows, mac, linux]
+
+limits:
+  messages_per_day: 500
+  tokens_per_month: 1000000
+  voice_minutes_per_month: 30
+  agents: 3
+  mcp_tools: 5
+  workspaces: 10
+  storage_gb: 5
+
+deployment_modes: [local_only, hybrid, cloud_only]
+
+feature_flags:
+  rag_pipelines: false
+  custom_agents: false
+  team_workspaces: false
+  api_access: false
+  voice_io: basic

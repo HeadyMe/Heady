@@ -1,0 +1,31 @@
+<idea-plugin>
+    <id>systems.heady.dev-companion</id>
+    <name>Heady Dev Companion</name>
+    <vendor email="support@heady.systems" url="https://heady.systems">HeadySystems</vendor>
+    <description>AI code assistant — completions, chat, refactors, agents, voice. Sacred Geometry.</description>
+    <version>0.1.0</version>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Heady" anchor="right" factoryClass="systems.heady.HeadyToolWindowFactory" icon="/icons/heady-13.svg"/>
+        <completion.contributor language="any" implementationClass="systems.heady.HeadyCompletionContributor"/>
+        <notificationGroup id="Heady" displayType="BALLOON"/>
+        <applicationConfigurable instance="systems.heady.HeadySettingsConfigurable" displayName="Heady" id="systems.heady.settings"/>
+        <applicationService serviceImplementation="systems.heady.HeadySettingsState"/>
+    </extensions>
+
+    <actions>
+        <group id="Heady.EditorPopup" text="Heady" popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <action id="Heady.Explain" class="systems.heady.actions.ExplainAction" text="Explain Selection"/>
+            <action id="Heady.Refactor" class="systems.heady.actions.RefactorAction" text="Refactor Selection"/>
+            <action id="Heady.GenerateTests" class="systems.heady.actions.GenerateTestsAction" text="Generate Tests"/>
+            <action id="Heady.GenerateDocs" class="systems.heady.actions.GenerateDocsAction" text="Generate Docs"/>
+            <action id="Heady.Fix" class="systems.heady.actions.FixAction" text="Fix Error"/>
+        </group>
+        <action id="Heady.OpenChat" class="systems.heady.actions.OpenChatAction" text="Heady Chat">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift H"/>
+        </action>
+    </actions>
+</idea-plugin>

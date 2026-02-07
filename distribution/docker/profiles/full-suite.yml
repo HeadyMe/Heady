@@ -1,0 +1,44 @@
+# Full Suite — Everything enabled: all services, all UIs, local + cloud
+# Usage: docker compose -f base.yml -f profiles/full-suite.yml up
+
+services:
+  heady-api:
+    environment:
+      - CLOUD_MODELS_ENABLED=true
+      - REQUIRE_INTERNET=true
+      - FULL_SUITE=true
+
+  heady-orchestrator:
+    environment:
+      - PREFER_LOCAL_MODELS=true
+      - CLOUD_FALLBACK=true
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+
+  model-runner:
+    environment:
+      - OLLAMA_MODELS=llama3.1:8b,codellama:13b,nomic-embed-text
+
+  heady-rag:
+    environment:
+      - EMBEDDINGS_LOCAL=true
+      - CLOUD_EMBEDDINGS_FALLBACK=true
+
+  billing:
+    environment:
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+
+  telemetry:
+    environment:
+      - TELEMETRY_ENABLED=true
+
+  voice-io:
+    environment:
+      - STT_ENGINE=whisper
+      - TTS_ENGINE=coqui
+      - VOICE_ENABLED=true
+
+  heady-ide:
+    environment:
+      - PASSWORD=${HEADY_IDE_PASSWORD:-heady}

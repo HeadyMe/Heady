@@ -1,0 +1,8 @@
+[
+  { "caption": "Heady: Chat", "command": "heady_chat" },
+  { "caption": "Heady: Explain Selection", "command": "heady_explain" },
+  { "caption": "Heady: Refactor Selection", "command": "heady_refactor" },
+  { "caption": "Heady: Generate Tests", "command": "heady_tests" },
+  { "caption": "Heady: Generate Docs", "command": "heady_docs" },
+  { "caption": "Heady: Health Check", "command": "heady_health" }
+]

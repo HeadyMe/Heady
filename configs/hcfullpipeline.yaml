@@ -1,0 +1,377 @@
+# HEADY_BRAND:BEGIN
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  █╗  █╗███████╗ █████╗ ██████╗ █╗   █╗                     ║
+# ║  █║  █║█╔════╝█╔══█╗█╔══█╗╚█╗ █╔╝                     ║
+# ║  ███████║█████╗  ███████║█║  █║ ╚████╔╝                      ║
+# ║  █╔══█║█╔══╝  █╔══█║█║  █║  ╚█╔╝                       ║
+# ║  █║  █║███████╗█║  █║██████╔╝   █║                        ║
+# ║  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝                        ║
+# ║                                                                  ║
+# ║  ∞ SACRED GEOMETRY ∞  Organic Systems · Breathing Interfaces    ║
+# ║  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
+# ║  FILE: configs/hcfullpipeline.yaml                                ║
+# ║  LAYER: root                                                      ║
+# ╚══════════════════════════════════════════════════════════════════╝
+# HEADY_BRAND:END
+
+#
+# HCFullPipeline - Master Pipeline Definition
+# All stages, ordering, checkpoint rules, and stop conditions.
+
+version: "3.0.0"
+pipeline:
+  name: HCFullPipeline
+  description: >
+    Intelligent, parallel, dynamically distributed, self-aware, self-optimizing,
+    and secure execution pipeline for all Heady workloads (local and remote).
+    Integrates Monte Carlo plan selection, pattern recognition, self-critique,
+    multi-channel routing (Heady Buddy), public domain inspiration mining,
+    bottleneck diagnostics, and continuous monitoring feedback loops.
+    Treat this as the single source of truth for every idea, service, flow,
+    metric, integration, and improvement in the Heady ecosystem.
+
+  # ─── GLOBAL RULES ───────────────────────────────────────────────────────
+  global:
+    deterministic: true
+    seed: "heady-sacred-geometry-seed"
+    maxConcurrentTasks: 8
+    maxRetries: 3
+    retryBackoffMs: [500, 2000, 8000]
+    jitterEnabled: true
+    costBudgetDaily: 50.00
+    rateLimitPerMinute: 120
+    proxyPolicy: direct-for-internal
+    monteCarloEnabled: true          # Use MC plan selection for task execution
+    speedPriority: "on"              # off | on | max
+    selfCritiqueEnabled: true        # Post-run self-critique loop
+    patternEngineEnabled: true       # Feed stage/task timing into pattern engine
+    publicDomainMining: true         # Mine best-practice patterns from public tools
+
+  # ─── STOP RULE ──────────────────────────────────────────────────────────
+  stopRule:
+    description: >
+      Build aggressively when healthy; repair first when not.
+      Do NOT keep building when significant errors exist in core infra,
+      data integrity, or security.
+    conditions:
+      - type: error_rate
+        threshold: 0.15
+        action: enter_recovery
+      - type: readiness_score
+        threshold: 60
+        action: enter_recovery
+      - type: critical_alarm
+        count: 1
+        action: pause_and_escalate
+      - type: data_integrity_failure
+        action: halt_immediately
+      - type: bottleneck_severity
+        threshold: "critical"
+        action: pause_and_escalate
+
+  # ─── STAGES ─────────────────────────────────────────────────────────────
+  #
+  # Flow: channel_entry → ingest → plan_mc → execute → recover
+  #       → self_critique → optimize → finalize → monitor_feedback
+  #
+  stages:
+
+    # ── STAGE 0: Channel Entry (Heady Buddy / Multi-Channel Gateway) ─────
+    - id: channel-entry
+      name: Channel Entry
+      description: >
+        Heady Buddy and multi-channel gateway. Receives requests from any
+        channel (IDE extension, web chat, mobile app, API/MCP, email, voice,
+        messaging), resolves user identity, syncs cross-device context and
+        preferences, and routes to the correct pipeline branch.
+        Two main launch modes: Admin+IDE (full cockpit) and IDE-only.
+      checkpoint: false
+      parallel: true
+      tasks:
+        - resolve_channel_and_identity
+        - sync_cross_device_context
+        - determine_launch_mode
+        - route_to_pipeline_branch
+      channelConfig:
+        supportedChannels:
+          - ide_extension
+          - web_chat
+          - mobile_app
+          - api_mcp
+          - email
+          - voice
+          - messaging
+        launchModes:
+          admin_ide:
+            label: "Admin + IDE"
+            description: "Full cockpit: Admin UI + embedded IDE with Heady services"
+            includes: [admin_ui, ide_surface, heady_services, monitoring]
+          ide_only:
+            label: "IDE Only"
+            description: "Code workspace with Heady services quietly integrated"
+            includes: [ide_surface, heady_services]
+        crossDeviceSync:
+          enabled: true
+          syncItems: [preferences, active_project, last_workspace, theme, role]
+          resumeBehavior: "suggest_last_context"
+
+    # ── STAGE 1: Ingest ──────────────────────────────────────────────────
+    - id: ingest
+      name: Ingest
+      description: >
+        Raw data ingestion from all sources (logs, news, APIs, repos,
+        channel events, connection health metrics, public domain patterns).
+      checkpoint: true
+      parallel: true
+      dependsOn: [channel-entry]
+      tasks:
+        - ingest_news_feeds
+        - ingest_repo_changes
+        - ingest_external_apis
+        - ingest_health_metrics
+        - ingest_channel_events
+        - ingest_connection_health
+        - ingest_public_domain_patterns
+
+    # ── STAGE 2: Plan (Monte Carlo Powered) ──────────────────────────────
+    - id: plan
+      name: Plan (MC-Powered)
+      description: >
+        Decompose work into task graph with priorities and dependencies.
+        Uses Monte Carlo UCB1 plan selection to choose the fastest viable
+        execution strategy for each task type. Mines public domain patterns
+        for best-practice sequencing.
+      checkpoint: true
+      parallel: false
+      dependsOn: [ingest]
+      tasks:
+        - generate_task_graph
+        - mc_plan_selection
+        - assign_priorities
+        - estimate_costs
+        - validate_governance
+        - check_public_domain_inspiration
+      mcConfig:
+        speedPriority: "on"
+        candidatesPerTask: 6
+        adaptiveQuality: true
+
+    # ── STAGE 3: Execute Major Phase ─────────────────────────────────────
+    - id: execute-major-phase
+      name: Execute Major Phase
+      description: >
+        Fan out to agents/services via Supervisor pattern (direct routing).
+        Each task execution records latency to MC scheduler for feedback.
+        Pattern engine observes all task completions and failures.
+      checkpoint: true
+      parallel: true
+      dependsOn: [plan]
+      tasks:
+        - route_to_agents
+        - monitor_agent_execution
+        - collect_agent_results
+      supervisorConfig:
+        directRouting: true
+        noProxy: true
+        maxParallelAgents: 6
+      feedbackConfig:
+        recordToMC: true
+        observePatterns: true
+        trackPerTaskLatency: true
+
+    # ── STAGE 4: Recover ─────────────────────────────────────────────────
+    - id: recover
+      name: Recover
+      description: >
+        Handle partial failures, apply saga compensation, circuit breakers.
+        On retry, MC scheduler picks a different strategy (not same approach).
+      checkpoint: true
+      parallel: false
+      dependsOn: [execute-major-phase]
+      tasks:
+        - evaluate_failures
+        - apply_compensation
+        - mc_replan_failed_tasks
+        - retry_recoverable
+        - escalate_unrecoverable
+      retryConfig:
+        useMCReplanning: true
+        maxRetries: 3
+
+    # ── STAGE 5: Self-Critique ───────────────────────────────────────────
+    - id: self-critique
+      name: Self-Critique
+      description: >
+        Post-execution self-awareness loop. System reviews its own run:
+        records critiques, identifies weaknesses and blind spots, runs
+        bottleneck diagnostics, checks connection health across all channels,
+        and proposes targeted improvements.
+        Implements: answer → critique → refine → learn cycle.
+      checkpoint: true
+      parallel: false
+      dependsOn: [recover]
+      tasks:
+        - record_run_critique
+        - diagnose_bottlenecks
+        - check_all_connection_health
+        - identify_improvement_candidates
+        - run_meta_analysis
+      selfCritiqueConfig:
+        autoRecordCritique: true
+        bottleneckCategories:
+          - hidden_bottlenecks
+          - fuzzy_goals
+          - bad_work_sequencing
+          - communication_drag
+          - under_over_utilization
+          - process_creep
+          - cultural_blockers
+        confidenceRating: true
+        weaknessMinCount: 3
+
+    # ── STAGE 6: Optimize ────────────────────────────────────────────────
+    - id: optimize
+      name: Optimize
+      description: >
+        Apply improvements discovered by self-critique and pattern engine.
+        Mine public domain best practices (cross-device assistants, AI tools,
+        dashboards, multi-agent orchestrators) and adapt concepts for Heady.
+        Cache invalidation on config drift. Dynamic concurrency adjustment.
+      checkpoint: true
+      parallel: true
+      dependsOn: [self-critique]
+      tasks:
+        - apply_pattern_improvements
+        - mine_public_domain_best_practices
+        - adjust_mc_strategy_weights
+        - invalidate_stale_caches
+        - adjust_worker_pool_concurrency
+        - update_channel_optimizations
+      publicDomainConfig:
+        inspirationSources:
+          - category: "cross-device assistants"
+            examples: ["Siri", "Google Assistant", "Alexa", "Copilot"]
+            abstractConcepts:
+              - persistent_cross_device_session
+              - simple_entry_points
+              - deep_ecosystem_integration
+          - category: "AI coding tools"
+            examples: ["GitHub Copilot", "Cursor", "Windsurf", "Cody"]
+            abstractConcepts:
+              - inline_completions
+              - context_aware_chat
+              - workspace_understanding
+              - command_palette_integration
+          - category: "multi-agent orchestrators"
+            examples: ["LangGraph", "CrewAI", "AutoGen"]
+            abstractConcepts:
+              - clear_role_boundaries
+              - orchestrator_pattern
+              - robust_logging
+              - safe_failure_modes
+          - category: "monitoring dashboards"
+            examples: ["Grafana", "Datadog", "Tableau"]
+            abstractConcepts:
+              - kpi_sparkline_layout
+              - drill_down_navigation
+              - real_time_streaming
+              - alert_thresholds
+        adaptationRule: >
+          Do not copy proprietary designs. Abstract concepts and adapt them
+          for Heady's mission (wealth redistribution, impact, behavior change).
+          Make them more coherent, more mission-aligned, more owner-friendly.
+
+    # ── STAGE 7: Finalize ────────────────────────────────────────────────
+    - id: finalize
+      name: Finalize
+      description: >
+        Persist results, update registries, sync docs, record all improvements
+        and recommendations back into HCFullPipeline as the single source of truth.
+      checkpoint: true
+      parallel: false
+      dependsOn: [optimize]
+      tasks:
+        - persist_results
+        - update_concept_index
+        - compute_readiness_score
+        - sync_registry_and_docs
+        - validate_notebook_integrity
+        - check_doc_owner_freshness
+        - record_pipeline_improvements
+        - send_checkpoint_email
+        - log_run_config_hash
+
+    # ── STAGE 8: Monitor & Feedback Loop ─────────────────────────────────
+    - id: monitor-feedback
+      name: Monitor & Feedback Loop
+      description: >
+        Continuous monitoring stage. Feeds stage-level and task-level timing
+        back into MC scheduler as samples. Observes patterns across runs.
+        Publishes metrics to all channels (Admin UI, IDE, dashboards).
+        Checks seamlessness across channels and proposes micro-upgrades.
+      checkpoint: true
+      parallel: true
+      dependsOn: [finalize]
+      tasks:
+        - feed_stage_timing_to_mc
+        - feed_task_timing_to_patterns
+        - publish_metrics_to_channels
+        - check_cross_channel_seamlessness
+        - propose_micro_upgrades
+        - archive_run_to_history
+      monitorConfig:
+        metricsTargets:
+          - admin_ui_dashboard
+          - ide_status_bar
+          - heady_buddy_notification
+          - api_metrics_endpoint
+        seamlessnessChecks:
+          - shared_identity_across_channels
+          - shared_project_context
+          - consistent_service_behavior
+          - no_redundant_re_entry
+        feedbackDestinations:
+          - mc_scheduler
+          - pattern_engine
+          - self_critique_engine
+
+  # ─── CHECKPOINT PROTOCOL ────────────────────────────────────────────────
+  checkpointProtocol:
+    description: >
+      At each checkpoint, the system deeply re-analyzes state, configs,
+      and patterns. This is the primary upgrade and self-correction moment.
+      Includes self-awareness checks: the system evaluates its own performance,
+      identifies non-optimization, and proposes improvements.
+    responsibilities:
+      - validate_run_state
+      - compare_config_hashes
+      - reevaluate_plan_and_health
+      - check_concept_alignment
+      - update_logs_and_owner
+      - apply_approved_patterns
+      - sync_registry_entries
+      - sync_documentation
+      - validate_notebooks
+      - check_doc_ownership_freshness
+      - evaluate_self_critique_findings
+      - check_mc_drift_alerts
+      - verify_channel_health
+      - check_public_domain_alignment
+    configHashSources:
+      - configs/hcfullpipeline.yaml
+      - configs/resource-policies.yaml
+      - configs/service-catalog.yaml
+      - configs/governance-policies.yaml
+      - configs/concepts-index.yaml
+      - configs/monte-carlo-scheduler.yaml
+      - configs/speed-and-patterns-protocol.yaml
+      - configs/system-self-awareness.yaml
+      - configs/connection-integrity.yaml
+      - configs/extension-pricing.yaml
+      - configs/heady-buddy.yaml
+    escalationThreshold:
+      readinessBelow: 70
+      errorRateAbove: 0.10
+      costOverBudget: true
+      bottleneckSeverity: "high"
+      channelHealthDegraded: true

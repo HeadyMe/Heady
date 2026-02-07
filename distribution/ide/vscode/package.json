@@ -1,0 +1,115 @@
+{
+  "name": "heady-dev-companion",
+  "displayName": "Heady Dev Companion",
+  "description": "AI code assistant — completions, chat, refactors, agents, voice. Sacred Geometry.",
+  "version": "0.1.0",
+  "publisher": "HeadySystems",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HeadySystems/Heady"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Programming Languages", "Machine Learning", "Other"],
+  "keywords": ["ai", "copilot", "assistant", "heady", "sacred-geometry", "agent"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "heady.chat", "title": "Heady: Open Chat", "icon": "$(comment-discussion)" },
+      { "command": "heady.explain", "title": "Heady: Explain Selection", "icon": "$(lightbulb)" },
+      { "command": "heady.refactor", "title": "Heady: Refactor Selection", "icon": "$(edit)" },
+      { "command": "heady.tests", "title": "Heady: Generate Tests", "icon": "$(beaker)" },
+      { "command": "heady.docs", "title": "Heady: Generate Docs", "icon": "$(book)" },
+      { "command": "heady.fix", "title": "Heady: Fix Error", "icon": "$(wrench)" },
+      { "command": "heady.voice", "title": "Heady: Voice Input", "icon": "$(mic)" },
+      { "command": "heady.agent", "title": "Heady: Agent Mode", "icon": "$(robot)" },
+      { "command": "heady.login", "title": "Heady: Sign In", "icon": "$(key)" },
+      { "command": "heady.settings", "title": "Heady: Settings", "icon": "$(gear)" }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "heady-sidebar",
+          "title": "Heady",
+          "icon": "resources/heady-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "heady-sidebar": [
+        { "type": "webview", "id": "heady.chatView", "name": "Chat" },
+        { "id": "heady.agentsView", "name": "Agents" },
+        { "id": "heady.historyView", "name": "History" }
+      ]
+    },
+    "configuration": {
+      "title": "Heady",
+      "properties": {
+        "heady.apiEndpoint": {
+          "type": "string",
+          "default": "http://localhost:3300",
+          "description": "Heady API endpoint (local or cloud)"
+        },
+        "heady.mode": {
+          "type": "string",
+          "enum": ["local", "hybrid", "cloud"],
+          "default": "hybrid",
+          "description": "AI processing mode"
+        },
+        "heady.inlineCompletions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable inline code completions"
+        },
+        "heady.voiceEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable voice input"
+        },
+        "heady.agent.autoApprove": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-approve safe agent actions"
+        }
+      }
+    },
+    "keybindings": [
+      { "command": "heady.chat", "key": "ctrl+shift+h", "mac": "cmd+shift+h" },
+      { "command": "heady.explain", "key": "ctrl+shift+e", "mac": "cmd+shift+e", "when": "editorHasSelection" }
+    ],
+    "menus": {
+      "editor/context": [
+        { "command": "heady.explain", "when": "editorHasSelection", "group": "heady" },
+        { "command": "heady.refactor", "when": "editorHasSelection", "group": "heady" },
+        { "command": "heady.tests", "group": "heady" },
+        { "command": "heady.docs", "group": "heady" }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "ws": "^8.16.0",
+    "eventsource": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.4.0",
+    "eslint": "^8.57.0",
+    "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.24.0"
+  }
+}

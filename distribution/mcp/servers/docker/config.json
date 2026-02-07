@@ -1,0 +1,27 @@
+{
+  "name": "heady-mcp-docker",
+  "description": "MCP server for Docker: containers, images, compose, volumes",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "auth": {
+    "type": "docker_socket",
+    "socket": "/var/run/docker.sock"
+  },
+  "tools": [
+    "list_containers",
+    "start_container",
+    "stop_container",
+    "restart_container",
+    "get_container_logs",
+    "list_images",
+    "compose_up",
+    "compose_down",
+    "compose_status",
+    "list_volumes",
+    "inspect_container"
+  ],
+  "billing": {
+    "tier": "pro",
+    "credits_per_call": 0
+  }
+}

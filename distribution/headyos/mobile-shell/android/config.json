@@ -1,0 +1,33 @@
+{
+  "name": "HeadyOS Mobile Shell",
+  "version": "0.1.0",
+  "platform": "android",
+  "description": "HeadyOS mobile experience — panels for agents, tasks, voice, automations",
+  "apk": "headyos-mobile.apk",
+  "tech": "react-native",
+  "api": {
+    "local": "http://localhost:3300",
+    "cloud": "https://api.heady.systems"
+  },
+  "features": {
+    "agent_panels": true,
+    "task_manager": true,
+    "voice_assistant": true,
+    "quick_actions": true,
+    "notification_integration": true,
+    "widget_support": true,
+    "offline_mode": true,
+    "biometric_auth": true
+  },
+  "screens": [
+    "home",
+    "chat",
+    "agents",
+    "tasks",
+    "automations",
+    "settings",
+    "voice",
+    "projects",
+    "files"
+  ]
+}
