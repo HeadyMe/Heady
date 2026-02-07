@@ -1,6 +1,6 @@
 {
   "registryVersion": "3.1.0",
-  "updatedAt": "2026-02-07T04:14:00.000Z",
+  "updatedAt": "2026-02-07T15:16:00.000Z",
   "description": "HeadyRegistry — Central catalog and control point for the Heady ecosystem",
 
   "components": [
@@ -8,7 +8,7 @@
       "id": "heady-manager",
       "name": "HeadyManager",
       "type": "api-gateway",
-      "version": "3.0.0",
+      "version": "3.1.0",
       "sourceOfTruth": "heady-manager.js",
       "endpoint": "http://localhost:3300",
       "responsibilities": ["apiGateway", "mcpProtocol", "staticServing", "rateLimiting", "auth", "registryAPI"],
@@ -142,7 +142,7 @@
       "id": "heady-frontend",
       "name": "HeadyFrontend",
       "type": "web-app",
-      "version": "3.0.0",
+      "version": "3.1.0",
       "sourceOfTruth": "frontend/",
       "endpoint": "/",
       "responsibilities": ["sacredGeometryUI", "dashboard", "visualization"],
@@ -714,7 +714,7 @@
     {
       "id": "hcfullpipeline",
       "name": "HCFullPipeline",
-      "version": "3.0.0",
+      "version": "3.1.0",
       "owner": "core",
       "sourceOfTruth": "configs/hcfullpipeline.yaml",
       "stages": ["channel-entry", "ingest", "plan", "execute-major-phase", "recover", "self-critique", "optimize", "finalize", "monitor-feedback"],

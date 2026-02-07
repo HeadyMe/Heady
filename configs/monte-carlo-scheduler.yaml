@@ -159,14 +159,14 @@ parallelization:
 
 # ─── LATENCY TARGETS ─────────────────────────────────────────────────────
 latencyTargets:
-  # Interactive replies (user-facing)
-  interactive_reply_ms: 2000
+  # Interactive replies (user-facing) - AGGRESSIVE TARGETS
+  interactive_reply_ms: 800
   # Pipeline stage completion
-  pipeline_stage_ms: 10000
+  pipeline_stage_ms: 3000
   # Full pipeline run
-  full_pipeline_ms: 60000
+  full_pipeline_ms: 15000
   # Batch task
-  batch_task_ms: 15000
+  batch_task_ms: 5000
   # If any target is exceeded, treat as performance regression
   treatExceedanceAs: performance_bug
 

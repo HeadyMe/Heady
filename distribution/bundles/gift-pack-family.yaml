@@ -1,0 +1,269 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  HEADY GIFT PACK — Friends & Family Edition                                   ║
+# ║  Share the Sacred Geometry Experience                                         ║
+# ║  ∞ Give the gift of AI assistance to your loved ones ∞                      ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+id: gift-pack-family
+name: "Heady Gift Pack — Friends & Family"
+tier: gift
+type: shareable_bundle
+version: "1.0.0"
+created: "2026-02-07"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GIFT PACK DESCRIPTION
+# ═══════════════════════════════════════════════════════════════════════════════
+description: |
+  A special bundle designed to share Heady with friends and family.
+  Includes everything needed to get loved ones started with AI assistance
+  across all their devices — browsers, mobile, and IDE.
+  
+  Perfect for:
+  • Parents who need tech help
+  • Kids starting to code
+  • Friends who want AI writing assistance
+  • Family members managing projects
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# WHAT'S INCLUDED
+# ═══════════════════════════════════════════════════════════════════════════════
+includes:
+  apps:
+    - id: heady-browser-ext
+      name: "Heady Browser Assistant"
+      platforms: [chrome, firefox, edge, safari]
+      quantity: 5  # 5 family members
+      
+    - id: heady-mobile-chat
+      name: "Heady Chat Mobile"
+      platforms: [android, ios]
+      quantity: 5
+      
+    - id: headyos-web
+      name: "HeadyOS Web Portal"
+      platforms: [web]
+      quantity: unlimited  # Web access for all
+      
+    - id: heady-ide-vscode
+      name: "Heady for VS Code"
+      platforms: [vscode]
+      quantity: 3  # For family developers
+      
+    - id: heady-cli
+      name: "Heady CLI"
+      platforms: [windows, mac, linux]
+      quantity: 5
+
+  bonus_content:
+    - name: "Family Onboarding Guide"
+      type: pdf
+      description: "Step-by-step setup for non-technical family members"
+      
+    - name: "Heady Quick Reference Cards"
+      type: printable
+      description: "Laminated cards with common commands and shortcuts"
+      
+    - name: "Sacred Geometry Wallpapers"
+      type: digital_asset
+      count: 10
+      resolutions: [1080p, 1440p, 4k]
+      
+    - name: "Heady Family Discord Community Invite"
+      type: community_access
+      description: "Private channel for gift pack recipients"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PRICING & VALUE
+# ═══════════════════════════════════════════════════════════════════════════════
+pricing:
+  gift_price: 99.00
+  currency: USD
+  
+  retail_value: 245.00  # If purchased separately
+  savings: 146.00
+  savings_percent: 60
+  
+  billing: one_time  # Single purchase, share forever
+  
+  # Gift recipient pricing (if they want to upgrade later)
+  upgrade_path:
+    to_personal_suite: 0.00  # Free upgrade
+    to_dev_pack: 5.00/month  # Discounted
+    to_pro_suite: 10.00/month  # Discounted
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GIFT RECIPIENT LIMITS (Per Person)
+# ═══════════════════════════════════════════════════════════════════════════════
+recipient_limits:
+  messages_per_day: 300
+  tokens_per_month: 500000
+  voice_minutes_per_month: 15
+  agents: 2
+  mcp_tools: 3
+  workspaces: 5
+  storage_gb: 2
+  
+  # Sharing is caring — pooled resources
+  pool_resources: true
+  shared_storage_gb: 10  # Shared across all recipients
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GIFT DELIVERY OPTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+delivery:
+  methods:
+    - type: email_invite
+      name: "Email Invitations"
+      description: "Send personalized invites to each recipient's email"
+      customization:
+        - custom_message
+        - sender_name
+        - delivery_date  # Schedule for birthday/holiday
+        
+    - type: qr_codes
+      name: "QR Code Cards"
+      description: "Printable cards with QR codes for easy setup"
+      template: "elegant_gift_card"
+      
+    - type: usb_bundle
+      name: "Heady Gift USB"
+      description: "Physical USB with installers and offline setup"
+      includes:
+        - preconfigured_installers
+        - offline_documentation
+        - sacred_geometry_wallpapers
+        - onboarding_videos
+      
+    - type: shared_link
+      name: "Magic Link"
+      description: "Single link that works for all 5 recipients"
+      security: one_time_use_per_recipient
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GIFT CUSTOMIZATION
+# ═══════════════════════════════════════════════════════════════════════════════
+customization:
+  gift_message:
+    max_length: 500
+    templates:
+      - "Welcome to the Heady family! Here's your key to AI assistance across all your devices."
+      - "Happy Birthday! I thought you'd love having an AI companion to help with everything."
+      - "Merry Christmas! This gift gives you unlimited AI help for the whole year."
+      - "Just because you're awesome — here's your personal AI assistant!"
+      - "Welcome to the future of productivity! 🚀"
+      
+  branding:
+    colors:
+      primary: "#7B68EE"  # Sacred purple
+      accent: "#FFD700"    # Gold
+      background: "#1a1a2e"  # Deep blue
+      
+    packaging_options:
+      - name: "Sacred Geometry"
+        icon: "flower-of-life.svg"
+        theme: "cosmic_organic"
+        
+      - name: "Modern Minimal"
+        icon: "heady-logo-clean.svg"
+        theme: "minimal_dark"
+        
+      - name: "Festive"
+        icon: "gift-ribbon.svg"
+        theme: "celebration"
+        seasonal: true
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# RECIPIENT ONBOARDING
+# ═══════════════════════════════════════════════════════════════════════════════
+onboarding:
+  simplified_flow: true  # Extra simple for non-technical users
+  
+  steps:
+    - name: "Welcome"
+      duration: "2 min"
+      content: "Personalized welcome video from gifter"
+      
+    - name: "Download"
+      duration: "5 min"
+      content: "One-click install for their platform"
+      auto_detect_platform: true
+      
+    - name: "Quick Tour"
+      duration: "3 min"
+      content: "Interactive walkthrough of basic features"
+      
+    - name: "First Chat"
+      duration: "2 min"
+      content: "Guided first conversation with HeadyBuddy"
+      
+  support:
+    - family_discord_channel
+    - email_support_priority
+    - scheduled_onboarding_call  # Optional 15-min call
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GIVER DASHBOARD
+# ═══════════════════════════════════════════════════════════════════════════════
+giver_dashboard:
+  features:
+    - name: "Recipient Status"
+      description: "See who's installed and activated"
+      
+    - name: "Usage Overview"
+      description: "Anonymous aggregated usage stats"
+      
+    - name: "Send Reminders"
+      description: "Gentle nudge to recipients who haven't activated"
+      
+    - name: "Add More Recipients"
+      description: "Expand the gift to more family members"
+      add_on_price: 15.00
+      add_on_unit: per_person
+      
+    - name: "Upgrade Gift"
+      description: "Upgrade all recipients to higher tier"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TERMS & CONDITIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+terms:
+  valid_for: "1 year from activation"
+  recipient_eligibility: "Must be 13+ years old"
+  non_transferable: false  # Can be transferred once
+  upgradeable: true
+  refundable:
+    enabled: true
+    within_days: 30
+    condition: "if no recipients have activated"
+  
+# ═══════════════════════════════════════════════════════════════════════════════
+# MARKETING ASSETS
+# ═══════════════════════════════════════════════════════════════════════════════
+marketing:
+  social_share:
+    - platform: instagram
+      image: "gift-pack-instagram.png"
+      caption: "Just gifted my family the future of AI assistance 🎁✨ #HeadyGift #AIFamily"
+      
+    - platform: twitter
+      image: "gift-pack-twitter.png"
+      caption: "Gave my fam their own AI companions. The future is here and it's beautiful 🌟 @HeadySystems"
+      
+    - platform: facebook
+      image: "gift-pack-facebook.png"
+      caption: "Best gift ever — AI assistance for the whole family! They absolutely love it. 💜"
+  
+  testimonials:
+    - quote: "My mom finally has tech support 24/7! She loves asking Heady questions instead of calling me at midnight."
+      author: "Sarah K."
+      relation: "Gifted to parents"
+      
+    - quote: "Got this for my coding bootcamp study group. We're all building projects together with Heady's help."
+      author: "Marcus T."
+      relation: "Gifted to friends"
+      
+    - quote: "My kids use it for homework help. It's like having a tutor that never gets tired."
+      author: "Jennifer L."
+      relation: "Gifted to children"
+

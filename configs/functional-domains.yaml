@@ -1,0 +1,88 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS — FUNCTIONAL DOMAIN ARCHITECTURE                                 ║
+# ║  Uses ACTUAL Render domains + local service names (no localhost)              ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CLOUD DOMAINS (These actually work on Render)
+# ═══════════════════════════════════════════════════════════════════════════════
+cloud:
+  me:
+    domain: heady-manager-headyme.onrender.com
+    layer: cyan
+    git_remote: heady-me
+    
+  sys:
+    domain: heady-manager-headysystems.onrender.com
+    layer: magenta
+    git_remote: origin
+    
+  conn:
+    domain: heady-manager-headyconnection.onrender.com
+    layer: yellow
+    git_remote: connection
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LOCAL SERVICE NAMES (Add to /etc/hosts pointing to 127.0.0.1)
+# ═══════════════════════════════════════════════════════════════════════════════
+# Instead of localhost:3300, use these service names
+
+local:
+  manager:
+    domain: manager.local
+    port: 3300
+    service: heady-manager
+    
+  buddy:
+    domain: buddy.local
+    port: 5174
+    service: heady-buddy
+    
+  web:
+    domain: app.local
+    port: 5173
+    service: heady-frontend
+    
+  db:
+    domain: db.local
+    port: 5432
+    service: postgres
+    
+  cache:
+    domain: cache.local
+    port: 6379
+    service: redis
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# HOSTS FILE ENTRIES (What to add to /etc/hosts)
+# ═══════════════════════════════════════════════════════════════════════════════
+hosts_entries: |
+  # HEADY LOCAL SERVICES (Replace localhost:port with service names)
+  127.0.0.1 manager.local
+  127.0.0.1 buddy.local
+  127.0.0.1 app.local
+  127.0.0.1 db.local
+  127.0.0.1 cache.local
+  
+  # Optional extras (if you want more services)
+  127.0.0.1 api.local
+  127.0.0.1 metrics.local
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# USAGE
+# ═══════════════════════════════════════════════════════════════════════════════
+usage:
+  local_dev: |
+    1. Add the hosts entries above to your /etc/hosts file
+    2. Access services by name instead of localhost:port
+       - http://manager.local → HeadyManager
+       - http://buddy.local → HeadyBuddy
+       - http://app.local → Web frontend
+       - db.local:5432 → PostgreSQL
+       - cache.local:6379 → Redis
+       
+  cloud_deploy: |
+    The cloud domains above work automatically on Render:
+       - https://heady-manager-headyme.onrender.com
+       - https://heady-manager-headysystems.onrender.com
+       - https://heady-manager-headyconnection.onrender.com

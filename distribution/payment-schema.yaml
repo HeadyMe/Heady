@@ -1,0 +1,540 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  HEADY PAYMENT SCHEMA — Complete Billing & Revenue Configuration              ║
+# ║  Pricing tiers, payment methods, revenue share, and billing rules             ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+schema_version: "2.0.0"
+last_updated: "2026-02-07"
+currency_default: USD
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PRICING TIERS
+# ═══════════════════════════════════════════════════════════════════════════════
+pricing_tiers:
+  # ────────────────────────────────────────────────────────────────────────────
+  # FREE TIER
+  # ────────────────────────────────────────────────────────────────────────────
+  - id: free
+    name: "Free"
+    price_monthly: 0.00
+    price_yearly: 0.00
+    description: "Get started with basic AI assistance"
+    target: "Casual users, first-time explorers"
+    
+    features:
+      apps:
+        - heady-browser-ext
+        - headyos-web
+      limits:
+        messages_per_day: 50
+        tokens_per_month: 10000
+        voice_minutes: 0
+        agents: 1
+        mcp_tools: 1
+        workspaces: 1
+        storage_gb: 0.5
+      support: community
+      branding: "Powered by Heady"
+      
+  # ────────────────────────────────────────────────────────────────────────────
+  # PERSONAL TIERS
+  # ────────────────────────────────────────────────────────────────────────────
+  - id: personal
+    name: "Personal"
+    price_monthly: 5.00
+    price_yearly: 48.00  # 20% discount
+    description: "Everyday AI across your devices"
+    target: "Individuals wanting AI everywhere"
+    
+    features:
+      apps:
+        - heady-browser-ext
+        - heady-mobile-chat
+        - headyos-web
+        - heady-ide-vscode
+        - heady-cli
+      limits:
+        messages_per_day: 500
+        tokens_per_month: 1000000
+        voice_minutes: 30
+        agents: 3
+        mcp_tools: 5
+        workspaces: 10
+        storage_gb: 5
+      support: email
+      branding: none
+      
+  - id: personal-plus
+    name: "Personal Plus"
+    price_monthly: 9.00
+    price_yearly: 84.00
+    description: "Enhanced AI with voice and advanced features"
+    target: "Power users who need more"
+    
+    features:
+      apps:
+        - heady-browser-ext
+        - heady-mobile-chat
+        - headyos-web
+        - heady-ide-vscode
+        - heady-ide-jetbrains
+        - heady-cli
+        - heady-voice
+      limits:
+        messages_per_day: 1000
+        tokens_per_month: 2000000
+        voice_minutes: 120
+        agents: 5
+        mcp_tools: 10
+        workspaces: 20
+        storage_gb: 20
+      support: priority_email
+      
+  # ────────────────────────────────────────────────────────────────────────────
+  # PRO/DEV TIERS
+  # ────────────────────────────────────────────────────────────────────────────
+  - id: pro
+    name: "Pro"
+    price_monthly: 12.00
+    price_yearly: 120.00
+    description: "For developers and professionals"
+    target: "Developers, engineers, technical users"
+    
+    features:
+      apps:
+        - heady-browser-ext
+        - heady-mobile-dev
+        - heady-ide-vscode
+        - heady-ide-jetbrains
+        - heady-ide-neovim
+        - heady-cli
+        - heady-api
+        - heady-mcp-gateway
+      limits:
+        messages_per_day: 5000
+        tokens_per_month: 10000000
+        voice_minutes: 60
+        agents: 10
+        mcp_tools: unlimited
+        workspaces: unlimited
+        storage_gb: 50
+      support: priority
+      api_access: true
+      
+  - id: pro-plus
+    name: "Pro Plus"
+    price_monthly: 24.00
+    price_yearly: 240.00
+    description: "Maximum AI power for serious developers"
+    target: "Professional developers and teams of one"
+    
+    features:
+      apps:
+        - all_pro_apps
+        - heady-advanced-rag
+        - heady-custom-models
+      limits:
+        messages_per_day: unlimited
+        tokens_per_month: 50000000
+        voice_minutes: 300
+        agents: 25
+        mcp_tools: unlimited
+        workspaces: unlimited
+        storage_gb: 200
+        compute_credits: 100  # For custom training
+      support: priority_plus
+      api_access: true
+      custom_models: true
+      
+  # ────────────────────────────────────────────────────────────────────────────
+  # TEAM TIERS
+  # ────────────────────────────────────────────────────────────────────────────
+  - id: team
+    name: "Team"
+    price_monthly: 35.00
+    price_yearly: 350.00
+    price_per_seat: true
+    min_seats: 2
+    description: "AI for entire teams"
+    target: "Small teams and startups"
+    
+    features:
+      apps:
+        - all_pro_apps
+        - heady-team-collab
+        - heady-shared-workspaces
+      limits_per_seat:
+        messages_per_day: 10000
+        tokens_per_month: 20000000
+        voice_minutes: 120
+        agents: 15
+      team_limits:
+        shared_storage_gb: 500
+        admin_seats: unlimited
+        guest_seats: 10
+      support: team
+      api_access: true
+      sso: false
+      
+  - id: team-plus
+    name: "Team Plus"
+    price_monthly: 55.00
+    price_yearly: 550.00
+    price_per_seat: true
+    min_seats: 5
+    description: "Advanced team features with SSO"
+    target: "Growing teams needing enterprise features"
+    
+    features:
+      apps:
+        - all_team_apps
+        - heady-admin-dashboard
+        - heady-usage-analytics
+      limits_per_seat:
+        messages_per_day: unlimited
+        tokens_per_month: 50000000
+        voice_minutes: 300
+        agents: 30
+      team_limits:
+        shared_storage_gb: 2000
+        admin_seats: unlimited
+        guest_seats: 50
+      support: dedicated
+      api_access: true
+      sso: true
+      audit_logs: true
+      
+  # ────────────────────────────────────────────────────────────────────────────
+  # ENTERPRISE
+  # ────────────────────────────────────────────────────────────────────────────
+  - id: enterprise
+    name: "Enterprise"
+    price: custom
+    description: "Custom solutions for large organizations"
+    target: "Large companies with specific needs"
+    
+    features:
+      apps:
+        - all_apps
+        - custom_integrations
+        - dedicated_infrastructure
+      limits: negotiated
+      support: dedicated_manager
+      sla: 99.99%
+      api_access: true
+      sso: true
+      audit_logs: true
+      custom_models: true
+      on_premise: available
+      
+  # ────────────────────────────────────────────────────────────────────────────
+  # SPECIAL BUNDLES
+  # ────────────────────────────────────────────────────────────────────────────
+  - id: gift-pack
+    name: "Gift Pack — Friends & Family"
+    price: 99.00
+    price_type: one_time
+    description: "Share Heady with 5 loved ones"
+    target: "Gift givers"
+    
+    features:
+      apps:
+        - heady-browser-ext
+        - heady-mobile-chat
+        - headyos-web
+        - heady-cli
+      quantity: 5
+      limits_per_person:
+        messages_per_day: 300
+        tokens_per_month: 500000
+      pooled_storage: 10
+      valid_for: 1_year
+      
+  - id: creator-bundle
+    name: "Creator Bundle"
+    price_monthly: 29.00
+    description: "For content creators and influencers"
+    target: "YouTubers, streamers, bloggers"
+    
+    features:
+      apps:
+        - all_pro_apps
+        - heady-content-assistant
+        - heady-social-media-tools
+      limits:
+        messages_per_day: unlimited
+        tokens_per_month: 25000000
+        voice_minutes: 600
+      support: priority
+      custom_branding: true
+      
+  - id: education
+    name: "Education"
+    price: 0.00
+    verification_required: true
+    description: "Free for verified students and educators"
+    target: "Students, teachers, researchers"
+    
+    features:
+      apps:
+        - all_pro_apps
+      limits:
+        messages_per_day: 2000
+        tokens_per_month: 5000000
+      verification:
+        - edu_email
+        - student_id
+        - faculty_id
+      restrictions:
+        - non_commercial_use_only
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PAYMENT METHODS
+# ═══════════════════════════════════════════════════════════════════════════════
+payment_methods:
+  # Credit/Debit Cards
+  cards:
+    enabled: true
+    processors:
+      - stripe
+      - paypal
+    supported:
+      - visa
+      - mastercard
+      - amex
+      - discover
+    save_cards: true
+    3d_secure: required
+    
+  # Digital Wallets
+  wallets:
+    apple_pay:
+      enabled: true
+      platforms: [ios, macos, web]
+    google_pay:
+      enabled: true
+      platforms: [android, web]
+    paypal:
+      enabled: true
+      express_checkout: true
+      
+  # Bank Transfer
+  bank_transfer:
+    enabled: true
+    for_tiers: [enterprise]
+    countries: [US, EU, UK, CA, AU]
+    
+  # Cryptocurrency
+  crypto:
+    enabled: true
+    coins:
+      - BTC
+      - ETH
+      - USDC
+      - SOL
+    discount: 5%  # Crypto discount
+    
+  # Buy Now Pay Later
+  bnpl:
+    klarna:
+      enabled: true
+      regions: [US, EU, UK]
+    afterpay:
+      enabled: true
+      regions: [US, AU, NZ]
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# BILLING CYCLES
+# ═══════════════════════════════════════════════════════════════════════════════
+billing:
+  default_cycle: monthly
+  available_cycles:
+    - monthly
+    - yearly  # 20% discount
+    - quarterly  # 10% discount
+    
+  trial_periods:
+    free_tier: no_trial  # Already free
+    paid_tiers: 14_days
+    gift_packs: no_trial  # One-time purchase
+    
+  grace_period: 3_days
+  
+  invoicing:
+    individual: automatic_renewal
+    team: invoice_available
+    enterprise: invoice_only
+    
+  proration: true  # Handle mid-cycle upgrades
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# REVENUE SHARE & AFFILIATE
+# ═══════════════════════════════════════════════════════════════════════════════
+revenue_share:
+  # Affiliate Program
+  affiliates:
+    enabled: true
+    commission_percent: 30
+    cookie_duration: 90_days
+    payout_threshold: 50.00
+    payout_schedule: monthly
+    
+    tiers:
+      - name: "Partner"
+        sales_threshold: 0
+        commission: 30%
+        
+      - name: "Pro Partner"
+        sales_threshold: 1000
+        commission: 35%
+        
+      - name: "Elite Partner"
+        sales_threshold: 10000
+        commission: 40%
+        
+  # Referral Program
+  referrals:
+    enabled: true
+    referrer_credit: 10.00
+    referee_credit: 10.00
+    max_referrals_per_user: 100
+    
+  # Creator Program
+  creators:
+    enabled: true
+    for: [youtube, twitch, tiktok, blog]
+    perks:
+      - free_team_tier_while_promoting
+      - commission_on_signups: 40%
+      - early_access_to_features
+      - direct_support_channel
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DISCOUNTS & PROMOTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+promotions:
+  # Automatic Discounts
+  auto_discounts:
+    yearly_commitment: 20%
+    crypto_payment: 5%
+    education_verified: 100%  # Free
+    nonprofit_verified: 75%
+    
+  # Coupon Codes
+  coupon_codes:
+    format: "HEADY-{word}-{number}"
+    types:
+      - percentage_off
+      - fixed_amount
+      - extended_trial
+      - bonus_credits
+      
+  # Volume Discounts
+  volume:
+    team_seats:
+      - threshold: 10
+        discount: 10%
+      - threshold: 25
+        discount: 15%
+      - threshold: 50
+        discount: 20%
+      - threshold: 100
+        discount: custom
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAX & COMPLIANCE
+# ═══════════════════════════════════════════════════════════════════════════════
+tax:
+  vat:
+    enabled: true
+    eu_countries: automatic
+    uk: automatic
+    other: customer_responsibility
+    
+  sales_tax:
+    us_states: automatic
+    digital_services: taxable
+    
+  invoices:
+    vat_number_field: true
+    company_name_field: true
+    customizable: true
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# REFUND POLICY
+# ═══════════════════════════════════════════════════════════════════════════════
+refunds:
+  automatic:
+    - condition: "within_14_days"
+      action: full_refund
+    - condition: "technical_issues_unresolved"
+      action: prorated_refund
+      
+  manual_review:
+    - condition: "after_14_days"
+      action: case_by_case
+    - condition: "enterprise_contracts"
+      action: negotiated
+      
+  non_refundable:
+    - gift_packs_after_activation
+    - crypto_payments
+    - custom_development_work
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# USAGE LIMITS & OVERAGES
+# ═══════════════════════════════════════════════════════════════════════════════
+usage:
+  overages:
+    enabled: true
+    notification_at: 80%
+    
+    pricing:
+      messages:
+        rate_per_100: 0.50
+        
+      tokens:
+        rate_per_1m: 5.00
+        
+      storage:
+        rate_per_gb: 0.10
+        
+      voice_minutes:
+        rate_per_minute: 0.05
+        
+    caps:
+      max_overage_multiplier: 2  # Never charge more than 2x base price
+      require_approval_above: 50.00
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# API PRICING
+# ═══════════════════════════════════════════════════════════════════════════════
+api_pricing:
+  # For API-only access (no UI)
+  pay_as_you_go:
+    enabled: true
+    
+    rates:
+      input_tokens: 0.00001  # per token
+      output_tokens: 0.00003  # per token
+      
+    tiers:
+      - name: "Explorer"
+        min_spend: 0
+        max_spend: 100
+        rate_multiplier: 1.0
+        
+      - name: "Builder"
+        min_spend: 100
+        max_spend: 1000
+        rate_multiplier: 0.9
+        
+      - name: "Scale"
+        min_spend: 1000
+        max_spend: 10000
+        rate_multiplier: 0.8
+        
+      - name: "Enterprise"
+        min_spend: 10000
+        rate_multiplier: custom
+

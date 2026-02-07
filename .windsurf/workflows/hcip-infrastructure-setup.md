@@ -1,5 +1,6 @@
 ---
 description: HCFP Infrastructure Setup - Clean builds, domain migration, device provisioning
+auto_execution_mode: 3
 ---
 
 # Heady Complete Infrastructure Pipeline (HCIP)

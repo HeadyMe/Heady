@@ -1,5 +1,6 @@
 ---
 description: HCFP Extension Installation Flow
+auto_execution_mode: 3
 ---
 
 # HCFP Extension Installation Flow

@@ -18,7 +18,7 @@
 # HCFullPipeline - Master Pipeline Definition
 # All stages, ordering, checkpoint rules, and stop conditions.
 
-version: "3.0.0"
+version: "3.1.0"
 pipeline:
   name: HCFullPipeline
   description: >
@@ -369,6 +369,8 @@ pipeline:
       - configs/connection-integrity.yaml
       - configs/extension-pricing.yaml
       - configs/heady-buddy.yaml
+      - configs/imagination-engine.yaml
+      - configs/hcfp-extension-flow.yaml
     escalationThreshold:
       readinessBelow: 70
       errorRateAbove: 0.10

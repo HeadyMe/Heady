@@ -1,0 +1,147 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  HEADY SYSTEMS — MINIMAL ESSENTIAL DOMAINS                                     ║
+# ║  Only What Actually Runs • Cancelled Everything Else                          ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ESSENTIAL ONLY — THESE ACTUALLY EXIST AND RUN
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# CORE (2) — MUST HAVE
+core:
+  heady-manager:
+    domain: api.manager.local.heady.internal
+    port: 3300
+    status: running
+    required: true
+    
+  heady-buddy:
+    domain: buddy.local.heady.internal
+    port: 5174
+    status: planned
+    required: true
+
+# DATA (3) — MUST HAVE
+data:
+  postgres:
+    domain: db.local.heady.internal
+    port: 5432
+    required: true
+    
+  redis-cache:
+    domain: cache.local.heady.internal
+    port: 6379
+    required: true
+    
+  redis-pubsub:
+    domain: pubsub.local.heady.internal
+    port: 6380
+    required: false  # Optional
+
+# FRONTEND (1) — MUST HAVE
+frontend:
+  web:
+    domain: app.local.heady.internal
+    port: 5173
+    required: true
+
+# OBSERVABILITY (1) — COMBINED
+observability:
+  domain: metrics.local.heady.internal
+  port: 9090
+  required: false  # Optional but recommended
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CANCELLED — THESE DOMAINS REMOVED
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# ❌ AI NODES (CANCELLED — Not actually running as separate services)
+#    - jules.local.heady.internal
+#    - observer.local.heady.internal
+#    - builder.local.heady.internal
+#    - atlas.local.heady.internal
+#    - pythia.local.heady.internal
+#
+# ❌ INTELLIGENCE SUBSYSTEMS (CANCELLED — In code, not separate domains)
+#    - intelligence.local.heady.internal
+#    - mc.local.heady.internal
+#    - patterns.local.heady.internal
+#    - critique.local.heady.internal
+#    - imagine.local.heady.internal
+#    - stories.local.heady.internal
+#
+# ❌ BROWSERS (CANCELLED — Extensions, not domains)
+#    - chrome.local.heady.internal
+#    - firefox.local.heady.internal
+#    - edge.local.heady.internal
+#    - safari.local.heady.internal
+#    - browser.local.heady.internal
+#
+# ❌ IDES (CANCELLED — Extensions, not domains)
+#    - vscode.local.heady.internal
+#    - jetbrains.local.heady.internal
+#    - neovim.local.heady.internal
+#    - sublime.local.heady.internal
+#    - emacs.local.heady.internal
+#    - ide.local.heady.internal
+#
+# ❌ INTEGRATIONS (CANCELLED — External APIs, not local domains)
+#    - slack.local.heady.internal
+#    - discord.local.heady.internal
+#    - teams.local.heady.internal
+#    - mail.local.heady.internal
+#    - calendar.local.heady.internal
+#    - github.local.heady.internal
+#    - notion.local.heady.internal
+#    - connect.local.heady.internal
+#
+# ❌ MCP SERVERS (CANCELLED — In code, not separate domains yet)
+#    - mcp.local.heady.internal
+#    - fs.local.heady.internal
+#    - shell.local.heady.internal
+#    - browser.mcp.local.heady.internal
+#    - search.local.heady.internal
+#    - tools.local.heady.internal
+#
+# ❌ BUSINESS (CANCELLED — Not running as service yet)
+#    - billing.local.heady.internal
+#    - telemetry.local.heady.internal
+#    - business.local.heady.internal
+#
+# ❌ HEADYOS (CANCELLED — Build targets, not running services)
+#    - os-docker.local.heady.internal
+#    - os-metal.local.heady.internal
+#    - os-linux.local.heady.internal
+#    - os-android.local.heady.internal
+#    - os-embedded.local.heady.internal
+#
+# ❌ SECURITY (CANCELLED — In code, not separate service)
+#    - secrets.local.heady.internal
+#    - vault.local.heady.internal
+#    - cloudflare.local.heady.internal
+#
+# ❌ DISCOVERY (CANCELLED — Not running yet)
+#    - registry.local.heady.internal
+#    - dns.local.heady.internal
+#    - discovery.local.heady.internal
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+# TOTAL: 7 ESSENTIAL DOMAINS (Down from 50+)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Hosts file entries (minimal)
+hosts_entries: |
+  # ═══ CORE ═══
+  127.0.0.1 api.manager.local.heady.internal
+  127.0.0.1 buddy.local.heady.internal
+  
+  # ═══ DATA ═══
+  127.0.0.1 db.local.heady.internal
+  127.0.0.1 cache.local.heady.internal
+  127.0.0.1 pubsub.local.heady.internal
+  
+  # ═══ FRONTEND ═══
+  127.0.0.1 app.local.heady.internal
+  
+  # ═══ OBSERVABILITY (optional) ═══
+  127.0.0.1 metrics.local.heady.internal
