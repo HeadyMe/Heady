@@ -169,32 +169,12 @@ class HeadyRecon {
      */
     checkSystemState() {
         const state = {};
-<<<<<<< C:/Users/erich/Heady/scripts/recon.js
-<<<<<<< C:/Users/erich/Heady/scripts/recon.js
-<<<<<<< C:/Users/erich/Heady/scripts/recon.js
-        for (const [indicator, files] of Object.entries(this.functionalIndicators)) {
-            state[indicator] = files.some(file => 
-                fs.existsSync(path.join('C:\\Users\\erich\\Heady', file)) ||
-                fs.existsSync(path.join('C:\\Users\\erich\\CascadeProjects\\HeadyMonorepo', file))
-=======
-=======
->>>>>>> C:/Users/erich/.windsurf/worktrees/Heady/Heady-316a4fbf/scripts/recon.js
-=======
->>>>>>> C:/Users/erich/.windsurf/worktrees/Heady/Heady-316a4fbf/scripts/recon.js
-
         const repoRoot = this.resolveRepoRoot(process.cwd());
         const candidateRoots = [repoRoot];
 
         for (const [indicator, files] of Object.entries(this.functionalIndicators)) {
             state[indicator] = candidateRoots.some(basePath =>
                 files.some(file => fs.existsSync(path.join(basePath, file)))
-<<<<<<< C:/Users/erich/Heady/scripts/recon.js
-<<<<<<< C:/Users/erich/Heady/scripts/recon.js
->>>>>>> C:/Users/erich/.windsurf/worktrees/Heady/Heady-316a4fbf/scripts/recon.js
-=======
->>>>>>> C:/Users/erich/.windsurf/worktrees/Heady/Heady-316a4fbf/scripts/recon.js
-=======
->>>>>>> C:/Users/erich/.windsurf/worktrees/Heady/Heady-316a4fbf/scripts/recon.js
             );
         }
 
