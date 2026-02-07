@@ -15,6 +15,37 @@ const compression = require("compression");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
+// ─── Secrets & Cloudflare Management ──────────────────────────────
+let secretsManager = null;
+let cfManager = null;
+try {
+  const { secretsManager: sm, registerSecretsRoutes } = require("./src/hc_secrets_manager");
+  const { CloudflareManager, registerCloudflareRoutes } = require("./src/hc_cloudflare");
+  secretsManager = sm;
+  cfManager = new CloudflareManager(secretsManager);
+
+  // Register non-Cloudflare secrets from manifest
+  const manifestSecrets = [
+    { id: "render_api_key", name: "Render API Key", envVar: "RENDER_API_KEY", tags: ["render", "api-key"], dependents: ["render-deploy"] },
+    { id: "heady_api_key", name: "Heady API Key", envVar: "HEADY_API_KEY", tags: ["heady", "auth"], dependents: ["api-gateway"] },
+    { id: "admin_token", name: "Admin Token", envVar: "ADMIN_TOKEN", tags: ["heady", "admin"], dependents: ["admin-panel"] },
+    { id: "database_url", name: "PostgreSQL Connection", envVar: "DATABASE_URL", tags: ["database"], dependents: ["persistence"] },
+    { id: "hf_token", name: "Hugging Face Token", envVar: "HF_TOKEN", tags: ["huggingface", "ai"], dependents: ["pythia-node"] },
+    { id: "notion_token", name: "Notion Integration Token", envVar: "NOTION_TOKEN", tags: ["notion"], dependents: ["notion-sync"] },
+    { id: "github_token", name: "GitHub PAT", envVar: "GITHUB_TOKEN", tags: ["github", "vcs"], dependents: ["heady-sync"] },
+    { id: "stripe_secret_key", name: "Stripe Secret Key", envVar: "STRIPE_SECRET_KEY", tags: ["stripe", "payments"], dependents: ["billing"] },
+    { id: "stripe_webhook_secret", name: "Stripe Webhook Secret", envVar: "STRIPE_WEBHOOK_SECRET", tags: ["stripe", "webhook"], dependents: ["billing-webhooks"] },
+  ];
+  for (const s of manifestSecrets) {
+    secretsManager.register({ ...s, source: "env" });
+  }
+  secretsManager.restoreState();
+  console.log("  \u221e Secrets Manager: LOADED (" + secretsManager.getAll().length + " secrets tracked)");
+  console.log("  \u221e Cloudflare Manager: LOADED (token " + (cfManager.isTokenValid() ? "valid" : "needs refresh") + ")");
+} catch (err) {
+  console.warn(`  \u26a0 Secrets/Cloudflare not loaded: ${err.message}`);
+}
+
 const PORT = Number(process.env.PORT || 3300);
 const app = express();
 
@@ -85,7 +116,13 @@ app.get("/api/pulse", (req, res) => {
       "/api/self/improvement", "/api/self/improvements", "/api/self/diagnose", "/api/self/diagnostics",
       "/api/self/connection-health", "/api/self/connections", "/api/self/meta-analysis",
       "/api/pricing/tiers", "/api/pricing/fair-access", "/api/pricing/metrics",
+      "/api/secrets/status", "/api/secrets", "/api/secrets/:id", "/api/secrets/alerts",
+      "/api/secrets/check", "/api/secrets/:id/refresh", "/api/secrets/audit",
+      "/api/cloudflare/status", "/api/cloudflare/refresh", "/api/cloudflare/zones",
+      "/api/cloudflare/domains", "/api/cloudflare/verify",
     ],
+    secrets: secretsManager ? secretsManager.getSummary() : null,
+    cloudflare: cfManager ? { tokenValid: cfManager.isTokenValid(), expiresIn: cfManager.expiresAt ? cfManager._timeUntil(cfManager.expiresAt) : null } : null,
   });
 });
 
@@ -911,6 +948,21 @@ app.post("/api/buddy/pipeline/continuous", (req, res) => {
     ts: new Date().toISOString(),
   });
 });
+
+// ─── Secrets & Cloudflare Routes ─────────────────────────────────────
+try {
+  if (secretsManager) {
+    const { registerSecretsRoutes } = require("./src/hc_secrets_manager");
+    registerSecretsRoutes(app);
+    secretsManager.startMonitor(60_000); // check every 60s
+  }
+  if (cfManager) {
+    const { registerCloudflareRoutes } = require("./src/hc_cloudflare");
+    registerCloudflareRoutes(app, cfManager);
+  }
+} catch (err) {
+  console.warn(`  ⚠ Secrets/Cloudflare routes not registered: ${err.message}`);
+}
 
 // ─── Error Handler ──────────────────────────────────────────────────
 app.use((err, req, res, next) => {
