@@ -1,12 +1,12 @@
 # 🏗️ Heady Workspace Architecture v3.0
-## Monte Carlo + Socratic Method Integration
+## HeadySims + HeadyBattle Method Integration
 
 ### 🌿 Branch Strategy
 ```
 main (production)     ←── staging ←── development ←── feature branches
      ↑                      ↑              ↑
   Production           Arena Mode      IDE Changes
-  Live Sites         Monte Carlo    windsurf-next
+  Live Sites         HeadySims    windsurf-next
                       100% Sims
 ```
 
@@ -20,12 +20,12 @@ main (production)     ←── staging ←── development ←── feature 
 - **Domains**: headyme.com, headysystems.com, headyconnection.org
 
 #### **staging** (Arena Mode)
-- **Purpose**: Monte Carlo simulation environment (100% of the time)
+- **Purpose**: HeadySims simulation environment (100% of the time)
 - **Content**: Integrated changes from development branch
 - **Features**: 
   - Custom Arena Mode competitive pattern selection
-  - Heady Monte Carlo simulations running continuously
-  - Socratic method validation on all changes
+  - Heady HeadySims simulations running continuously
+  - HeadyBattle validation on all changes
   - Intelligent squash merging evaluation
 - **Process**: Changes undergo rigorous simulation before promotion
 
@@ -34,11 +34,11 @@ main (production)     ←── staging ←── development ←── feature 
 - **Content**: Active development work
 - **Features**:
   - Auto-detection of IDE changes
-  - Socratic method interrogation
-  - Monte Carlo preparation
+  - HeadyBattle interrogation
+  - HeadySims preparation
   - Arena Mode candidate generation
 
-### 🧠 Monte Carlo Integration
+### 🧠 HeadySims Integration
 
 #### **HeadyMC Engine**
 ```javascript
@@ -60,14 +60,14 @@ const simulationConfig = {
   evaluation_window_sec: 300,
   promotion_threshold: 0.75,
   stagnation_intervals: 5,
-  socratic_validation: true
+  HeadyBattle_validation: true
 };
 ```
 
-#### **Socratic Method Integration**
+#### **HeadyBattle Method Integration**
 ```javascript
-// Socratic interrogation for every change
-const socraticQuestions = [
+// HeadyBattle interrogation for every change
+const HeadyBattleQuestions = [
   "What is the primary purpose of this change?",
   "How does this align with Heady's mission?",
   "What are the potential unintended consequences?",
@@ -83,9 +83,9 @@ const socraticQuestions = [
 ```
 windsurf-next change detected
     ↓
-Socratic method interrogation
+HeadyBattle interrogation
     ↓
-Monte Carlo candidate generation
+HeadySims candidate generation
     ↓
 Push to development branch
 ```
@@ -98,7 +98,7 @@ HeadyMC generates N execution strategies
     ↓
 Arena Mode runs competitive simulations
     ↓
-Socratic method validates outcomes
+HeadyBattle validates outcomes
     ↓
 Intelligent squash merge evaluation
     ↓
@@ -109,7 +109,7 @@ Promotion to main if metrics pass threshold
 ```
 Staging changes promoted
     ↓
-Final Socratic validation
+Final HeadyBattle validation
     ↓
 Production deployment
     ↓
@@ -125,21 +125,21 @@ Live monitoring and learning
 ├── staging/                       # Arena Mode environment
 ├── development/                   # IDE integration branch
 ├── .heady/                        # Heady system configuration
-│   ├── monte-carlo-config.yaml    # MC simulation settings
-│   ├── socratic-rules.yaml        # Socratic method rules
+│   ├── HeadySims-config.yaml    # MC simulation settings
+│   ├── HeadyBattle-rules.yaml        # HeadyBattle rules
 │   ├── arena-mode.yaml           # Arena Mode configuration
 │   └── branch-automation.yaml    # Automated branch management
 ├── scripts/                       # Automation scripts
 │   ├── hcfp-full-auto.js         # Full automation trigger
-│   ├── monte-carlo-simulator.js  # MC simulation engine
-│   ├── socratic-interrogator.js  # Socratic method validator
+│   ├── HeadySims-simulator.js  # MC simulation engine
+│   ├── HeadyBattle-interrogator.js  # HeadyBattle validator
 │   ├── arena-mode-runner.js      # Arena Mode executor
 │   ├── intelligent-merger.js     # Smart squash merging
 │   └── branch-sync.js           # Cross-branch synchronization
 ├── src/                          # Source code
 │   ├── hc/                      # Heady Core components
-│   ├── monte-carlo/             # Monte Carlo algorithms
-│   ├── socratic/                # Socratic method implementation
+│   ├── HeadySims/             # HeadySims algorithms
+│   ├── HeadyBattle/                # HeadyBattle implementation
 │   └── arena-mode/              # Arena Mode logic
 └── docs/                        # Documentation
     ├── MONTE-CARLO-PROTOCOL.md
@@ -168,7 +168,7 @@ candidates:
     
 promotion:
   threshold: 0.75
-  socratic_validation_required: true
+  HeadyBattle_validation_required: true
   monte_carlo_confidence: 0.85
   
 monitoring:
@@ -177,10 +177,10 @@ monitoring:
   learning_integration: true
 ```
 
-### 🧠 Monte Carlo Configuration
+### 🧠 HeadySims Configuration
 
 ```yaml
-# .heady/monte-carlo-config.yaml
+# .heady/HeadySims-config.yaml
 monte_carlo:
   algorithm: ucb1  # Upper Confidence Bound
   exploration_factor: 2.0
@@ -209,11 +209,11 @@ evaluation:
     degradation: 0.6
 ```
 
-### 🤔 Socratic Method Configuration
+### 🤔 HeadyBattle Method Configuration
 
 ```yaml
-# .heady/socratic-rules.yaml
-socratic:
+# .heady/HeadyBattle-rules.yaml
+HeadyBattle:
   enabled: true
   interrogation_depth: 3
   validation_required: true
@@ -246,15 +246,15 @@ validation:
 ```javascript
 #!/usr/bin/env node
 /**
- * HCFP Full Auto Mode with Monte Carlo + Socratic Integration
+ * HCFP Full Auto Mode with HeadySims + HeadyBattle Integration
  * Trigger: `hcfp --full-auto` command
  */
 
 const HCFPFullAuto = {
   async execute(command) {
     if (command === '--full-auto') {
-      await this.runMonteCarloSimulations();
-      await this.applySocraticMethod();
+      await this.runHeadySimsSimulations();
+      await this.applyHeadyBattleMethod();
       await this.executeArenaMode();
       await this.intelligentMerge();
     }
@@ -266,21 +266,21 @@ const HCFPFullAuto = {
 ```javascript
 #!/usr/bin/env node
 /**
- * Intelligent branch synchronization with Monte Carlo validation
+ * Intelligent branch synchronization with HeadySims validation
  */
 
 const BranchSync = {
   async syncDevelopmentToStaging() {
     // 1. Detect changes in windsurf-next
-    // 2. Apply Socratic interrogation
-    // 3. Generate Monte Carlo candidates
+    // 2. Apply HeadyBattle interrogation
+    // 3. Generate HeadySims candidates
     // 4. Push to staging for Arena Mode
   },
   
   async syncStagingToMain() {
     // 1. Validate Arena Mode results
-    // 2. Check Monte Carlo confidence
-    // 3. Final Socratic validation
+    // 2. Check HeadySims confidence
+    // 3. Final HeadyBattle validation
     // 4. Intelligent squash merge to main
   }
 };
@@ -297,7 +297,7 @@ const learningMetrics = {
     optimization_opportunities: []
   },
   
-  socratic_effectiveness: {
+  HeadyBattle_effectiveness: {
     question_impact_scores: {},
     validation_accuracy: 0.0,
     improvement_suggestions: []
@@ -314,8 +314,8 @@ const learningMetrics = {
 ### 🎯 Success Criteria
 
 ✅ **Zero Local References**: No localhost/127.0.0.1 in any branch
-✅ **Continuous Monte Carlo**: 100% simulation in staging
-✅ **Socratic Validation**: Every change interrogated
+✅ **Continuous HeadySims**: 100% simulation in staging
+✅ **HeadyBattle Validation**: Every change interrogated
 ✅ **Arena Mode**: Competitive pattern selection active
 ✅ **Intelligent Merging**: Smart squash commits
 ✅ **IDE Integration**: windsurf-next changes auto-detected
@@ -325,10 +325,10 @@ const learningMetrics = {
 
 1. **Initialize workspace structure** ✅
 2. **Configure branch automation** (in progress)
-3. **Implement Monte Carlo engine** (next)
-4. **Integrate Socratic method** (next)
+3. **Implement HeadySims engine** (next)
+4. **Integrate HeadyBattle** (next)
 5. **Setup Arena Mode** (next)
 6. **Create monitoring dashboard** (next)
 7. **Test full workflow** (final)
 
-This architecture ensures that every change undergoes rigorous Monte Carlo simulation and Socratic validation before reaching production, while maintaining the intelligent automation you requested.
+This architecture ensures that every change undergoes rigorous HeadySims simulation and HeadyBattle validation before reaching production, while maintaining the intelligent automation you requested.

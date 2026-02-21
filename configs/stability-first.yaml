@@ -142,7 +142,7 @@ continuous_improvement:
   rules:
     - "Autonomous improvements must pass all tests before being applied"
     - "No autonomous changes to critical path code during high-load periods"
-    - "Improvement tasks must be reviewed by Monte Carlo scheduler for risk"
+    - "Improvement tasks must be reviewed by HeadySims scheduler for risk"
     - "Stagnant patterns must be treated as bugs and addressed"
     - "Document all autonomous changes in the registry"
   

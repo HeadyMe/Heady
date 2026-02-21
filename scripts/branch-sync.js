@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 🔄 Intelligent Branch Synchronization with Monte Carlo Validation
+ * 🔄 Intelligent Branch Synchronization with HeadySims Validation
  * 
  * This script manages the automated synchronization between branches:
  * - development ← windsurf-next IDE changes
@@ -16,8 +16,8 @@ const { execSync } = require('child_process');
 class BranchSync {
   constructor() {
     this.config = this.loadConfig();
-    this.monteCarlo = new MonteCarloValidator();
-    this.socratic = new SocraticValidator();
+    this.monteCarlo = new HeadySimsValidator();
+    this.HeadyBattle = new HeadyBattleValidator();
     this.arena = new ArenaModeValidator();
   }
 
@@ -25,12 +25,12 @@ class BranchSync {
     return {
       branches: {
         development: 'IDE integration and windurf-next changes',
-        staging: 'Arena Mode with Monte Carlo simulations',
+        staging: 'Arena Mode with HeadySims simulations',
         main: 'Production deployment'
       },
       validation: {
         require_monte_carlo: true,
-        require_socratic: true,
+        require_HeadyBattle: true,
         require_arena: true,
         minimum_confidence: 0.85
       }
@@ -50,22 +50,22 @@ class BranchSync {
       
       console.log(`🔍 Detected ${changes.length} changes in windsurf-next`);
       
-      // 2. Apply Socratic interrogation to changes
-      console.log('🤔 Applying Socratic method to changes...');
-      const socraticResults = await this.socratic.validateChanges(changes);
+      // 2. Apply HeadyBattle interrogation to changes
+      console.log('🤔 Applying HeadyBattle to changes...');
+      const HeadyBattleResults = await this.HeadyBattle.validateChanges(changes);
       
-      if (!socraticResults.approved) {
-        console.log('❌ Socratic validation failed - blocking sync');
+      if (!HeadyBattleResults.approved) {
+        console.log('❌ HeadyBattle validation failed - blocking sync');
         return;
       }
       
-      // 3. Generate Monte Carlo candidates
-      console.log('🎲 Generating Monte Carlo candidates...');
+      // 3. Generate HeadySims candidates
+      console.log('🎲 Generating HeadySims candidates...');
       const mcCandidates = await this.monteCarlo.generateCandidates(changes);
       
       // 4. Push to staging for Arena Mode
       console.log('📤 Pushing to staging for Arena Mode evaluation...');
-      await this.pushToStaging(changes, socraticResults, mcCandidates);
+      await this.pushToStaging(changes, HeadyBattleResults, mcCandidates);
       
       console.log('✅ Development synced to staging successfully');
       
@@ -88,27 +88,27 @@ class BranchSync {
         return;
       }
       
-      // 2. Check Monte Carlo confidence
-      console.log('🎲 Checking Monte Carlo confidence...');
+      // 2. Check HeadySims confidence
+      console.log('🎲 Checking HeadySims confidence...');
       const mcConfidence = await this.monteCarlo.checkConfidence();
       
       if (mcConfidence < this.config.validation.minimum_confidence) {
-        console.log(`❌ Monte Carlo confidence ${mcConfidence} below threshold ${this.config.validation.minimum_confidence}`);
+        console.log(`❌ HeadySims confidence ${mcConfidence} below threshold ${this.config.validation.minimum_confidence}`);
         return;
       }
       
-      // 3. Final Socratic validation
-      console.log('🤔 Final Socratic validation for production...');
-      const finalSocratic = await this.socratic.finalValidation();
+      // 3. Final HeadyBattle validation
+      console.log('🤔 Final HeadyBattle validation for production...');
+      const finalHeadyBattle = await this.HeadyBattle.finalValidation();
       
-      if (!finalSocratic.approved) {
-        console.log('❌ Final Socratic validation failed - blocking production');
+      if (!finalHeadyBattle.approved) {
+        console.log('❌ Final HeadyBattle validation failed - blocking production');
         return;
       }
       
       // 4. Intelligent squash merge to main
       console.log('🔄 Performing intelligent squash merge to main...');
-      await this.intelligentMergeToMain(arenaResults, mcConfidence, finalSocratic);
+      await this.intelligentMergeToMain(arenaResults, mcConfidence, finalHeadyBattle);
       
       console.log('✅ Staging synced to main - Production deployed!');
       
@@ -165,11 +165,11 @@ class BranchSync {
     }
   }
 
-  async pushToStaging(changes, socraticResults, mcCandidates) {
+  async pushToStaging(changes, HeadyBattleResults, mcCandidates) {
     try {
       // Commit changes on development branch
       if (changes.length > 0) {
-        const commitMessage = this.generateCommitMessage(changes, socraticResults);
+        const commitMessage = this.generateCommitMessage(changes, HeadyBattleResults);
         execSync('git add .', { encoding: 'utf8' });
         execSync(`git commit -m "${commitMessage}"`, { encoding: 'utf8' });
         execSync('git push origin development', { encoding: 'utf8' });
@@ -182,7 +182,7 @@ class BranchSync {
       execSync('git merge development', { encoding: 'utf8' });
       
       // Create Arena Mode preparation commit
-      const arenaMessage = this.generateArenaCommitMessage(socraticResults, mcCandidates);
+      const arenaMessage = this.generateArenaCommitMessage(HeadyBattleResults, mcCandidates);
       execSync(`git commit -m "${arenaMessage}"`, { encoding: 'utf8' });
       
       // Push to staging
@@ -197,7 +197,7 @@ class BranchSync {
     }
   }
 
-  async intelligentMergeToMain(arenaResults, mcConfidence, socraticResults) {
+  async intelligentMergeToMain(arenaResults, mcConfidence, HeadyBattleResults) {
     try {
       // Switch to main branch
       execSync('git checkout main', { encoding: 'utf8' });
@@ -206,7 +206,7 @@ class BranchSync {
       execSync('git merge staging --squash', { encoding: 'utf8' });
       
       // Create intelligent commit message
-      const commitMessage = this.generateProductionCommitMessage(arenaResults, mcConfidence, socraticResults);
+      const commitMessage = this.generateProductionCommitMessage(arenaResults, mcConfidence, HeadyBattleResults);
       execSync(`git commit -m "${commitMessage}"`, { encoding: 'utf8' });
       
       // Tag the release
@@ -226,14 +226,14 @@ class BranchSync {
     }
   }
 
-  generateCommitMessage(changes, socraticResults) {
+  generateCommitMessage(changes, HeadyBattleResults) {
     const fileCount = changes.length;
-    const socraticScore = socraticResults.totalScore.toFixed(3);
+    const HeadyBattleScore = HeadyBattleResults.totalScore.toFixed(3);
     
-    return `feat: IDE changes (${fileCount} files) - Socratic: ${socraticScore}
+    return `feat: IDE changes (${fileCount} files) - HeadyBattle: ${HeadyBattleScore}
 
-🤔 Socratic Validation: ${socraticResults.approved ? 'PASSED' : 'FAILED'}
-📊 Score: ${socraticScore}/1.0
+🤔 HeadyBattle Validation: ${HeadyBattleResults.approved ? 'PASSED' : 'FAILED'}
+📊 Score: ${HeadyBattleScore}/1.0
 📁 Files: ${fileCount}
 
 Changes:
@@ -242,14 +242,14 @@ ${changes.map(c => `  ${c.status} ${c.filePath}`).join('\n')}
 Generated by HCFP Full Auto Mode`;
   }
 
-  generateArenaCommitMessage(socraticResults, mcCandidates) {
+  generateArenaCommitMessage(HeadyBattleResults, mcCandidates) {
     const candidateCount = mcCandidates.length;
     const bestCandidate = mcCandidates[0]?.name || 'unknown';
     
     return `🎮 Arena Mode Preparation
 
-🤔 Socratic: ${socraticResults.approved ? 'APPROVED' : 'REJECTED'}
-🎲 Monte Carlo Candidates: ${candidateCount}
+🤔 HeadyBattle: ${HeadyBattleResults.approved ? 'APPROVED' : 'REJECTED'}
+🎲 HeadySims Candidates: ${candidateCount}
 🏆 Best Candidate: ${bestCandidate}
 
 Ready for Arena Mode tournament evaluation.
@@ -257,16 +257,16 @@ Ready for Arena Mode tournament evaluation.
 Generated by HCFP Full Auto Mode`;
   }
 
-  generateProductionCommitMessage(arenaResults, mcConfidence, socraticResults) {
+  generateProductionCommitMessage(arenaResults, mcConfidence, HeadyBattleResults) {
     const winner = arenaResults.winner || 'unknown';
     const confidence = (mcConfidence * 100).toFixed(1);
-    const socraticScore = socraticResults.totalScore.toFixed(3);
+    const HeadyBattleScore = HeadyBattleResults.totalScore.toFixed(3);
     
     return `🚀 Production Deployment
 
 🎮 Arena Mode Winner: ${winner}
-🎲 Monte Carlo Confidence: ${confidence}%
-🤔 Socratic Score: ${socraticScore}
+🎲 HeadySims Confidence: ${confidence}%
+🤔 HeadyBattle Score: ${HeadyBattleScore}
 ✅ All validations passed
 
 Production-ready after rigorous testing and validation.
@@ -309,10 +309,10 @@ Generated by HCFP Full Auto Mode`;
   }
 }
 
-// Monte Carlo Validator
-class MonteCarloValidator {
+// HeadySims Validator
+class HeadySimsValidator {
   async generateCandidates(changes) {
-    console.log('🎲 Generating Monte Carlo candidates for changes...');
+    console.log('🎲 Generating HeadySims candidates for changes...');
     
     const candidates = [
       { name: 'fast_serial', confidence: 0.85 },
@@ -330,12 +330,12 @@ class MonteCarloValidator {
   }
 }
 
-// Socratic Validator  
-class SocraticValidator {
+// HeadyBattle Validator  
+class HeadyBattleValidator {
   async validateChanges(changes) {
-    console.log('🤔 Validating changes with Socratic method...');
+    console.log('🤔 Validating changes with HeadyBattle...');
     
-    // Simulate Socratic validation
+    // Simulate HeadyBattle validation
     const score = 0.85 + Math.random() * 0.1; // 0.85-0.95
     
     return {
@@ -346,7 +346,7 @@ class SocraticValidator {
   }
 
   async finalValidation() {
-    console.log('🤔 Final Socratic validation for production...');
+    console.log('🤔 Final HeadyBattle validation for production...');
     
     const score = 0.90 + Math.random() * 0.08; // 0.90-0.98
     

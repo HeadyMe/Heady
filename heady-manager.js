@@ -291,9 +291,9 @@ app.get("/api/pulse", (req, res) => {
       "/api/resources/diagnose", "/api/resources/quick-wins", "/api/resources/system-profile",
       "/api/scheduler/status", "/api/scheduler/queues", "/api/scheduler/history",
       "/api/stories", "/api/stories/recent", "/api/stories/summary",
-      "/api/monte-carlo/plan", "/api/monte-carlo/result", "/api/monte-carlo/metrics",
-      "/api/monte-carlo/status", "/api/monte-carlo/drift", "/api/monte-carlo/simulate",
-      "/api/monte-carlo/speed-mode",
+      "/api/HeadySims/plan", "/api/HeadySims/result", "/api/HeadySims/metrics",
+      "/api/HeadySims/status", "/api/HeadySims/drift", "/api/HeadySims/simulate",
+      "/api/HeadySims/speed-mode",
       "/api/patterns", "/api/patterns/summary", "/api/patterns/recent",
       "/api/patterns/bottlenecks", "/api/patterns/improvements",
       "/api/self/status", "/api/self/knowledge", "/api/self/critique", "/api/self/critiques",
@@ -992,14 +992,14 @@ try {
   console.warn(`  ⚠ Resource Diagnostics not loaded: ${err.message}`);
 }
 
-// ─── Monte Carlo Plan Scheduler ──────────────────────────────────────
+// ─── HeadySims Plan Scheduler ──────────────────────────────────────
 let mcPlanScheduler = null;
 let mcGlobal = null;
 try {
-  const { mcPlanScheduler: _mcPS, mcGlobal: _mcG, registerMonteCarloRoutes } = require("./src/hc_monte_carlo");
+  const { mcPlanScheduler: _mcPS, mcGlobal: _mcG, registerHeadySimsRoutes } = require("./src/hc_monte_carlo");
   mcPlanScheduler = _mcPS;
   mcGlobal = _mcG;
-  registerMonteCarloRoutes(app, mcPlanScheduler, mcGlobal);
+  registerHeadySimsRoutes(app, mcPlanScheduler, mcGlobal);
 
   // Wire MC plan scheduler drift alerts into pattern engine (loaded below)
   mcPlanScheduler.on("drift:detected", (alert) => {
@@ -1017,10 +1017,10 @@ try {
   // Default to speed_priority mode — speed is a first-class objective
   mcPlanScheduler.setSpeedMode("on");
 
-  console.log("  ∞ Monte Carlo Plan Scheduler: LOADED (speed_priority mode)");
-  console.log("  ∞ Monte Carlo Global: AUTO-RUN started (60s cycles)");
+  console.log("  ∞ HeadySims Plan Scheduler: LOADED (speed_priority mode)");
+  console.log("  ∞ HeadySims Global: AUTO-RUN started (60s cycles)");
 } catch (err) {
-  console.warn(`  ⚠ Monte Carlo not loaded: ${err.message}`);
+  console.warn(`  ⚠ HeadySims not loaded: ${err.message}`);
 }
 
 // ─── Pattern Recognition Engine ──────────────────────────────────────
@@ -1680,11 +1680,11 @@ try {
 
 // ─── Layer Management ─────────────────────────────────────────────────
 const LAYERS = {
-  "local": { name: "Local Dev", endpoint: "https://app.headysystems.com" },
-  "cloud-me": { name: "Cloud HeadyMe", endpoint: "https://app.headysystems.com" },
-  "cloud-sys": { name: "Cloud HeadySystems", endpoint: "https://app.headysystems.com" },
-  "cloud-conn": { name: "Cloud HeadyConnection", endpoint: "https://app.headysystems.com" },
-  "hybrid": { name: "Hybrid", endpoint: "https://app.headysystems.com" }
+  "local": { name: "Local Dev", endpoint: "https://headyme.com" },
+  "cloud-me": { name: "Cloud HeadyMe", endpoint: "https://headyme.com" },
+  "cloud-sys": { name: "Cloud HeadySystems", endpoint: "https://headyme.com" },
+  "cloud-conn": { name: "Cloud HeadyConnection", endpoint: "https://headyme.com" },
+  "hybrid": { name: "Hybrid", endpoint: "https://headyme.com" }
 };
 
 let activeLayer = "local";

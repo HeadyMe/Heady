@@ -26,7 +26,7 @@ accessControl:
     - role: heady-manager
       allowedDomains: [pipeline, health, admin, mcp]
       allowedActions: [read, write, execute]
-    - role: heady-conductor
+    - role: heady-promoter
       allowedDomains: [pipeline, audit, build]
       allowedActions: [read, write, execute]
     - role: builder

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * 🚀 HCFP Full Auto Mode with Monte Carlo + Socratic Integration
+ * 🚀 HCFP Full Auto Mode with HeadySims + HeadyBattle Integration
  * Trigger: `hcfp --full-auto` command
  * 
  * This is the main orchestrator for the Heady Continuous Full Pipeline
- * with integrated Monte Carlo simulations, Socratic method validation,
+ * with integrated HeadySims simulations, HeadyBattle validation,
  * and Arena Mode competitive pattern selection.
  */
 
@@ -16,16 +16,16 @@ const { execSync } = require('child_process');
 class HCFPFullAuto {
   constructor() {
     this.config = this.loadConfig();
-    this.monteCarlo = new MonteCarloEngine(this.config.monteCarlo);
-    this.socratic = new SocraticInterrogator(this.config.socratic);
+    this.monteCarlo = new HeadySimsEngine(this.config.monteCarlo);
+    this.HeadyBattle = new HeadyBattleInterrogator(this.config.HeadyBattle);
     this.arena = new ArenaMode(this.config.arena);
     this.branchManager = new BranchManager();
   }
 
   loadConfig() {
     return {
-      monteCarlo: this.loadYaml('.heady/monte-carlo-config.yaml'),
-      socratic: this.loadYaml('.heady/socratic-rules.yaml'),
+      monteCarlo: this.loadYaml('.heady/HeadySims-config.yaml'),
+      HeadyBattle: this.loadYaml('.heady/HeadyBattle-rules.yaml'),
       arena: this.loadYaml('.heady/arena-mode.yaml')
     };
   }
@@ -48,11 +48,11 @@ class HCFPFullAuto {
       case '--full-auto':
         await this.runFullAuto();
         break;
-      case '--monte-carlo':
-        await this.runMonteCarloOnly();
+      case '--HeadySims':
+        await this.runHeadySimsOnly();
         break;
-      case '--socratic':
-        await this.runSocraticOnly();
+      case '--HeadyBattle':
+        await this.runHeadyBattleOnly();
         break;
       case '--arena':
         await this.runArenaMode();
@@ -63,33 +63,33 @@ class HCFPFullAuto {
   }
 
   async runFullAuto() {
-    console.log('🧠 Starting Full Auto Mode with Monte Carlo + Socratic + Arena');
+    console.log('🧠 Starting Full Auto Mode with HeadySims + HeadyBattle + Arena');
     
     try {
       // 1. Detect current branch state
       const currentBranch = this.branchManager.getCurrentBranch();
       console.log(`📍 Current branch: ${currentBranch}`);
       
-      // 2. Run Monte Carlo simulations
-      console.log('\n🎲 Running Monte Carlo simulations...');
+      // 2. Run HeadySims simulations
+      console.log('\n🎲 Running HeadySims simulations...');
       const mcResults = await this.monteCarlo.runSimulations();
-      console.log(`✅ Monte Carlo completed: ${mcResults.winner} selected`);
+      console.log(`✅ HeadySims completed: ${mcResults.winner} selected`);
       
-      // 3. Apply Socratic method validation
-      console.log('\n🤔 Applying Socratic method validation...');
-      const socraticResults = await this.socratic.interrogate(mcResults);
-      console.log(`✅ Socratic validation: ${socraticResults.approved ? 'APPROVED' : 'REJECTED'}`);
+      // 3. Apply HeadyBattle validation
+      console.log('\n🤔 Applying HeadyBattle validation...');
+      const HeadyBattleResults = await this.HeadyBattle.interrogate(mcResults);
+      console.log(`✅ HeadyBattle validation: ${HeadyBattleResults.approved ? 'APPROVED' : 'REJECTED'}`);
       
       // 4. Execute Arena Mode if in staging
       if (currentBranch === 'staging') {
         console.log('\n🎮 Executing Arena Mode...');
-        const arenaResults = await this.arena.runTournament(mcResults, socraticResults);
+        const arenaResults = await this.arena.runTournament(mcResults, HeadyBattleResults);
         console.log(`✅ Arena Mode completed: ${arenaResults.promoted} promoted`);
       }
       
       // 5. Intelligent branch management
       console.log('\n🔄 Managing branch synchronization...');
-      await this.manageBranchSync(currentBranch, mcResults, socraticResults);
+      await this.manageBranchSync(currentBranch, mcResults, HeadyBattleResults);
       
       console.log('\n🎉 Full Auto Mode completed successfully!');
       
@@ -99,17 +99,17 @@ class HCFPFullAuto {
     }
   }
 
-  async runMonteCarloOnly() {
-    console.log('🎲 Running Monte Carlo simulations only...');
+  async runHeadySimsOnly() {
+    console.log('🎲 Running HeadySims simulations only...');
     const results = await this.monteCarlo.runSimulations();
-    console.log('✅ Monte Carlo simulations completed');
+    console.log('✅ HeadySims simulations completed');
     return results;
   }
 
-  async runSocraticOnly() {
-    console.log('🤔 Running Socratic method validation only...');
-    const results = await this.socratic.interrogateAll();
-    console.log('✅ Socratic validation completed');
+  async runHeadyBattleOnly() {
+    console.log('🤔 Running HeadyBattle validation only...');
+    const results = await this.HeadyBattle.interrogateAll();
+    console.log('✅ HeadyBattle validation completed');
     return results;
   }
 
@@ -120,18 +120,18 @@ class HCFPFullAuto {
     return results;
   }
 
-  async manageBranchSync(currentBranch, mcResults, socraticResults) {
+  async manageBranchSync(currentBranch, mcResults, HeadyBattleResults) {
     const branchManager = this.branchManager;
     
     if (currentBranch === 'development') {
       // Development changes detected, prepare for staging
-      if (socraticResults.approved && mcResults.confidence > 0.85) {
+      if (HeadyBattleResults.approved && mcResults.confidence > 0.85) {
         console.log('📤 Promoting development to staging...');
-        await branchManager.mergeToStaging(mcResults, socraticResults);
+        await branchManager.mergeToStaging(mcResults, HeadyBattleResults);
       }
     } else if (currentBranch === 'staging') {
       // Staging ready for production evaluation
-      const arenaResults = await this.arena.runTournament(mcResults, socraticResults);
+      const arenaResults = await this.arena.runTournament(mcResults, HeadyBattleResults);
       if (arenaResults.readyForProduction) {
         console.log('🚀 Promoting staging to main...');
         await branchManager.mergeToMain(arenaResults);
@@ -143,22 +143,22 @@ class HCFPFullAuto {
     console.log(`
 🚀 HCFP Full Auto Mode Usage:
 
-hcfp --full-auto        # Run complete pipeline (Monte Carlo + Socratic + Arena)
-hcfp --monte-carlo      # Run Monte Carlo simulations only
-hcfp --socratic         # Run Socratic validation only  
+hcfp --full-auto        # Run complete pipeline (HeadySims + HeadyBattle + Arena)
+hcfp --HeadySims      # Run HeadySims simulations only
+hcfp --HeadyBattle         # Run HeadyBattle validation only  
 hcfp --arena            # Run Arena Mode tournament only
 
 Examples:
   hcfp --full-auto       # Complete automation
-  hcfp --monte-carlo     # Strategy optimization
-  hcfp --socratic        # Ethical validation
+  hcfp --HeadySims     # Strategy optimization
+  hcfp --HeadyBattle        # Ethical validation
   hcfp --arena           # Competitive selection
     `);
   }
 }
 
-// Monte Carlo Engine
-class MonteCarloEngine {
+// HeadySims Engine
+class HeadySimsEngine {
   constructor(config) {
     this.config = config;
     this.strategies = config.strategies;
@@ -262,15 +262,15 @@ class MonteCarloEngine {
   }
 }
 
-// Socratic Interrogator
-class SocraticInterrogator {
+// HeadyBattle Interrogator
+class HeadyBattleInterrogator {
   constructor(config) {
     this.config = config;
     this.categories = config.question_categories;
   }
 
   async interrogate(mcResults) {
-    console.log('🤔 Applying Socratic method interrogation...');
+    console.log('🤔 Applying HeadyBattle interrogation...');
     
     const results = {
       categories: {},
@@ -330,7 +330,7 @@ class SocraticInterrogator {
     let score = 0.8; // Base score
     let answer = "Positive response";
     
-    // Adjust score based on Monte Carlo results
+    // Adjust score based on HeadySims results
     if (mcResults.bestScore > 0.85) {
       score += 0.1;
     }
@@ -354,13 +354,13 @@ class ArenaMode {
     this.config = config;
   }
 
-  async runTournament(mcResults, socraticResults) {
+  async runTournament(mcResults, HeadyBattleResults) {
     console.log('🎮 Starting Arena Mode tournament...');
     
-    if (!socraticResults.approved) {
+    if (!HeadyBattleResults.approved) {
       return {
         promoted: null,
-        reason: 'Socratic validation failed',
+        reason: 'HeadyBattle validation failed',
         readyForProduction: false
       };
     }
@@ -420,10 +420,10 @@ class ArenaMode {
 
   checkPromotionCriteria(tournamentResults) {
     const winnerScore = tournamentResults.round3[0].score;
-    const socraticScore = 0.85; // Would come from socraticResults
+    const HeadyBattleScore = 0.85; // Would come from HeadyBattleResults
     
     return winnerScore >= this.config.promotion_criteria.minimum_score &&
-           socraticScore >= 0.80;
+           HeadyBattleScore >= 0.80;
   }
 }
 
@@ -438,7 +438,7 @@ class BranchManager {
     }
   }
 
-  async mergeToStaging(mcResults, socraticResults) {
+  async mergeToStaging(mcResults, HeadyBattleResults) {
     console.log('📤 Merging development to staging with Arena Mode preparation...');
     
     try {

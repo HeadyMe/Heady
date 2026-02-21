@@ -1,5 +1,5 @@
 # 🎮 Heady Arena Mode Configuration
-# Competitive pattern selection with Monte Carlo + Socratic integration
+# Competitive pattern selection with HeadySims + HeadyBattle integration
 
 id: arena-mode
 name: HeadyArena
@@ -62,14 +62,14 @@ evaluation_metrics:
     accessibility: {weight: 0.03, target: "100% compliant"}
     usability: {weight: 0.02, target: "> 4.0/5.0"}
 
-socratic_integration:
+HeadyBattle_integration:
   interrogation_points:
     - before_tournament: "Validate candidate strategies"
     - between_rounds: "Interrogate performance patterns"
     - final_selection: "Question promotion readiness"
     
   validation_criteria:
-    minimum_socratic_score: 0.80
+    minimum_HeadyBattle_score: 0.80
     critical_question_approval: true
     ethical_validation_required: true
 
@@ -86,7 +86,7 @@ monte_carlo_integration:
 
 promotion_criteria:
   minimum_score: 0.75
-  socratic_approval: true
+  HeadyBattle_approval: true
   monte_carlo_confidence: 0.85
   no_stagnation_periods: 5
   performance_improvement: 0.10
@@ -94,7 +94,7 @@ promotion_criteria:
   auto_promotion:
     conditions:
       - score >= 0.90
-      - socratic_score >= 0.85
+      - HeadyBattle_score >= 0.85
       - monte_carlo_confidence >= 0.90
       - consistent_performance >= 3_runs
       
@@ -108,7 +108,7 @@ monitoring_dashboard:
   real_time_metrics:
     - current_tournament_status
     - strategy_performance_scores
-    - socratic_validation_results
+    - HeadyBattle_validation_results
     - monte_carlo_confidence_levels
     
   historical_tracking:
@@ -120,7 +120,7 @@ monitoring_dashboard:
   alerts:
     - stagnation_detection
     - performance_degradation
-    - socratic_validation_failure
+    - HeadyBattle_validation_failure
     - monte_carlo_convergence_issues
 
 arena_workflow:
@@ -137,7 +137,7 @@ arena_workflow:
      - continuous_simulation
      
   3. validation_phase:
-     - socratic_interrogation
+     - HeadyBattle_interrogation
      - monte_carlo_confidence_check
      - ethical_validation
      - performance_verification
@@ -184,16 +184,16 @@ branch_integration:
   development_to_staging:
     trigger: "push to development"
     action: "start arena tournament"
-    validation: "socratic + monte carlo"
+    validation: "HeadyBattle + monte carlo"
     
   staging_to_main:
     trigger: "arena tournament completion"
     action: "evaluate promotion criteria"
-    validation: "final socratic approval"
+    validation: "final HeadyBattle approval"
 
 success_criteria:
   tournament_completion_rate: "100%"
   promotion_accuracy: "> 95%"
   performance_improvement: "> 10%"
-  socratic_validation_pass: "> 90%"
+  HeadyBattle_validation_pass: "> 90%"
   monte_carlo_confidence: "> 85%"

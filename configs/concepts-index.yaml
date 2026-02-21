@@ -22,8 +22,8 @@ version: "2.0.0"
 
 # ─── IMPLEMENTED CONCEPTS ─────────────────────────────────────────────────
 implementedConcepts:
-  - id: orchestrator-conductor
-    name: Orchestrator-Conductor Pattern
+  - id: orchestrator-promoter
+    name: Orchestrator-promoter Pattern
     description: Central orchestrator with fine control over multi-agent coordination
     location: heady-manager.js, src/hc_autobuild.js
     status: active

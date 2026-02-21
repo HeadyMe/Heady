@@ -6,8 +6,8 @@
  */
 
 const EventEmitter = require('events');
-const { getMonteCarloService } = require('./monte-carlo-service');
-const { getSocraticService } = require('./socratic-service');
+const { getHeadySimsService } = require('./HeadySims-service');
+const { getHeadyBattleService } = require('./HeadyBattle-service');
 const { getArenaModeService } = require('./arena-mode-service');
 const { getBranchAutomationService } = require('./branch-automation-service');
 
@@ -34,14 +34,14 @@ class ServiceManager extends EventEmitter {
 
   initializeServices() {
     // Register all services
-    this.registerService('monte-carlo', getMonteCarloService, {
-      description: 'Monte Carlo optimization engine',
+    this.registerService('HeadySims', getHeadySimsService, {
+      description: 'HeadySims optimization engine',
       critical: true,
       auto_restart: true
     });
     
-    this.registerService('socratic', getSocraticService, {
-      description: 'Socratic method validation',
+    this.registerService('HeadyBattle', getHeadyBattleService, {
+      description: 'HeadyBattle validation',
       critical: true,
       auto_restart: true
     });

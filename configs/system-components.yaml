@@ -34,15 +34,15 @@ services:
       - health-endpoint-200
       - api-key-configured
 
-  - name: python-conductor
+  - name: python-promoter
     type: worker
     role: Python Orchestration & Audit Worker
-    location: src/heady_project/heady_conductor.py
+    location: src/heady_project/heady_promoter.py
     criticality: critical
     healthCheck: { method: process-alive }
     operationalReadiness:
       - python-binary-available
-      - conductor-script-exists
+      - promoter-script-exists
       - database-url-configured
 
   - name: hc-supervisor

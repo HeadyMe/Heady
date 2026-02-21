@@ -92,7 +92,7 @@ patternEvolutionRule:
     - name: continuous_experimentation
       rule: >
         For any stable pattern, continuously run small controlled experiments
-        (A/B or Monte Carlo plan variants) to seek better latency, quality,
+        (A/B or HeadySims plan variants) to seek better latency, quality,
         or user comfort. Keep improvements, discard failures.
     - name: degradation_triggers_action
       rule: >
@@ -164,9 +164,9 @@ metricsContract:
     - condition: speed_score < 60
       action: >
         Automatically treat as regression: open improvement task,
-        run Monte Carlo plan-search for faster alternatives,
+        run HeadySims plan-search for faster alternatives,
         propose or apply fixes.
     - condition: pattern_improvement_rate < 0.1
       action: >
         System is stagnating. Force exploration phase: increase
-        Monte Carlo exploration constant, try new plan strategies.
+        HeadySims exploration constant, try new plan strategies.

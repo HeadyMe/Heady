@@ -1,4 +1,4 @@
-# 🚀 Heady Workspace - Monte Carlo + Socratic Integration
+# 🚀 Heady Workspace - HeadySims + HeadyBattle Integration
 
 ## 🏗️ Workspace Structure Complete
 
@@ -9,19 +9,19 @@ Your comprehensive Heady workspace is now configured with:
 main (production)     ←── staging ←── development ←── feature branches
      ↑                      ↑              ↑
   Production           Arena Mode      IDE Changes
-  Live Sites         Monte Carlo    windsurf-next
+  Live Sites         HeadySims    windsurf-next
                       100% Sims
 ```
 
 ### ✅ **Core Systems Configured**
-- **Monte Carlo Engine** (`src/monte-carlo/`) - Strategy optimization
-- **Socratic Method** (`src/socratic/`) - Ethical validation  
+- **HeadySims Engine** (`src/HeadySims/`) - Strategy optimization
+- **HeadyBattle Method** (`src/HeadyBattle/`) - Ethical validation  
 - **Arena Mode** (`src/arena-mode/`) - Competitive pattern selection
 - **Branch Automation** (`scripts/branch-sync.js`) - Intelligent synchronization
 
 ### ✅ **Configuration Files**
-- `.heady/monte-carlo-config.yaml` - Monte Carlo parameters
-- `.heady/socratic-rules.yaml` - Socratic interrogation rules
+- `.heady/HeadySims-config.yaml` - HeadySims parameters
+- `.heady/HeadyBattle-rules.yaml` - HeadyBattle interrogation rules
 - `.heady/arena-mode.yaml` - Arena Mode tournament settings
 - `.heady/branch-automation.yaml` - Automated branch management
 
@@ -33,8 +33,8 @@ main (production)     ←── staging ←── development ←── feature 
 node scripts/hcfp-full-auto.js --full-auto
 
 # Individual components
-node scripts/hcfp-full-auto.js --monte-carlo
-node scripts/hcfp-full-auto.js --socratic
+node scripts/hcfp-full-auto.js --HeadySims
+node scripts/hcfp-full-auto.js --HeadyBattle
 node scripts/hcfp-full-auto.js --arena
 ```
 
@@ -50,15 +50,15 @@ node scripts/branch-sync.js --staging-to-main
 node scripts/branch-sync.js --continuous
 ```
 
-## 🧠 Monte Carlo + Socratic Workflow
+## 🧠 HeadySims + HeadyBattle Workflow
 
 ### **1. IDE Changes (development branch)**
 ```
 windsurf-next change detected
     ↓
-Socratic method interrogation
+HeadyBattle interrogation
     ↓
-Monte Carlo candidate generation
+HeadySims candidate generation
     ↓
 Push to development branch
 ```
@@ -71,7 +71,7 @@ HeadyMC generates 7 execution strategies
     ↓
 Arena Mode runs competitive simulations
     ↓
-Socratic method validates outcomes
+HeadyBattle validates outcomes
     ↓
 Intelligent squash merge evaluation
     ↓
@@ -82,7 +82,7 @@ Promotion to main if metrics pass threshold
 ```
 Staging changes promoted
     ↓
-Final Socratic validation
+Final HeadyBattle validation
     ↓
 Production deployment
     ↓
@@ -96,12 +96,12 @@ Live monitoring and learning
 - Production domains only: headyme.com, headysystems.com, headyconnection.org
 - Automated detection and blocking of local references
 
-### **Continuous Monte Carlo**
+### **Continuous HeadySims**
 - 100% simulation in staging branch
 - UCB1 algorithm for strategy selection
 - 7 strategies: fast_serial, fast_parallel, balanced, thorough, cached_fast, probe_then_commit, monte_carlo_optimal
 
-### **Socratic Method Validation**
+### **HeadyBattle Method Validation**
 - Every change undergoes ethical interrogation
 - 4 categories: purpose, consequences, optimization, ethics
 - Minimum 0.80 score required for approval
@@ -116,23 +116,23 @@ Live monitoring and learning
 
 ### **Development → Staging**
 1. Detect windsurf-next IDE changes
-2. Apply Socratic interrogation
-3. Generate Monte Carlo candidates
+2. Apply HeadyBattle interrogation
+3. Generate HeadySims candidates
 4. Create intelligent commit message
 5. Merge to staging for Arena Mode
 
 ### **Staging → Main**
 1. Validate Arena Mode tournament results
-2. Check Monte Carlo confidence (>85%)
-3. Final Socratic validation (>85%)
+2. Check HeadySims confidence (>85%)
+3. Final HeadyBattle validation (>85%)
 4. Intelligent squash merge
 5. Production deployment with tags
 
 ## 📊 Success Criteria
 
 ✅ **Zero Local References**: No localhost/127.0.0.1 in any branch
-✅ **Continuous Monte Carlo**: 100% simulation in staging
-✅ **Socratic Validation**: Every change interrogated
+✅ **Continuous HeadySims**: 100% simulation in staging
+✅ **HeadyBattle Validation**: Every change interrogated
 ✅ **Arena Mode**: Competitive pattern selection active
 ✅ **Intelligent Merging**: Smart squash commits
 ✅ **IDE Integration**: windsurf-next changes auto-detected
@@ -158,8 +158,8 @@ Live monitoring and learning
 
 Real-time dashboards show:
 - Branch synchronization status
-- Monte Carlo simulation results
-- Socratic validation scores
+- HeadySims simulation results
+- HeadyBattle validation scores
 - Arena Mode tournament progress
 - Production deployment metrics
 
@@ -167,7 +167,7 @@ Real-time dashboards show:
 
 Your workspace is now fully configured with:
 - ✅ Branch structure (main, staging, development)
-- ✅ Monte Carlo + Socratic integration
+- ✅ HeadySims + HeadyBattle integration
 - ✅ Arena Mode competitive selection
 - ✅ Automated branch synchronization
 - ✅ Zero local reference enforcement

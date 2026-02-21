@@ -1,7 +1,7 @@
 /**
- * 🤔 Heady Socratic Service - 100% Uptime Continuous Ethical Validation
+ * 🤔 Heady HeadyBattle Service - 100% Uptime Continuous Ethical Validation
  * 
- * This service runs continuously, providing Socratic method interrogation
+ * This service runs continuously, providing HeadyBattle interrogation
  * for all system decisions, changes, and operations.
  * Default behavior: Always on, always questioning, always validating.
  */
@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const EventEmitter = require('events');
 
-class SocraticService extends EventEmitter {
+class HeadyBattleService extends EventEmitter {
   constructor(config = {}) {
     super();
     
@@ -207,11 +207,11 @@ class SocraticService extends EventEmitter {
 
   async start() {
     if (this.isRunning) {
-      console.log('🤔 Socratic Service already running');
+      console.log('🤔 HeadyBattle Service already running');
       return;
     }
 
-    console.log('🚀 Starting Socratic Service - 100% Continuous Mode');
+    console.log('🚀 Starting HeadyBattle Service - 100% Continuous Mode');
     this.isRunning = true;
     this.startTime = Date.now();
     
@@ -236,16 +236,16 @@ class SocraticService extends EventEmitter {
     }, 10000); // Monitor every 10 seconds
     
     this.emit('started');
-    console.log('✅ Socratic Service started successfully');
+    console.log('✅ HeadyBattle Service started successfully');
   }
 
   async stop() {
     if (!this.isRunning) {
-      console.log('🤔 Socratic Service already stopped');
+      console.log('🤔 HeadyBattle Service already stopped');
       return;
     }
 
-    console.log('🛑 Stopping Socratic Service');
+    console.log('🛑 Stopping HeadyBattle Service');
     this.isRunning = false;
     
     clearInterval(this.validationLoop);
@@ -259,7 +259,7 @@ class SocraticService extends EventEmitter {
     }
     
     this.emit('stopped');
-    console.log('✅ Socratic Service stopped');
+    console.log('✅ HeadyBattle Service stopped');
   }
 
   async validate(subject, context = {}) {
@@ -625,31 +625,31 @@ class SocraticService extends EventEmitter {
 }
 
 // Singleton instance for continuous service
-let socraticService = null;
+let HeadyBattleService = null;
 
-function getSocraticService(config = {}) {
-  if (!socraticService) {
-    socraticService = new SocraticService(config);
+function getHeadyBattleService(config = {}) {
+  if (!HeadyBattleService) {
+    HeadyBattleService = new HeadyBattleService(config);
   }
-  return socraticService;
+  return HeadyBattleService;
 }
 
 // Auto-start if this is the main module
 if (require.main === module) {
-  const service = getSocraticService();
+  const service = getHeadyBattleService();
   
   service.start().then(() => {
-    console.log('🤔 Socratic Service started - 100% Continuous Mode');
+    console.log('🤔 HeadyBattle Service started - 100% Continuous Mode');
     
     // Graceful shutdown
     process.on('SIGINT', async () => {
-      console.log('\n🛑 Shutting down Socratic Service...');
+      console.log('\n🛑 Shutting down HeadyBattle Service...');
       await service.stop();
       process.exit(0);
     });
     
     process.on('SIGTERM', async () => {
-      console.log('\n🛑 Shutting down Socratic Service...');
+      console.log('\n🛑 Shutting down HeadyBattle Service...');
       await service.stop();
       process.exit(0);
     });
@@ -664,9 +664,9 @@ if (require.main === module) {
     }, 8000);
     
   }).catch(err => {
-    console.error('❌ Failed to start Socratic Service:', err);
+    console.error('❌ Failed to start HeadyBattle Service:', err);
     process.exit(1);
   });
 }
 
-module.exports = { SocraticService, getSocraticService };
+module.exports = { HeadyBattleService, getHeadyBattleService };

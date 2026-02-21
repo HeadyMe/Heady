@@ -1,8 +1,8 @@
-# 🤔 Heady Socratic Method Configuration
+# 🤔 Heady HeadyBattle Method Configuration
 # Critical interrogation for every system decision
 
-id: socratic-interrogator
-name: HeadySocratic
+id: HeadyBattle-interrogator
+name: HeadyHeadyBattle
 version: 3.0.0
 type: governance
 owner: core
@@ -162,7 +162,7 @@ monitoring:
     - learning_integration
 
 api:
-  base_path: /api/socratic
+  base_path: /api/HeadyBattle
   endpoints:
     - GET /questions
     - POST /interrogate

@@ -1,7 +1,7 @@
 /**
- * 🎲 Heady Monte Carlo Service - 100% Uptime Continuous Task Processing
+ * 🎲 Heady HeadySims Service - 100% Uptime Continuous Task Processing
  * 
- * This service runs continuously, handling all tasks with Monte Carlo optimization.
+ * This service runs continuously, handling all tasks with HeadySims optimization.
  * Default behavior: Always on, always processing, always optimizing.
  */
 
@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const EventEmitter = require('events');
 
-class MonteCarloService extends EventEmitter {
+class HeadySimsService extends EventEmitter {
   constructor(config = {}) {
     super();
     
@@ -68,7 +68,7 @@ class MonteCarloService extends EventEmitter {
         base_score: 0.77
       },
       monte_carlo_optimal: {
-        name: 'Monte Carlo Optimal',
+        name: 'HeadySims Optimal',
         description: 'MC-selected best strategy',
         strengths: ['adaptability', 'optimization', 'learning'],
         weaknesses: ['computational_cost'],
@@ -116,11 +116,11 @@ class MonteCarloService extends EventEmitter {
 
   async start() {
     if (this.isRunning) {
-      console.log('🎲 Monte Carlo Service already running');
+      console.log('🎲 HeadySims Service already running');
       return;
     }
 
-    console.log('🚀 Starting Monte Carlo Service - 100% Continuous Mode');
+    console.log('🚀 Starting HeadySims Service - 100% Continuous Mode');
     this.isRunning = true;
     this.startTime = Date.now();
     
@@ -145,7 +145,7 @@ class MonteCarloService extends EventEmitter {
     }, 30000); // Learn every 30 seconds
     
     this.emit('started');
-    console.log('✅ Monte Carlo Service started successfully');
+    console.log('✅ HeadySims Service started successfully');
     
     // Process any existing tasks
     await this.processTaskQueue();
@@ -153,11 +153,11 @@ class MonteCarloService extends EventEmitter {
 
   async stop() {
     if (!this.isRunning) {
-      console.log('🎲 Monte Carlo Service already stopped');
+      console.log('🎲 HeadySims Service already stopped');
       return;
     }
 
-    console.log('🛑 Stopping Monte Carlo Service');
+    console.log('🛑 Stopping HeadySims Service');
     this.isRunning = false;
     
     clearInterval(this.optimizationLoop);
@@ -171,7 +171,7 @@ class MonteCarloService extends EventEmitter {
     }
     
     this.emit('stopped');
-    console.log('✅ Monte Carlo Service stopped');
+    console.log('✅ HeadySims Service stopped');
   }
 
   async addTask(task) {
@@ -227,7 +227,7 @@ class MonteCarloService extends EventEmitter {
     });
     
     try {
-      // Select optimal strategy using Monte Carlo
+      // Select optimal strategy using HeadySims
       const strategy = await this.selectOptimalStrategy(task);
       
       // Execute task with selected strategy
@@ -527,29 +527,29 @@ class MonteCarloService extends EventEmitter {
 // Singleton instance for continuous service
 let monteCarloService = null;
 
-function getMonteCarloService(config = {}) {
+function getHeadySimsService(config = {}) {
   if (!monteCarloService) {
-    monteCarloService = new MonteCarloService(config);
+    monteCarloService = new HeadySimsService(config);
   }
   return monteCarloService;
 }
 
 // Auto-start if this is the main module
 if (require.main === module) {
-  const service = getMonteCarloService();
+  const service = getHeadySimsService();
   
   service.start().then(() => {
-    console.log('🎲 Monte Carlo Service started - 100% Continuous Mode');
+    console.log('🎲 HeadySims Service started - 100% Continuous Mode');
     
     // Graceful shutdown
     process.on('SIGINT', async () => {
-      console.log('\n🛑 Shutting down Monte Carlo Service...');
+      console.log('\n🛑 Shutting down HeadySims Service...');
       await service.stop();
       process.exit(0);
     });
     
     process.on('SIGTERM', async () => {
-      console.log('\n🛑 Shutting down Monte Carlo Service...');
+      console.log('\n🛑 Shutting down HeadySims Service...');
       await service.stop();
       process.exit(0);
     });
@@ -564,9 +564,9 @@ if (require.main === module) {
     }, 5000);
     
   }).catch(err => {
-    console.error('❌ Failed to start Monte Carlo Service:', err);
+    console.error('❌ Failed to start HeadySims Service:', err);
     process.exit(1);
   });
 }
 
-module.exports = { MonteCarloService, getMonteCarloService };
+module.exports = { HeadySimsService, getHeadySimsService };

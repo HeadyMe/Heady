@@ -5,6 +5,136 @@
   "last_deployment": "",
 
   "components": [
+    {
+      "id": "heady-promoter",
+      "name": "Headypromoter",
+      "type": "orchestration",
+      "version": "4.0.0",
+      "sourceOfTruth": "src/hc/Headypromoter.js",
+      "responsibilities": [
+        "taskRouting",
+        "policyEnforcement",
+        "registryConsumption",
+        "systemOverview",
+        "resourceAllocation",
+        "parallelExecution",
+        "workerManagement",
+        "performanceOptimization"
+      ],
+      "ownership": "core",
+      "status": "active",
+      "criticality": "critical",
+      "dependencies": {
+        "upstream": [
+          "heady-manager",
+          "headyregistry", 
+          "hc-brain",
+          "hcfullpipeline"
+        ],
+        "downstream": [
+          "headylens",
+          "mc-plan-scheduler",
+          "hc-supervisor",
+          "pattern-engine",
+          "self-critique-engine"
+        ]
+      },
+      "apis": [
+        "/api/promoter/route-task",
+        "/api/promoter/status",
+        "/api/promoter/workers",
+        "/api/promoter/metrics"
+      ]
+    },
+    {
+      "id": "heady-manager",
+      "name": "HeadyManager",
+      "type": "api-gateway",
+      "version": "3.2.0",
+      "sourceOfTruth": "src/heady-manager.js",
+      "responsibilities": [
+        "apiGateway",
+        "requestRouting",
+        "authentication",
+        "rateLimiting"
+      ],
+      "ownership": "core",
+      "status": "active",
+      "criticality": "critical"
+    },
+    {
+      "id": "headylens", 
+      "name": "HeadyLens",
+      "type": "monitoring",
+      "version": "3.2.0",
+      "sourceOfTruth": "src/monitoring/health-monitor.js",
+      "responsibilities": [
+        "realTimeMonitoring",
+        "systemOverview", 
+        "promoterComparison",
+        "metricsCollection",
+        "alerting",
+        "orsTracking"
+      ],
+      "ownership": "core",
+      "status": "active",
+      "criticality": "high"
+    },
+    {
+      "id": "mc-plan-scheduler",
+      "name": "HeadySimsPlScheduler", 
+      "type": "optimizer",
+      "version": "4.0.0",
+      "sourceOfTruth": "src/hcmontecarlo.js",
+      "responsibilities": [
+        "ucb1PlanSelection",
+        "latencyEstimation",
+        "driftDetection", 
+        "speedPriorityModes",
+        "adaptiveQuality",
+        "ultraFastTaskDecomposition",
+        "parallelSubtaskExecution",
+        "branchOrchestration",
+        "stagingMergeFlow",
+        "HeadyBattleMode"
+      ],
+      "ownership": "core",
+      "status": "active",
+      "criticality": "high"
+    },
+    {
+      "id": "hc-supervisor",
+      "name": "HeadySupervisor",
+      "type": "supervisor",
+      "version": "3.2.0", 
+      "sourceOfTruth": "src/hcsupervisor.js",
+      "responsibilities": [
+        "agentSupervision",
+        "taskDistribution",
+        "resourceMonitoring",
+        "failureRecovery"
+      ],
+      "ownership": "core",
+      "status": "active",
+      "criticality": "high"
+    },
+    {
+      "id": "hc-brain",
+      "name": "HCBrain",
+      "type": "intelligence",
+      "version": "3.2.0",
+      "sourceOfTruth": "src/hcbrain.js", 
+      "responsibilities": [
+        "metaControl",
+        "readinessEval",
+        "conceptAlignment",
+        "autoTuning",
+        "governance"
+      ],
+      "ownership": "core",
+      "status": "active",
+      "criticality": "critical"
+    }
   ],
   "repos": [
     {
@@ -50,6 +180,55 @@
         "main": "dev",
         "exp/*": "short-lived"
       }
+    }
+  ],
+  "workflows": [
+    {
+      "id": "task-routing",
+      "name": "Task Routing",
+      "owner": "Headypromoter",
+      "inputs": ["events", "registry", "tasks"],
+      "outputs": ["routed-tasks", "metrics"],
+      "dependencies": [
+        "heady-manager",
+        "headylens",
+        "headyregistry",
+        "hc-brain",
+        "hc-supervisor",
+        "mc-plan-scheduler",
+        "hcfullpipeline"
+      ],
+      "status": "active",
+      "sourceOfTruth": "src/hc/Headypromoter.js"
+    },
+    {
+      "id": "heady-battle-mode",
+      "name": "HeadyBattle Mode",
+      "owner": "Headypromoter",
+      "inputs": ["tasks", "repos", "ai-nodes"],
+      "outputs": ["branches", "stagingBranches", "squashMerges"],
+      "dependencies": [
+        "mc-plan-scheduler",
+        "pattern-engine",
+        "self-critique-engine",
+        "headylens"
+      ],
+      "status": "active",
+      "sourceOfTruth": "configs/heady-battle.yaml"
+    },
+    {
+      "id": "health-monitoring",
+      "name": "Health Monitoring",
+      "owner": "HeadyLens",
+      "inputs": ["system-metrics", "health-checks"],
+      "outputs": ["alerts", "ors-score", "system-status"],
+      "dependencies": [
+        "heady-promoter",
+        "heady-manager",
+        "hc-brain"
+      ],
+      "status": "active",
+      "sourceOfTruth": "src/monitoring/health-monitor.js"
     }
   ],
   "patterns": [

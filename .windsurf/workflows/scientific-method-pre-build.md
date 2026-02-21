@@ -12,11 +12,11 @@ This workflow embeds the scientific method as a mandatory pre-build stage in the
    - Structure each hypothesis: metric, expected change, time window, safety bounds
 
 2. **Experiment design (in plan)**:
-   - MonteCarloPlScheduler generates candidate action plans, each tagged with a hypothesis
+   - HeadySimsPlScheduler generates candidate action plans, each tagged with a hypothesis
    - Resource-policies and HCReadiness decide concurrency and aggressiveness based on ORS
 
-3. **Simulation / Monte Carlo phase (before major execution)**:
-   - Run Monte Carlo simulations over historical logs and patterns
+3. **Simulation / HeadySims phase (before major execution)**:
+   - Run HeadySims simulations over historical logs and patterns
    - Output: ranked plans, confidence scores, drift alerts
 
 4. **Controlled execution (in execute-major-phase)**:

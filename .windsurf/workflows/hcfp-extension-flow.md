@@ -244,7 +244,7 @@ alerts:
 
 - `.windsurf/workflows/hcfp-clean-build.md` — Main build pipeline
 - `.windsurf/workflows/headysync-prep.md` — Post-install sync
-- `.windsurf/workflows/monte-carlo-optimization.md` — Performance tuning
+- `.windsurf/workflows/HeadySims-optimization.md` — Performance tuning
 
 ---
 

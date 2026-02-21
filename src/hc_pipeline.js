@@ -64,7 +64,7 @@ function loadAllConfigs() {
   try { configs.agenticCoding = loadYaml("agentic-coding.yaml"); } catch (_) { configs.agenticCoding = {}; }
   try { configs.publicDomainIntegration = loadYaml("public-domain-integration.yaml"); } catch (_) { configs.publicDomainIntegration = {}; }
   try { configs.activationManifest = loadYaml("activation-manifest.yaml"); } catch (_) { configs.activationManifest = {}; }
-  try { configs.monteCarlo = loadYaml("monte-carlo-scheduler.yaml"); } catch (_) { configs.monteCarlo = {}; }
+  try { configs.monteCarlo = loadYaml("HeadySims-scheduler.yaml"); } catch (_) { configs.monteCarlo = {}; }
   try { configs.selfAwareness = loadYaml("system-self-awareness.yaml"); } catch (_) { configs.selfAwareness = {}; }
   try { configs.connectionIntegrity = loadYaml("connection-integrity.yaml"); } catch (_) { configs.connectionIntegrity = {}; }
   try { configs.extensionPricing = loadYaml("extension-pricing.yaml"); } catch (_) { configs.extensionPricing = {}; }

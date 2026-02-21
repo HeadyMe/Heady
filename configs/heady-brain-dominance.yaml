@@ -96,7 +96,7 @@ service_enforcement:
       health_check: "/api/health"
       brain_integration: "required"
       
-    - name: "heady-conductor"
+    - name: "heady-promoter"
       criticality: "critical"
       auto_restart: true
       health_check: "/health"
@@ -123,7 +123,7 @@ health_monitoring:
   endpoints:
     brain_health: "https://headyio.com/api/brain/health"
     manager_health: "https://headyio.com/api/health"
-    conductor_health: "https://headyio.com/api/conductor/health"
+    promoter_health: "https://headyio.com/api/promoter/health"
     supervisor_health: "https://headyio.com/api/supervisor/module-loaded"
     
   # Health metrics to track
@@ -221,7 +221,7 @@ usage_enforcement:
       brain_approval: "required"
       
     - pattern: "code_*"
-      destination: "heady_conductor"
+      destination: "heady_promoter"
       priority: 2
       brain_approval: "required"
 

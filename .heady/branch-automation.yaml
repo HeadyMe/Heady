@@ -1,5 +1,5 @@
 # 🔄 Branch Automation Configuration
-# Automated branch management with Monte Carlo + Socratic integration
+# Automated branch management with HeadySims + HeadyBattle integration
 
 id: branch-automation
 name: HeadyBranchAutomation
@@ -21,12 +21,12 @@ branches:
       - file_change
       - ide_save
     validation:
-      - socratic_method
+      - HeadyBattle_method
       - basic_syntax_check
       - dependency_validation
     
   staging:
-    description: "Arena Mode with Monte Carlo simulations"
+    description: "Arena Mode with HeadySims simulations"
     source: "development"
     destination: "main"
     triggers:
@@ -36,7 +36,7 @@ branches:
     validation:
       - arena_mode_tournament
       - monte_carlo_confidence
-      - socratic_final_validation
+      - HeadyBattle_final_validation
       - performance_thresholds
     
   main:
@@ -48,7 +48,7 @@ branches:
       - manual_approval
       - emergency_deploy
     validation:
-      - final_socratic_approval
+      - final_HeadyBattle_approval
       - production_readiness
       - security_scan
       - performance_benchmarks
@@ -61,20 +61,20 @@ automation_rules:
     
     conditions:
       - no_syntax_errors
-      - socratic_score >= 0.80
+      - HeadyBattle_score >= 0.80
       - no_critical_issues
       - tests_passing
       
     actions:
       - detect_changes
-      - apply_socratic_method
+      - apply_HeadyBattle_method
       - generate_monte_carlo_candidates
       - create_commit
       - merge_to_staging
       - trigger_arena_mode
       
     rollback_conditions:
-      - socratic_validation_failed
+      - HeadyBattle_validation_failed
       - syntax_errors_detected
       - tests_failing
       - user_intervention
@@ -87,14 +87,14 @@ automation_rules:
     conditions:
       - arena_mode_completed
       - monte_carlo_confidence >= 0.85
-      - socratic_final_score >= 0.85
+      - HeadyBattle_final_score >= 0.85
       - performance_thresholds_met
       - no_blocking_issues
       
     actions:
       - validate_arena_results
       - check_monte_carlo_confidence
-      - final_socratic_validation
+      - final_HeadyBattle_validation
       - intelligent_squash_merge
       - create_production_tag
       - deploy_to_production
@@ -102,11 +102,11 @@ automation_rules:
     rollback_conditions:
       - arena_mode_failed
       - confidence_below_threshold
-      - socratic_rejection
+      - HeadyBattle_rejection
       - performance_degradation
 
 validation_criteria:
-  socratic_method:
+  HeadyBattle_method:
     minimum_score: 0.80
     critical_questions_required: true
     ethical_validation_required: true
@@ -151,7 +151,7 @@ integration_points:
     - confidence_validation
     - strategy_selection
     
-  socratic:
+  HeadyBattle:
     - change_interrogation
     - ethical_validation
     - final_approval
@@ -218,7 +218,7 @@ success_metrics:
 
 troubleshooting:
   common_issues:
-    - socratic_validation_failure
+    - HeadyBattle_validation_failure
     - monte_carlo_confidence_low
     - arena_mode_stuck
     - branch_conflicts

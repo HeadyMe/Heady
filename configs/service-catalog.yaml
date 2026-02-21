@@ -35,12 +35,12 @@ services:
       availability: 99.9
       latencyP99Ms: 500
 
-  - name: heady-conductor
+  - name: heady-promoter
     role: Python Orchestration Worker
     type: worker
     skills: [audit, build, lint, test, concept-extraction]
-    tools: [python, conductor-protocol]
-    endpoint: http://conductor.headysystems.com:8080
+    tools: [python, promoter-protocol]
+    endpoint: http://promoter.headysystems.com:8080
     healthCheck: /health
     criticality: critical
     owner: system

@@ -21,7 +21,7 @@ description: HeadySync - Comprehensive sync workflow with full system awareness
 # HeadySync - Comprehensive Sync Workflow
 
 ## Overview
-Complete automated workflow that integrates with HeadyConductor for real-time monitoring and system status reporting at each checkpoint.
+Complete automated workflow that integrates with Headypromoter for real-time monitoring and system status reporting at each checkpoint.
 
 ## Workflow Steps
 
@@ -61,14 +61,14 @@ Query HeadyRegistry for comprehensive system status at checkpoint:
 ### 7. Verify Local/Remote Sync
 Verify that local and remote repositories are identical for all remotes.
 
-### 8. Notify HeadyConductor
+### 8. Notify Headypromoter
 Store complete sync operation data in HeadyMemory:
 - Sync events and status
 - Registry status at checkpoint
 - Verification results
 - Duration and timestamps
 
-## HeadyConductor Integration
+## Headypromoter Integration
 
 ### Real-Time Monitoring
 HeadyLens monitors the entire sync operation:
@@ -83,7 +83,7 @@ All sync operations stored in HeadyMemory:
 - Includes: events, status, registry snapshot, verification results
 
 ### System Awareness
-HeadyConductor maintains 100% awareness:
+Headypromoter maintains 100% awareness:
 - Current sync status
 - Historical sync patterns
 - System state at each checkpoint
@@ -153,7 +153,7 @@ At each checkpoint, captures:
 ## Benefits
 
 ### Complete Awareness
-HeadyConductor knows:
+Headypromoter knows:
 - When syncs occur
 - What was synced
 - System state at sync time
@@ -216,11 +216,11 @@ recent_syncs = memory.query(tags=["sync"], limit=20)
 ### Automatic Notification
 If sync fails:
 - Error stored in HeadyMemory
-- HeadyConductor notified
+- Headypromoter notified
 - Detailed error information captured
 
 ### Recovery
-HeadyConductor can analyze failed syncs and suggest recovery actions.
+Headypromoter can analyze failed syncs and suggest recovery actions.
 
 ---
 

@@ -38,7 +38,7 @@ cloud_me:
     pythia: pythia.app.headysystems.com
     
     # Intelligence
-    monte-carlo: montecarlo.app.headysystems.com
+    HeadySims: montecarlo.app.headysystems.com
     patterns: patterns.app.headysystems.com
     critique: critique.app.headysystems.com
     imagination: imagine.app.headysystems.com

@@ -261,7 +261,7 @@ function generateHostsFile() {
     'api.headysystems.com dns.headysystems.com',
     '',
     '# Service Catalog Services',
-    'api.headysystems.com conductor.headysystems.com',
+    'api.headysystems.com promoter.headysystems.com',
     'api.headysystems.com brain.headysystems.com',
     'api.headysystems.com supervisor.headysystems.com',
     'api.headysystems.com sync.headysystems.com',

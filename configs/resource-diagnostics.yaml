@@ -232,7 +232,7 @@ rootCauseCategories:
       - Add cost tracking per tier per task type
 
   - id: arena_mode_excess
-    label: Arena Mode / Monte Carlo Over-Spending
+    label: Arena Mode / HeadySims Over-Spending
     indicators:
       - high_candidate_count_per_feature
       - excessive_trials_per_candidate

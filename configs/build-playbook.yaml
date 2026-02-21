@@ -41,7 +41,7 @@ stage0_define:
     - What are the must-work flows?
     - What are the non-negotiable constraints?
     - What is the error budget?
-  socraticQuestions:
+  HeadyBattleQuestions:
     - What happens if the network is slow?
     - What happens if a user does X in the wrong order?
     - What are the worst-case security/privacy failures?

@@ -37,7 +37,7 @@ class BranchAutomationService extends EventEmitter {
         auto_merge: true
       },
       staging: {
-        description: "Arena Mode with Monte Carlo simulations",
+        description: "Arena Mode with HeadySims simulations",
         source: "development",
         destination: "main",
         last_sync: 0,
@@ -299,14 +299,14 @@ class BranchAutomationService extends EventEmitter {
       return { valid: false, reason: 'Uncommitted changes detected' };
     }
     
-    // Simulate Socratic validation
-    const socraticScore = 0.8 + Math.random() * 0.15; // 0.8-0.95
+    // Simulate HeadyBattle validation
+    const HeadyBattleScore = 0.8 + Math.random() * 0.15; // 0.8-0.95
     
-    if (socraticScore < 0.8) {
-      return { valid: false, reason: 'Socratic validation failed' };
+    if (HeadyBattleScore < 0.8) {
+      return { valid: false, reason: 'HeadyBattle validation failed' };
     }
     
-    return { valid: true, reason: 'Development sync validated', socraticScore };
+    return { valid: true, reason: 'Development sync validated', HeadyBattleScore };
   }
 
   async validateStagingSync(sync) {
@@ -317,11 +317,11 @@ class BranchAutomationService extends EventEmitter {
       return { valid: false, reason: 'Arena Mode not ready for promotion' };
     }
     
-    // Check Monte Carlo confidence
+    // Check HeadySims confidence
     const mcConfidence = 0.85 + Math.random() * 0.1; // 0.85-0.95
     
     if (mcConfidence < 0.85) {
-      return { valid: false, reason: 'Monte Carlo confidence below threshold' };
+      return { valid: false, reason: 'HeadySims confidence below threshold' };
     }
     
     return { valid: true, reason: 'Staging sync validated', arenaReady, mcConfidence };

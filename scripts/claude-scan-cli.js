@@ -23,7 +23,7 @@ const path = require('path');
 
 program
   .name('heady-scan')
-  .description('Heady Socratic File Scanner using Claude')
+  .description('Heady HeadyBattle File Scanner using Claude')
   .version('1.0.0');
 
 program.command('scan <path>')

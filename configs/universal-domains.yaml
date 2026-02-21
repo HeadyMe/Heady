@@ -41,8 +41,8 @@ orchestration:
     port: 5174
     branding: "💜 Perfect Day AI"
     
-  heady-conductor:
-    domain: conductor.headysystems.com
+  heady-promoter:
+    domain: promoter.headysystems.com
     alt_domains:
       - maestro.headysystems.com
       - director.headysystems.com
@@ -112,7 +112,7 @@ ai_nodes:
 # INTELLIGENCE SYSTEMS
 # ═══════════════════════════════════════════════════════════════════════════════
 intelligence:
-  monte-carlo:
+  HeadySims:
     domain: mc.headysystems.com
     alt_domains:
       - montecarlo.headysystems.com
@@ -589,7 +589,7 @@ hosts_entries: |
   
   api.headysystems.com api.manager.headysystems.com
   api.headysystems.com buddy.headysystems.com
-  api.headysystems.com conductor.headysystems.com
+  api.headysystems.com promoter.headysystems.com
   
   # AI Nodes
   api.headysystems.com jules.headysystems.com

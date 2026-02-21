@@ -465,13 +465,13 @@ hl status  # Shows active layer
 # Build outputs labeled: heady-[layer]-[version]
 ```
 
-### Monte Carlo Optimization
+### HeadySims Optimization
 
 Build pipeline feeds into MC scheduler:
 
 ```powershell
 # Build duration data feeds MC optimization
-POST /api/monte-carlo/result
+POST /api/HeadySims/result
 {
   "taskType": "build",
   "planUsed": "cached_fast",

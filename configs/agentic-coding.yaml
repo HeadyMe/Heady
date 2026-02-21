@@ -141,7 +141,7 @@ exampleWorkflow:
   name: Build a New Microservice from Scratch
   steps:
     - name: Spec and Pattern
-      description: Describe service, HeadyBuddy asks Socratic questions, creates spec
+      description: Describe service, HeadyBuddy asks HeadyBattle questions, creates spec
     - name: Plan and Resources
       description: Orchestrator builds Plan with appropriate model tiers
     - name: Agentic Coding

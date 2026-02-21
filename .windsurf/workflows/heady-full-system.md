@@ -12,37 +12,37 @@ Boots with: MC Scheduler (speed_priority), Pattern Engine, Self-Critique Engine,
 
 ---
 
-## SPEED OPTIMIZATION (Monte Carlo)
+## SPEED OPTIMIZATION (HeadySims)
 
 ## 2. Set Speed Mode
 ```powershell
 # "off" = balanced | "on" = speed priority (default) | "max" = absolute fastest
 $body = @{ mode = "max" } | ConvertTo-Json
-Invoke-RestMethod -Uri "http://localhost:3300/api/monte-carlo/speed-mode" -Method POST -Body $body -ContentType "application/json" | ConvertTo-Json -Depth 5
+Invoke-RestMethod -Uri "http://localhost:3300/api/HeadySims/speed-mode" -Method POST -Body $body -ContentType "application/json" | ConvertTo-Json -Depth 5
 ```
 
 ## 3. Plan a Task with MC
 ```powershell
 $body = @{ taskType = "code_generation"; taskMeta = @{ complex = $false } } | ConvertTo-Json
-Invoke-RestMethod -Uri "http://localhost:3300/api/monte-carlo/plan" -Method POST -Body $body -ContentType "application/json" | ConvertTo-Json -Depth 5
+Invoke-RestMethod -Uri "http://localhost:3300/api/HeadySims/plan" -Method POST -Body $body -ContentType "application/json" | ConvertTo-Json -Depth 5
 ```
 
 ## 4. Record Execution Result (Feedback)
 ```powershell
 $body = @{ taskType = "code_generation"; strategyId = "fast_parallel"; actualLatencyMs = 800; success = $true; qualityScore = 92 } | ConvertTo-Json
-Invoke-RestMethod -Uri "http://localhost:3300/api/monte-carlo/result" -Method POST -Body $body -ContentType "application/json" | ConvertTo-Json -Depth 5
+Invoke-RestMethod -Uri "http://localhost:3300/api/HeadySims/result" -Method POST -Body $body -ContentType "application/json" | ConvertTo-Json -Depth 5
 ```
 
 ## 5. Check MC Metrics
 // turbo
 ```powershell
-Invoke-RestMethod -Uri "http://localhost:3300/api/monte-carlo/metrics" | ConvertTo-Json -Depth 5
+Invoke-RestMethod -Uri "http://localhost:3300/api/HeadySims/metrics" | ConvertTo-Json -Depth 5
 ```
 
 ## 6. Check Drift Alerts
 // turbo
 ```powershell
-Invoke-RestMethod -Uri "http://localhost:3300/api/monte-carlo/drift" | ConvertTo-Json -Depth 5
+Invoke-RestMethod -Uri "http://localhost:3300/api/HeadySims/drift" | ConvertTo-Json -Depth 5
 ```
 
 ---
@@ -182,7 +182,7 @@ Invoke-RestMethod -Uri "http://localhost:3300/api/pricing/metrics" | ConvertTo-J
 ## SPEED HINTS (Use in Prompts)
 - "Do X, optimized for fastest possible completion."
 - "Plan Y using the minimum-latency path; trade complexity for speed."
-- "This is far too slow — re-optimize using fastest Monte Carlo option."
+- "This is far too slow — re-optimize using fastest HeadySims option."
 - "Show me the current fastest plan you use for X and how you chose it."
 - "Notice this pattern and remember it."
 - "What patterns do you see in our recent slowdowns?"

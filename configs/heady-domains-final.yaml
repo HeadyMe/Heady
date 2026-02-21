@@ -30,7 +30,7 @@ core:
     domain: headybuddy.com
     port: 5174
     
-  conductor:
+  promoter:
     domain: headymaestro.com
     port: 3305
 
@@ -62,7 +62,7 @@ ai:
 # INTELLIGENCE — .COM
 # ═══════════════════════════════════════════════════════════════════════════════
 intelligence:
-  monte-carlo:
+  HeadySims:
     domain: headymontecarlo.com
     port: 8006
     

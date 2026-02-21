@@ -193,7 +193,7 @@ channelRouting:
       - HeadyPrioritizer
       - HeadyImpact
       - HeadyFocusCoach
-      - MonteCarloPlanScheduler
+      - HeadySimsPlanScheduler
       - PatternEngine
       - SelfCritiqueEngine
     channels:

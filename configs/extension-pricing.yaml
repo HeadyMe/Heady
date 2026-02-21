@@ -59,7 +59,7 @@ tiers:
       - "HeadyCorrections (full)"
       - "HeadyPrioritizer"
       - "HeadyImpact scoring"
-      - "Monte Carlo plan optimization"
+      - "HeadySims plan optimization"
       - "Pattern recognition insights"
       - "Up to 5 workspaces"
       - "Email support"

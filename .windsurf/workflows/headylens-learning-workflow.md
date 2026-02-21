@@ -190,7 +190,7 @@ learning_targets:
 ### 4.2 Active Learning (DO)
 ```yaml
 techniques:
-  socratic_method:
+  HeadyBattle_method:
     - Ask targeted questions
     - Challenge assumptions
     - Seek contradictions

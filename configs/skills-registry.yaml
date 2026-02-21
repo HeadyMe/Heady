@@ -209,10 +209,10 @@ skills:
   # ═══════════════════════════════════════════════════════════════════════════
   
   monte_carlo_optimization:
-    name: "Monte Carlo Speed Optimization"
+    name: "HeadySims Speed Optimization"
     description: "Run simulations to find optimal configurations"
     category: "optimization"
-    tags: ["monte-carlo", "optimization", "performance", "simulation"]
+    tags: ["HeadySims", "optimization", "performance", "simulation"]
     steps:
       - name: "Define Parameter Space"
         action: "define_parameters"
@@ -232,7 +232,7 @@ skills:
         params:
           backup_current: true
     auto_run: false
-    requires: ["monte-carlo-engine", "simulation-runner"]
+    requires: ["HeadySims-engine", "simulation-runner"]
     
   imagination_engine:
     name: "Imagination Engine"
@@ -599,7 +599,7 @@ dependencies:
     type: "heady-service"
     endpoint: "https://imagine.yourdomain.com"
     
-  monte-carlo-engine:
+  HeadySims-engine:
     type: "heady-service"
     endpoint: "https://montecarlo.yourdomain.com"
 

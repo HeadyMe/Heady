@@ -1,21 +1,37 @@
 {
   "mcpServers": {
+    "heady-local": {
+      "displayName": "Heady (stdio — Google Antigravity)",
+      "description": "Heady MCP server — local stdio transport for Google Antigravity IDE. Routes 100% through Heady services via branded domains.",
+      "transport": "stdio",
+      "command": "node",
+      "args": ["/home/headyme/Heady/src/mcp/heady-mcp-server.js"],
+      "env": {
+        "HEADY_API_KEY": "${HEADY_API_KEY}",
+        "HEADY_MANAGER_URL": "https://manager.headysystems.com",
+        "HEADY_BRAIN_URL": "https://headyio.com",
+        "NODE_ENV": "production"
+      },
+      "priority": 300,
+      "default": true
+    },
     "heady-brain": {
-      "displayName": "Heady",
+      "displayName": "Heady Brain (HTTP)",
       "description": "HeadyBrain — Primary AI model provider for all Heady services",
       "provider": "headysystems",
       "transport": "http",
       "url": "https://headyio.com/mcp",
       "apiKey": "${HEADY_API_KEY}",
       "priority": 200,
-      "default": true,
       "capabilities": {
         "completion": true,
         "chat": true,
         "embedding": true,
         "codeAnalysis": true,
         "imageGeneration": true,
-        "translation": true
+        "translation": true,
+        "refactoring": true,
+        "debugging": true
       },
       "endpoints": {
         "generate": "/api/brain/generate",
@@ -43,21 +59,25 @@
     },
     "heady-manager": {
       "displayName": "Heady Manager",
-      "description": "HeadyManager — Service orchestration and deployment",
+      "description": "HeadyManager — Service orchestration, deployment, and API gateway",
       "provider": "headysystems",
       "transport": "http",
-      "url": "https://headyio.com/manager",
+      "url": "https://manager.headysystems.com",
       "apiKey": "${HEADY_API_KEY}",
       "priority": 150,
       "capabilities": {
         "deployment": true,
         "serviceManagement": true,
-        "healthMonitoring": true
+        "healthMonitoring": true,
+        "secretsManagement": true,
+        "cloudflareIntegration": true
       },
       "endpoints": {
         "health": "/api/health",
         "deploy": "/api/deploy",
-        "status": "/api/status"
+        "status": "/api/status",
+        "hcfp": "/api/hcfp/status",
+        "registry": "/api/registry"
       }
     },
     "heady-registry": {
@@ -76,15 +96,439 @@
         "query": "/api/registry",
         "health": "/health"
       }
+    },
+    "heady-soul": {
+      "displayName": "Heady Soul",
+      "description": "HeadySoul — Intelligence, consciousness, and learning layer",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://soul.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 130,
+      "capabilities": {
+        "intelligence": true,
+        "learning": true,
+        "optimization": true
+      },
+      "endpoints": {
+        "health": "/health",
+        "analyze": "/api/soul/analyze",
+        "optimize": "/api/soul/optimize"
+      }
+    },
+    "heady-hcfp": {
+      "displayName": "HCFP Auto-Success",
+      "description": "HCFP Full Pipeline — 100% ORS auto-success engine",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://hcfp.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 120,
+      "capabilities": {
+        "autoSuccess": true,
+        "wavelengthAlignment": true,
+        "healthMonitoring": true
+      },
+      "endpoints": {
+        "health": "/health",
+        "status": "/api/hcfp/status",
+        "metrics": "/api/hcfp/metrics"
+      }
+    },
+    "heady-buddy": {
+      "displayName": "Heady Buddy",
+      "description": "HeadyBuddy — User interaction and assistant layer",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://headybuddy.org",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 110,
+      "capabilities": {
+        "userInteraction": true,
+        "contextSwitching": true,
+        "attentionTracking": true
+      },
+      "endpoints": {
+        "health": "/health",
+        "chat": "/api/buddy/chat",
+        "context": "/api/buddy/context"
+      }
+    },
+    "heady-mcp-hub": {
+      "displayName": "Heady MCP Hub",
+      "description": "HeadyMCP — Developer hub and MCP protocol gateway",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://headymcp.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 100,
+      "capabilities": {
+        "mcpGateway": true,
+        "developerTools": true,
+        "protocolBridge": true
+      },
+      "endpoints": {
+        "health": "/health",
+        "tools": "/api/mcp/tools",
+        "connect": "/api/mcp/connect"
+      }
+    },
+
+    "heady-orchestrator": {
+      "displayName": "Heady Orchestrator",
+      "description": "HeadyCommunicationOrchestrator — Trinity communication, wavelength alignment, auto-success protocols",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://orchestrator.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 95,
+      "capabilities": { "communication": true, "wavelengthAlignment": true, "autoSuccess": true },
+      "endpoints": { "health": "/health", "communicate": "/api/orchestrator/send", "status": "/api/orchestrator/status" }
+    },
+    "heady-battle": {
+      "displayName": "Heady Battle",
+      "description": "HeadyBattle — Multi-branch orchestration and competitive code evaluation",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://battle.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 90,
+      "capabilities": { "multiBranch": true, "codeEvaluation": true, "competitiveAnalysis": true },
+      "endpoints": { "health": "/health", "session": "/api/battle/session", "evaluate": "/api/battle/evaluate" }
+    },
+    "heady-patterns": {
+      "displayName": "Heady Patterns",
+      "description": "HeadyPatterns — Design pattern recognition and deep code analysis",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://patterns.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 88,
+      "capabilities": { "patternRecognition": true, "codeAnalysis": true, "designPatterns": true },
+      "endpoints": { "health": "/health", "analyze": "/api/patterns/analyze", "library": "/api/patterns/library" }
+    },
+    "heady-risks": {
+      "displayName": "Heady Risks",
+      "description": "HeadyRisks — Risk assessment, vulnerability scanning, and mitigation",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://risks.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 86,
+      "capabilities": { "riskAssessment": true, "vulnerabilityScanning": true, "mitigation": true },
+      "endpoints": { "health": "/health", "assess": "/api/risks/assess", "mitigate": "/api/risks/mitigate" }
+    },
+    "heady-coder": {
+      "displayName": "Heady Coder",
+      "description": "HeadyCoder — Multi-assistant code generation and orchestration",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://coder.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 85,
+      "capabilities": { "codeGeneration": true, "multiAssistant": true, "projectScaffolding": true },
+      "endpoints": { "health": "/health", "generate": "/api/coder/generate", "orchestrate": "/api/coder/orchestrate" }
+    },
+
+    "heady-claude": {
+      "displayName": "Heady Claude (Opus 4.6)",
+      "description": "HeadyClaude — Claude Opus 4.6 Thinking Fast 1M for advanced reasoning, deep analysis, and autonomous coding",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://claude.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 80,
+      "model": "claude-opus-4-20250514",
+      "capabilities": { "advancedReasoning": true, "thinking": true, "extendedThinking": true, "artifacts": true, "computerUse": true, "longContext": true },
+      "modelConfig": { "context": 1048576, "maxOutput": 65536, "thinkingMode": "fast", "thinkingBudget": 32768 },
+      "endpoints": { "health": "/health", "chat": "/api/claude/chat", "think": "/api/claude/think" }
+    },
+    "heady-openai": {
+      "displayName": "Heady OpenAI",
+      "description": "HeadyOpenAI — OpenAI GPT integration for completions and chat",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://openai.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 78,
+      "capabilities": { "gptCompletion": true, "chat": true, "functionCalling": true },
+      "endpoints": { "health": "/health", "chat": "/api/openai/chat", "complete": "/api/openai/complete" }
+    },
+    "heady-gemini": {
+      "displayName": "Heady Gemini",
+      "description": "HeadyGemini — Google Gemini integration for multimodal AI",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://gemini.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 76,
+      "capabilities": { "multimodal": true, "reasoning": true, "codeGeneration": true },
+      "endpoints": { "health": "/health", "generate": "/api/gemini/generate", "analyze": "/api/gemini/analyze" }
+    },
+    "heady-gemini-gcp": {
+      "displayName": "Heady Gemini GCP (AI Ultra)",
+      "description": "HeadyGemini GCP — Google AI Ultra via billing-enabled GCP project (HeadySystems-Inc, $300 credit). Gemini 2.0 Pro, Flash, 3.1 Pro, Thinking models.",
+      "provider": "google-cloud",
+      "transport": "http",
+      "url": "https://generativelanguage.googleapis.com/v1beta",
+      "apiKey": "${GOOGLE_CLOUD_API_KEY}",
+      "priority": 77,
+      "gcpProject": "project-28ed53d7-1d79-47e0-a50",
+      "gcpOrg": "HeadySystems-Inc",
+      "serviceAccount": "${GOOGLE_CLOUD_SERVICE_ACCOUNT}",
+      "capabilities": {
+        "multimodal": true,
+        "reasoning": true,
+        "codeGeneration": true,
+        "thinking": true,
+        "grounding": true,
+        "embedding": true,
+        "functionCalling": true,
+        "streaming": true,
+        "longContext": true
+      },
+      "models": {
+        "gemini-2.5-flash": { "context": 1048576, "maxOutput": 65536, "tier": "ultra" },
+        "gemini-2.5-pro": { "context": 1048576, "maxOutput": 65536, "tier": "ultra" },
+        "gemini-3.1-pro-preview": { "context": 1048576, "maxOutput": 65536, "tier": "ultra" },
+        "gemini-3-pro-preview": { "context": 1048576, "maxOutput": 65536, "tier": "ultra" },
+        "gemini-3-flash-preview": { "context": 1048576, "maxOutput": 65536, "tier": "ultra" },
+        "deep-research-pro-preview-12-2025": { "context": 131072, "maxOutput": 65536, "tier": "ultra" },
+        "gemini-2.0-flash-lite": { "context": 1048576, "maxOutput": 8192, "tier": "standard" },
+        "gemini-embedding-001": { "dimensions": 768, "tier": "standard" }
+      },
+      "endpoints": {
+        "health": "/models",
+        "generate": "/models/{model}:generateContent",
+        "stream": "/models/{model}:streamGenerateContent",
+        "embed": "/models/{model}:embedContent",
+        "adminUI": "http://localhost:8090/api/ai"
+      },
+      "billing": {
+        "credit": 300,
+        "currency": "USD",
+        "expiresInDays": 90,
+        "tier": "paid"
+      }
+    },
+    "heady-groq": {
+      "displayName": "Heady Groq",
+      "description": "HeadyGroq — Groq ultra-fast inference integration",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://groq.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 74,
+      "capabilities": { "fastInference": true, "chat": true, "streaming": true },
+      "endpoints": { "health": "/health", "chat": "/api/groq/chat", "complete": "/api/groq/complete" }
+    },
+    "heady-perplexity": {
+      "displayName": "Heady Perplexity",
+      "description": "HeadyPerplexity — Perplexity-powered research and real-time search",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://perplexity.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 72,
+      "capabilities": { "research": true, "realTimeSearch": true, "citations": true },
+      "endpoints": { "health": "/health", "search": "/api/perplexity/search", "research": "/api/perplexity/research" }
+    },
+    "heady-codex": {
+      "displayName": "Heady Codex",
+      "description": "HeadyCodex — GPT-Codex code generation and transformation",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://codex.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 70,
+      "capabilities": { "codeGeneration": true, "codeTransformation": true, "documentation": true },
+      "endpoints": { "health": "/health", "generate": "/api/codex/generate", "transform": "/api/codex/transform" }
+    },
+    "heady-copilot": {
+      "displayName": "Heady Copilot",
+      "description": "HeadyCopilot — GitHub Copilot-style inline code suggestions",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://copilot.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 68,
+      "capabilities": { "inlineCompletion": true, "codeSuggestions": true, "contextAware": true },
+      "endpoints": { "health": "/health", "suggest": "/api/copilot/suggest", "complete": "/api/copilot/complete" }
+    },
+    "heady-jules": {
+      "displayName": "Heady Jules",
+      "description": "HeadyJules — Async coding agent for background tasks",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://jules.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 66,
+      "capabilities": { "asyncAgent": true, "backgroundTasks": true, "autonomousCoding": true },
+      "endpoints": { "health": "/health", "task": "/api/jules/task", "status": "/api/jules/status" }
+    },
+
+    "heady-ops": {
+      "displayName": "Heady Ops",
+      "description": "HeadyOps — Deployment automation, infrastructure management, and DevOps",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://ops.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 60,
+      "capabilities": { "deployment": true, "infrastructure": true, "monitoring": true },
+      "endpoints": { "health": "/health", "deploy": "/api/ops/deploy", "infra": "/api/ops/infrastructure" }
+    },
+    "heady-maid": {
+      "displayName": "Heady Maid",
+      "description": "HeadyMaid — System cleanup, scheduling, and housekeeping",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://maid.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 58,
+      "capabilities": { "cleanup": true, "scheduling": true, "housekeeping": true },
+      "endpoints": { "health": "/health", "clean": "/api/maid/clean", "schedule": "/api/maid/schedule" }
+    },
+    "heady-maintenance": {
+      "displayName": "Heady Maintenance",
+      "description": "HeadyMaintenance — Continuous health monitoring, updates, and backups",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://maintenance.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 56,
+      "capabilities": { "healthMonitoring": true, "updates": true, "backups": true },
+      "endpoints": { "health": "/health", "status": "/api/maintenance/status", "backup": "/api/maintenance/backup" }
+    },
+    "heady-web": {
+      "displayName": "Heady Web",
+      "description": "HeadyWeb — User-facing web interface and dashboard",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://headyme.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 54,
+      "capabilities": { "webUI": true, "dashboard": true, "userInteraction": true },
+      "endpoints": { "health": "/health" }
+    },
+    "heady-lens": {
+      "displayName": "Heady Lens",
+      "description": "HeadyLens — Visual analysis, image processing, and GPU-accelerated vision",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://lens.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 52,
+      "capabilities": { "visualAnalysis": true, "imageProcessing": true, "gpuAccelerated": true },
+      "endpoints": { "health": "/health", "analyze": "/api/lens/analyze", "process": "/api/lens/process" }
+    },
+    "heady-vinci": {
+      "displayName": "Heady Vinci",
+      "description": "HeadyVinci — Advanced pattern recognition and continuous learning engine",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://vinci.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 50,
+      "capabilities": { "patternRecognition": true, "continuousLearning": true, "prediction": true },
+      "endpoints": { "health": "/health", "learn": "/api/vinci/learn", "predict": "/api/vinci/predict" }
+    },
+    "heady-python": {
+      "displayName": "Heady Python Academy",
+      "description": "HeadyPython — Python FastAPI worker for ML and data processing",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://academy.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 48,
+      "capabilities": { "pythonExecution": true, "mlProcessing": true, "dataAnalysis": true },
+      "endpoints": { "health": "/health", "execute": "/api/python/execute", "train": "/api/python/train" }
+    },
+
+    "heady-ollama": {
+      "displayName": "Heady Ollama",
+      "description": "Heady Ollama — Local LLM inference engine (Llama, CodeLlama, Mistral)",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://ollama.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 45,
+      "capabilities": { "localInference": true, "modelManagement": true, "embedding": true },
+      "endpoints": { "health": "/api/tags", "generate": "/api/generate", "embed": "/api/embeddings" }
+    },
+    "heady-vector-db": {
+      "displayName": "Heady Vector DB",
+      "description": "Heady Qdrant — Vector database for semantic search and RAG",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://vector.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 42,
+      "capabilities": { "vectorSearch": true, "semanticSearch": true, "rag": true },
+      "endpoints": { "health": "/health", "search": "/collections", "upsert": "/points" }
+    },
+    "heady-ai-gateway": {
+      "displayName": "Heady AI Gateway",
+      "description": "Heady AI Gateway — Unified Nginx proxy routing to all AI model services",
+      "provider": "headysystems",
+      "transport": "http",
+      "url": "https://ai-gateway.headysystems.com",
+      "apiKey": "${HEADY_API_KEY}",
+      "priority": 40,
+      "capabilities": { "modelRouting": true, "loadBalancing": true, "gateway": true },
+      "endpoints": { "health": "/health", "api": "/api/", "embed": "/embed/", "vision": "/vision/" }
     }
+  },
+  "productionDomains": {
+    "headybuddy.org": "HeadyBuddy — User interaction hub",
+    "headysystems.com": "HeadySystems — Corporate and infrastructure",
+    "headyconnection.org": "HeadyConnection — Social-impact hub",
+    "headymcp.com": "HeadyMCP — Developer and MCP hub",
+    "headyio.com": "HeadyIO — AI brain and umbrella",
+    "headyme.com": "HeadyMe — Personal dashboard"
   },
   "modelRouting": {
     "defaultModel": "heady-brain",
     "policy": "heady_only",
     "headyPercentage": 100,
-    "allowExternalOverride": true,
+    "allowExternalOverride": false,
     "overrideRequires": "explicit_user_direction",
     "logAllModelSwitches": true,
-    "fallbackChain": ["heady-brain", "heady-manager"]
+    "fallbackChain": ["heady-brain", "heady-manager", "heady-soul"]
+  },
+  "googleAntigravity": {
+    "enabled": true,
+    "configPath": "~/.config/google/antigravity/mcp.json",
+    "routingPolicy": "heady_only",
+    "headyPercentage": 100,
+    "mcpServer": "heady-local"
+  },
+  "interNodeComms": {
+    "defaultTimeoutMs": 10000,
+    "healthCheckIntervalMs": 30000,
+    "retryPolicy": {
+      "maxRetries": 3,
+      "backoffBaseMs": 500,
+      "backoffMultiplier": 2,
+      "retryableErrors": ["ECONNREFUSED", "ETIMEDOUT", "429", "503", "UNAVAILABLE"]
+    },
+    "circuitBreaker": {
+      "enabled": true,
+      "failureThreshold": 5,
+      "recoveryTimeMs": 60000,
+      "halfOpenMaxRequests": 2
+    },
+    "connectionPool": {
+      "maxSockets": 50,
+      "maxFreeSockets": 10,
+      "keepAliveMsecs": 30000
+    },
+    "authorizedKeys": [
+      "${HEADY_API_KEY}",
+      "${HEADY_API_KEY_002}",
+      "${HEADY_API_KEY_003}",
+      "${HEADY_API_KEY_004}",
+      "${HEADY_API_KEY_005}"
+    ]
   }
 }

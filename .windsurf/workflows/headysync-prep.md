@@ -30,7 +30,7 @@ HeadySync (hs) is the unified synchronization system that coordinates all Heady 
 - **HeadyLens**: Monitoring and observability layer
 
 ### Core Services
-- **HeadyConductor**: Orchestration engine (heady-manager.js on port 3300)
+- **Headypromoter**: Orchestration engine (heady-manager.js on port 3300)
 - **Task Manager**: Automated task assignment and completion
 - **MCP Services**: Model Context Protocol integrations
 

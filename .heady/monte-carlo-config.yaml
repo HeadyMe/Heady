@@ -1,7 +1,7 @@
-# 🧠 Heady Monte Carlo Configuration
+# 🧠 Heady HeadySims Configuration
 # Continuous simulation engine for optimal decision making
 
-id: monte-carlo-engine
+id: HeadySims-engine
 name: HeadyMC
 version: 3.0.0
 type: optimizer
@@ -79,7 +79,7 @@ thresholds:
   promotion: 0.75      # Minimum score to promote to main
   stagnation: 5       # Intervals without improvement
   degradation: 0.60   # Score that triggers rollback
-  confidence: 0.85    # Monte Carlo confidence requirement
+  confidence: 0.85    # HeadySims confidence requirement
 
 arena_mode:
   enabled: true
@@ -91,12 +91,12 @@ arena_mode:
     - generate_candidates
     - run_simulations
     - calculate_scores
-    - apply_socratic_validation
+    - apply_HeadyBattle_validation
     - select_winners
     
   promotion_criteria:
     min_score: 0.75
-    socratic_approval: true
+    HeadyBattle_approval: true
     monte_carlo_confidence: 0.85
     no_stagnation: true
 
@@ -125,7 +125,7 @@ monitoring:
     - performance_degradation
 
 api:
-  base_path: /api/monte-carlo
+  base_path: /api/HeadySims
   endpoints:
     - GET /status
     - POST /simulate

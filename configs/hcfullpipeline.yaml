@@ -24,7 +24,7 @@ pipeline:
   description: >
     Intelligent, parallel, dynamically distributed, self-aware, self-optimizing,
     and secure execution pipeline for all Heady workloads (local and remote).
-    Integrates Monte Carlo plan selection, pattern recognition, self-critique,
+    Integrates HeadySims plan selection, pattern recognition, self-critique,
     multi-channel routing (Heady Buddy), public domain inspiration mining,
     bottleneck diagnostics, and continuous monitoring feedback loops.
     Treat this as the single source of truth for every idea, service, flow,
@@ -161,12 +161,12 @@ pipeline:
         - ingest_connection_health
         - ingest_public_domain_patterns
 
-    # ── STAGE 2: Plan (Monte Carlo Powered) ──────────────────────────────
+    # ── STAGE 2: Plan (HeadySims Powered) ──────────────────────────────
     - id: plan
       name: Plan (MC-Powered)
       description: >
         Decompose work into task graph with priorities and dependencies.
-        Uses Monte Carlo UCB1 plan selection to choose the fastest viable
+        Uses HeadySims UCB1 plan selection to choose the fastest viable
         execution strategy for each task type. Mines public domain patterns
         for best-practice sequencing.
       checkpoint: true
@@ -492,7 +492,7 @@ pipeline:
       - configs/service-catalog.yaml
       - configs/governance-policies.yaml
       - configs/concepts-index.yaml
-      - configs/monte-carlo-scheduler.yaml
+      - configs/HeadySims-scheduler.yaml
       - configs/speed-and-patterns-protocol.yaml
       - configs/system-self-awareness.yaml
       - configs/connection-integrity.yaml

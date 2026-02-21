@@ -242,7 +242,7 @@ This error recovery protocol is integrated into the HCFullPipeline:
 
 1. **Channel Entry** → Pre-flight checks
 2. **Ingest** → Validate inputs
-3. **Plan** → Monte Carlo selects build strategy
+3. **Plan** → HeadySims selects build strategy
 4. **Execute** → Clean build with error classification
 5. **Recover** → Retry or escalate based on error type
 6. **Self-Critique** → Analyze build failures

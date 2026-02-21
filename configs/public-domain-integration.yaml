@@ -37,9 +37,9 @@ systemTechniques:
     description: >
       Independent subtasks grouped and executed concurrently. Routes
       to S/M/L tiers based on complexity and risk.
-  socraticAndEvaluatorLoops:
+  HeadyBattleAndEvaluatorLoops:
     description: >
-      Ambiguous or high-risk decisions use Socratic agents to question
+      Ambiguous or high-risk decisions use HeadyBattle agents to question
       assumptions and evaluator agents to critique outputs and plans.
   determinismWherePossible:
     description: >

@@ -71,7 +71,7 @@ intelligence:
   port: 8006
   
   subsystems:
-    monte-carlo:
+    HeadySims:
       path: /mc
       endpoint: intelligence.local.headysystems.com:8006/mc
       

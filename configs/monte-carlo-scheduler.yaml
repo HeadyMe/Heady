@@ -9,17 +9,17 @@
 # ║                                                                  ║
 # ║  ∞ SACRED GEOMETRY ∞  Organic Systems · Breathing Interfaces    ║
 # ║  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
-# ║  FILE: configs/monte-carlo-scheduler.yaml                                                    ║
+# ║  FILE: configs/HeadySims-scheduler.yaml                                                    ║
 # ║  LAYER: config                                                  ║
 # ╚══════════════════════════════════════════════════════════════════╝
 # HEADY_BRAND:END
 
 #
-# Monte Carlo Task Scheduler Configuration
+# HeadySims Task Scheduler Configuration
 # Controls plan generation, sampling, selection, and convergence.
 
 version: "1.0.0"
-name: MonteCarloScheduler
+name: HeadySimsScheduler
 
 # ─── PLAN GENERATION ──────────────────────────────────────────────────────
 planGeneration:
@@ -117,7 +117,7 @@ selection:
   enforceSafetyForCritical: true
 
 # ─── SPEED PRIORITY MODES ─────────────────────────────────────────────────
-# Switch via POST /api/monte-carlo/speed-mode {mode: "off"|"on"|"max"}
+# Switch via POST /api/HeadySims/speed-mode {mode: "off"|"on"|"max"}
 speedModes:
   off:
     label: normal
@@ -140,7 +140,7 @@ speedModes:
 
 # ─── FEEDBACK & LEARNING ─────────────────────────────────────────────────
 feedback:
-  # Log every plan execution as a Monte Carlo sample
+  # Log every plan execution as a HeadySims sample
   logAllSamples: true
   # Max samples to retain per task type (ring buffer)
   maxSamplesPerType: 500
@@ -179,7 +179,7 @@ latencyTargets:
 
 # ─── METRICS & ALERTS ────────────────────────────────────────────────────
 metrics:
-  # Expose these metrics via /api/monte-carlo/metrics
+  # Expose these metrics via /api/HeadySims/metrics
   expose:
     - median_latency_by_type
     - p90_latency_by_type

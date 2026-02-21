@@ -32,7 +32,7 @@ core:
     port: 5174
     branding: "💜 Perfect Day AI"
     
-  heady-conductor:
+  heady-promoter:
     domain: maestro.heady.io
     port: 3305
     branding: "🎼 Task Maestro"
@@ -75,7 +75,7 @@ ai_nodes:
 # INTELLIGENCE SYSTEMS
 # ═══════════════════════════════════════════════════════════════════════════════
 intelligence:
-  monte-carlo:
+  HeadySims:
     domain: montecarlo.heady.io
     port: 8006
     branding: "🎲 Probability Master"

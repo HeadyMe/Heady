@@ -68,7 +68,7 @@ services:
       networkPriority: high
     healthEndpoint: "https://headysystems.com/api/health"
 
-  heady_conductor:
+  heady_promoter:
     criticality: critical
     minInstances: 1
     targetAvailability: "99.99%"
@@ -76,7 +76,7 @@ services:
       cpuPercent: 10
       ramMB: 256
       networkPriority: high
-    healthEndpoint: "https://headysystems.com/conductor/health"
+    healthEndpoint: "https://headysystems.com/promoter/health"
 
   heady_supervisor:
     criticality: critical
@@ -297,6 +297,6 @@ guardrails:
   protectCoreWorkflows:
     - HeadyBrain
     - HeadyManager
-    - HeadyConductor
+    - Headypromoter
     - HeadyBuddy
     - HeadyIDE

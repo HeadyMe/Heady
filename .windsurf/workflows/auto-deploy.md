@@ -25,7 +25,7 @@ description: Auto-deploy workflow with AI service selection (v2.1)
    - Pre-flight system readiness
    - Code quality analysis (threshold: 80/100)
    - Pattern recognition (track degradation)
-   - Monte Carlo drift detection
+   - HeadySims drift detection
    - Self-critique confidence scoring
 
 3. **Phase 3: Production Gate (100 pct)**

@@ -36,16 +36,16 @@ ownedIP:
     status: active
     protectionLevel: trade-secret + patent-pending
 
-  - id: orchestrator-conductor-protocol
-    name: Orchestrator-Conductor Protocol
+  - id: orchestrator-promoter-protocol
+    name: Orchestrator-promoter Protocol
     type: proprietary
     description: >
-      Heady's specific implementation of orchestrator-conductor pattern
+      Heady's specific implementation of orchestrator-promoter pattern
       with checkpoint-based recovery, deterministic builds, and
       multi-worktree architecture.
     components:
       - heady-manager.js
-      - src/heady_project/heady_conductor.py
+      - src/heady_project/heady_promoter.py
       - hcautobuild.ps1
     status: active
     protectionLevel: proprietary

@@ -36,7 +36,7 @@ class ArenaModeService extends EventEmitter {
       thorough: { name: 'Thorough', base_score: 0.82, wins: 0, losses: 0 },
       cached_fast: { name: 'Cached Fast', base_score: 0.85, wins: 0, losses: 0 },
       probe_then_commit: { name: 'Probe Then Commit', base_score: 0.77, wins: 0, losses: 0 },
-      monte_carlo_optimal: { name: 'Monte Carlo Optimal', base_score: 0.88, wins: 0, losses: 0 },
+      monte_carlo_optimal: { name: 'HeadySims Optimal', base_score: 0.88, wins: 0, losses: 0 },
       imagination_engine: { name: 'Imagination Engine', base_score: 0.90, wins: 0, losses: 0 }
     };
     

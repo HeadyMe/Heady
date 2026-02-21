@@ -88,7 +88,7 @@ verifiedResources:
       description: API gateway, registry, HeadyBuddy, connections, Docker
     - name: hc_monte_carlo.js
       status: verified
-      description: Monte Carlo simulation engine
+      description: HeadySims simulation engine
     - name: hc_resource_manager.js
       status: verified
       description: Intelligent Resource Manager — structured events, severity classification, mitigation engine, escalation protocol
@@ -191,7 +191,7 @@ operatingDirectives:
     directive: >
       Use spec-driven and contract-driven design. Make tests, error
       handling, security, and observability first-class from the start.
-      Employ Socratic and evaluator agents for high-risk areas.
+      Employ HeadyBattle and evaluator agents for high-risk areas.
 
 # ─── PIPELINE INITIALIZATION TEMPLATE ─────────────────────────────────────
 pipelineInitTemplate:
@@ -204,7 +204,7 @@ pipelineInitTemplate:
         - gatherRequirements
         - classifyTask
         - defineSuccessCriteria
-        - runSocraticQuestions
+        - runHeadyBattleQuestions
       checkpoint: true
 
     - id: design_plan
