@@ -55,6 +55,7 @@
     "js-yaml": "^4.1.1",
     "jsonwebtoken": "^9.0.3",
     "node-cron": "^3.0.2",
+    "node-fetch": "^2.7.0",
     "pg": "^8.18.0",
     "render-cli": "^0.2.3",
     "replace-in-file": "^8.4.0",

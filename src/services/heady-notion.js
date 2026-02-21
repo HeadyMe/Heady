@@ -629,6 +629,15 @@ function registerNotionRoutes(app) {
         }
     });
 
+    router.post("/audit", async (req, res) => {
+        try {
+            const result = await updateNotionStatus(req.body);
+            res.json(result);
+        } catch (err) {
+            res.status(500).json({ ok: false, error: err.message });
+        }
+    });
+
     router.get("/state", (req, res) => {
         res.json(loadState());
     });
@@ -637,20 +646,82 @@ function registerNotionRoutes(app) {
     return router;
 }
 
+// ─── Continuous Status Updater (Audit Log) ──────────────────────────
+
+async function updateNotionStatus(event = {}) {
+    if (!NOTION_TOKEN) return { ok: false, error: "No token" };
+
+    const state = loadState();
+    const statusPageId = state.pages.status;
+    if (!statusPageId) return { ok: false, error: "Status page not synced yet. Run full sync first." };
+
+    const now = new Date();
+    const ts = now.toISOString();
+    const source = event.source || "system";
+    const action = event.action || "status-update";
+    const details = event.details || "Periodic audit log entry";
+
+    const blocks = [
+        { object: "block", type: "divider", divider: {} },
+        {
+            object: "block", type: "heading_3",
+            heading_3: { rich_text: [{ type: "text", text: { content: `📋 ${action} — ${now.toLocaleString("en-US", { timeZone: "America/Denver" })}` } }] },
+        },
+        {
+            object: "block", type: "paragraph",
+            paragraph: { rich_text: [{ type: "text", text: { content: `Source: ${source} | UTC: ${ts}` } }] },
+        },
+        {
+            object: "block", type: "paragraph",
+            paragraph: { rich_text: [{ type: "text", text: { content: details.substring(0, 2000) } }] },
+        },
+    ];
+
+    // Append audit entry to the status page
+    try {
+        await appendBlocks(statusPageId, blocks);
+
+        // Also update local audit log
+        const auditPath = path.join(DATA_DIR, "notion-audit.jsonl");
+        const entry = JSON.stringify({ ts, source, action, details: details.substring(0, 500) }) + "\n";
+        fs.appendFileSync(auditPath, entry);
+
+        state.lastAudit = ts;
+        state.auditCount = (state.auditCount || 0) + 1;
+        saveState(state);
+
+        return { ok: true, action, ts, auditCount: state.auditCount };
+    } catch (err) {
+        return { ok: false, error: err.message };
+    }
+}
+
 // ─── CLI Entry Point ────────────────────────────────────────────────
 
 if (require.main === module) {
     require("dotenv").config({ path: path.join(__dirname, "..", "..", ".env") });
-    console.log("🧠 Heady → Notion Sync Starting...");
-    syncToNotion()
-        .then((result) => {
-            console.log(JSON.stringify(result, null, 2));
-            process.exit(result.ok ? 0 : 1);
-        })
-        .catch((err) => {
-            console.error(err);
-            process.exit(1);
-        });
+
+    const cliAction = process.argv[2] || "sync";
+
+    if (cliAction === "audit") {
+        const details = process.argv[3] || `Git push audit at ${new Date().toISOString()}`;
+        console.log("📋 Appending audit entry to Notion...");
+        updateNotionStatus({ source: "git-hook", action: "git-push", details })
+            .then((r) => { console.log(JSON.stringify(r)); process.exit(r.ok ? 0 : 1); })
+            .catch((e) => { console.error(e); process.exit(1); });
+    } else {
+        console.log("🧠 Heady → Notion Sync Starting...");
+        syncToNotion()
+            .then((result) => {
+                console.log(JSON.stringify(result, null, 2));
+                process.exit(result.ok ? 0 : 1);
+            })
+            .catch((err) => {
+                console.error(err);
+                process.exit(1);
+            });
+    }
 }
 
-module.exports = { syncToNotion, registerNotionRoutes, loadState };
+module.exports = { syncToNotion, updateNotionStatus, registerNotionRoutes, loadState };
+
