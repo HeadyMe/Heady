@@ -23,6 +23,11 @@ const router = express.Router();
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const http = require("http");
+
+// Qdrant configuration
+const QDRANT_URL = process.env.QDRANT_URL || "http://127.0.0.1:6333";
+const QDRANT_COLLECTION = "heady-memory";
 
 const DATA_DIR = path.join(__dirname, "..", "..", "data");
 const MEMORY_FILE = path.join(DATA_DIR, "memory-store.jsonl");
@@ -124,10 +129,11 @@ router.post("/process", (req, res) => {
         };
         stats.gained++;
 
-        // Store memory
+        // Store memory (in-memory + disk + Qdrant)
         memories.set(memory.id, memory);
         vectors.set(memory.id, vector);
         persistMemory(memory, vector);
+        upsertToQdrant(memory, vector).catch(e => { /* non-critical */ });
 
         // Enforce max memories
         if (memories.size > CONFIG.maxMemories) {
@@ -302,6 +308,84 @@ router.post("/import", (req, res) => {
     res.json({ ok: true, imported: gained, rejected, total: items.length });
 });
 
+// ── Chat ingestion — extract knowledge from past conversations ──
+router.post("/ingest-chat", (req, res) => {
+    const { messages, chatId, source } = req.body;
+    if (!messages || !Array.isArray(messages)) return res.status(400).json({ ok: false, error: "messages array required" });
+
+    const results = { gained: 0, rejected: 0, extracted: [] };
+
+    for (const msg of messages) {
+        const text = typeof msg === "string" ? msg : (msg.content || msg.text || "");
+        const role = msg.role || "unknown";
+        if (!text || text.length < 20) continue; // skip trivial messages
+
+        // Extract knowledge units from each message
+        const units = extractKnowledgeUnits(text, role);
+
+        for (const unit of units) {
+            const memory = {
+                id: `mem-${Date.now()}-${crypto.randomBytes(3).toString("hex")}`,
+                content: unit.content.substring(0, 2000),
+                type: unit.type,
+                source: source || `chat-${chatId || "unknown"}`,
+                context: `Extracted from ${role} message in chat ${chatId || "?"}`,
+                tags: unit.tags,
+                createdAt: new Date().toISOString(),
+            };
+
+            const significance = calculateSignificance(memory);
+            memory.significance = significance;
+            const vector = generateEmbedding(memory.content);
+            memory.vectorHash = crypto.createHash("md5").update(vector.join(",")).digest("hex").slice(0, 12);
+
+            const similar = findSimilar(vector, CONFIG.similarityThreshold);
+
+            if (similar) {
+                stats.rejected++; stats.duplicatesBlocked++; results.rejected++;
+                persistAudit({ id: memory.id, ts: memory.createdAt, decision: "REJECTED", reason: "duplicate", detail: `Similar: ${similar.id}`, significance: significance.toFixed(4), type: memory.type, source: memory.source, contentPreview: memory.content.substring(0, 80), tags: memory.tags, memoryCount: memories.size, vectorCount: vectors.size, totalProcessed: ++stats.totalProcessed, gainRate: ((stats.gained / stats.totalProcessed) * 100).toFixed(1) + "%" });
+            } else if (significance < CONFIG.gainThreshold) {
+                stats.rejected++; results.rejected++;
+                persistAudit({ id: memory.id, ts: memory.createdAt, decision: "REJECTED", reason: "low-significance", detail: `sig=${significance.toFixed(3)} < ${CONFIG.gainThreshold}`, significance: significance.toFixed(4), type: memory.type, source: memory.source, contentPreview: memory.content.substring(0, 80), tags: memory.tags, memoryCount: memories.size, vectorCount: vectors.size, totalProcessed: ++stats.totalProcessed, gainRate: ((stats.gained / stats.totalProcessed) * 100).toFixed(1) + "%" });
+            } else {
+                stats.gained++; results.gained++;
+                memories.set(memory.id, memory);
+                vectors.set(memory.id, vector);
+                persistMemory(memory, vector);
+                upsertToQdrant(memory, vector).catch(() => { });
+                results.extracted.push({ id: memory.id, significance: significance.toFixed(3), type: unit.type, preview: memory.content.substring(0, 60) });
+                persistAudit({ id: memory.id, ts: memory.createdAt, decision: "GAINED", reason: "chat-extraction", detail: `sig=${significance.toFixed(3)}`, significance: significance.toFixed(4), type: memory.type, source: memory.source, contentPreview: memory.content.substring(0, 80), tags: memory.tags, memoryCount: memories.size, vectorCount: vectors.size, totalProcessed: ++stats.totalProcessed, gainRate: ((stats.gained / stats.totalProcessed) * 100).toFixed(1) + "%" });
+            }
+        }
+    }
+
+    res.json({
+        ok: true, service: "heady-memory", action: "ingest-chat",
+        chatId: chatId || "unknown",
+        messagesProcessed: messages.length,
+        ...results,
+        retentionRate: (results.gained + results.rejected) > 0 ? ((results.gained / (results.gained + results.rejected)) * 100).toFixed(1) + "%" : "N/A",
+    });
+});
+
+// ── Qdrant status ──
+router.get("/qdrant-status", async (req, res) => {
+    try {
+        const data = await qdrantRequest("GET", `/collections/${QDRANT_COLLECTION}`);
+        res.json({
+            ok: true, service: "heady-memory", qdrant: {
+                collection: QDRANT_COLLECTION,
+                pointsCount: data.result?.points_count || 0,
+                vectorsCount: data.result?.vectors_count || 0,
+                status: data.result?.status || "unknown",
+                dimensions: CONFIG.vectorDimensions,
+            },
+        });
+    } catch (err) {
+        res.json({ ok: false, error: err.message });
+    }
+});
+
 // ── Helpers ──
 
 function calculateSignificance(memory) {
@@ -398,6 +482,109 @@ function persistAudit(entry) {
     } catch { /* non-critical */ }
 }
 
+// ── Qdrant HTTP client ──
+function qdrantRequest(method, path, body) {
+    return new Promise((resolve, reject) => {
+        const url = new URL(path, QDRANT_URL);
+        const options = {
+            hostname: url.hostname, port: url.port || 6333,
+            path: url.pathname, method,
+            headers: { "Content-Type": "application/json" },
+            timeout: 5000,
+        };
+        const req = http.request(options, (resp) => {
+            let data = "";
+            resp.on("data", c => { data += c; });
+            resp.on("end", () => {
+                try { resolve(JSON.parse(data)); } catch { reject(new Error("Invalid JSON from Qdrant")); }
+            });
+        });
+        req.on("error", reject);
+        req.on("timeout", () => { req.destroy(); reject(new Error("Qdrant timeout")); });
+        if (body) req.write(JSON.stringify(body));
+        req.end();
+    });
+}
+
+async function upsertToQdrant(memory, vector) {
+    try {
+        await qdrantRequest("PUT", `/collections/${QDRANT_COLLECTION}/points`, {
+            points: [{
+                id: crypto.createHash("md5").update(memory.id).digest("hex").substring(0, 8),
+                vector: vector,
+                payload: {
+                    memoryId: memory.id,
+                    content: memory.content,
+                    type: memory.type,
+                    source: memory.source,
+                    significance: memory.significance,
+                    tags: memory.tags,
+                    createdAt: memory.createdAt,
+                },
+            }],
+        });
+    } catch (err) {
+        // Qdrant write is best-effort, don't fail the memory process
+        console.warn(`Qdrant upsert failed for ${memory.id}: ${err.message}`);
+    }
+}
+
+// ── Chat knowledge extraction ──
+function extractKnowledgeUnits(text, role) {
+    const units = [];
+    const sentences = text.split(/[.!?\n]+/).filter(s => s.trim().length > 30);
+
+    // Strategy 1: Full message if it's substantial
+    if (text.length > 100 && text.length <= 2000) {
+        units.push({
+            content: text.trim(),
+            type: role === "user" ? "episodic" : "semantic",
+            tags: detectTags(text),
+        });
+    } else if (text.length > 2000) {
+        // Strategy 2: Split into semantic chunks for long messages
+        for (let i = 0; i < sentences.length; i += 3) {
+            const chunk = sentences.slice(i, i + 3).join(". ").trim();
+            if (chunk.length > 50) {
+                units.push({
+                    content: chunk,
+                    type: detectType(chunk, role),
+                    tags: detectTags(chunk),
+                });
+            }
+        }
+    }
+
+    return units;
+}
+
+function detectType(text, role) {
+    const lower = text.toLowerCase();
+    if (/how to|step \d|install|configure|setup|create/.test(lower)) return "procedural";
+    if (/remember|preference|always|never|default/.test(lower)) return "contextual";
+    if (/happened|yesterday|today|just now|we did/.test(lower)) return "episodic";
+    return "semantic";
+}
+
+function detectTags(text) {
+    const tags = [];
+    const lower = text.toLowerCase();
+    const tagMap = {
+        architecture: /architect|design|pattern|system/,
+        memory: /memory|vector|embed|store|recall/,
+        infrastructure: /container|docker|podman|deploy|server/,
+        cloudflare: /cloudflare|worker|pages|kv|r2|d1/,
+        security: /auth|token|encrypt|ssl|cert/,
+        performance: /speed|latency|cache|optimize|fast/,
+        ai: /model|inference|llm|embedding|neural/,
+        heady: /heady|buddy|brain|soul|conductor/,
+    };
+    for (const [tag, pattern] of Object.entries(tagMap)) {
+        if (pattern.test(lower)) tags.push(tag);
+    }
+    return tags.slice(0, 5);
+}
+
 // Load persisted memories on startup
 (function loadPersistedMemories() {
     try {
@@ -411,6 +598,12 @@ function persistAudit(entry) {
                     stats.gained++;
                     stats.totalProcessed++;
                 } catch { /* skip malformed lines */ }
+            }
+            // Sync loaded memories to Qdrant
+            console.log(`HeadyMemory: loaded ${memories.size} memories, syncing to Qdrant...`);
+            for (const [id, mem] of memories) {
+                const vec = vectors.get(id);
+                if (vec) upsertToQdrant(mem, vec).catch(() => { });
             }
         }
     } catch { /* no persisted data yet */ }
