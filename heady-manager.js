@@ -1305,7 +1305,32 @@ try {
   console.warn(`  ⚠ HeadyNotion routes not loaded: ${err.message}`);
 }
 
-// ─── Service Stub Routes for MCP Tools ──────────────────────────────
+// ─── Real Service Routers (replacing stubs) ─────────────────────────
+try {
+  const soulRouter = require("./src/routes/soul");
+  app.use("/api/soul", soulRouter);
+  console.log("  ∞ HeadySoul: LOADED (real router) → /api/soul/*");
+} catch (err) {
+  console.warn(`  ⚠ HeadySoul router not loaded: ${err.message}`);
+}
+
+try {
+  const battleRouter = require("./src/routes/battle");
+  app.use("/api/battle", battleRouter);
+  console.log("  ∞ HeadyBattle: LOADED (real router) → /api/battle/*");
+} catch (err) {
+  console.warn(`  ⚠ HeadyBattle router not loaded: ${err.message}`);
+}
+
+try {
+  const hcfpRouter = require("./src/routes/hcfp");
+  app.use("/api/hcfp", hcfpRouter);
+  console.log("  ∞ HeadyHCFP: LOADED (real router) → /api/hcfp/*");
+} catch (err) {
+  console.warn(`  ⚠ HeadyHCFP router not loaded: ${err.message}`);
+}
+
+// ─── Service Stub Routes for remaining MCP Tools ────────────────────
 // These ensure all heady_* MCP tools have working backend endpoints.
 // Each stub logs the request, records the connectivity pattern, and
 // returns a structured response.
@@ -1364,12 +1389,9 @@ function createServiceStub(name, endpoints) {
 
 // Register all service stubs
 const serviceStubs = {
-  soul: ["analyze", "optimize"],
-  hcfp: ["status", "metrics"],
   perplexity: ["search", "research"],
   jules: ["task", "status"],
   huggingface: ["model"],
-  battle: ["session", "evaluate"],
   patterns: ["analyze", "library"],
   risks: ["assess", "mitigate"],
   coder: ["generate", "orchestrate"],
