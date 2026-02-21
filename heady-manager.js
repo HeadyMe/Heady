@@ -1338,6 +1338,17 @@ try {
   console.warn(`  ⚠ HeadyPatterns router not loaded: ${err.message}`);
 }
 
+// Wave 4 real routers
+for (const [name, file] of [["ops", "ops"], ["maintenance", "maintenance"], ["lens", "lens"], ["vinci", "vinci"]]) {
+  try {
+    const r = require(`./src/routes/${file}`);
+    app.use(`/api/${name}`, r);
+    console.log(`  ∞ Heady${name.charAt(0).toUpperCase() + name.slice(1)}: LOADED (real router) → /api/${name}/*`);
+  } catch (err) {
+    console.warn(`  ⚠ Heady${name} router not loaded: ${err.message}`);
+  }
+}
+
 // ─── Service Stub Routes for remaining MCP Tools ────────────────────
 // These ensure all heady_* MCP tools have working backend endpoints.
 // Each stub logs the request, records the connectivity pattern, and
@@ -1407,11 +1418,7 @@ const serviceStubs = {
   groq: ["chat", "complete"],
   codex: ["generate", "transform"],
   copilot: ["suggest", "complete"],
-  ops: ["deploy", "infrastructure"],
   maid: ["clean", "schedule"],
-  maintenance: ["status", "backup"],
-  lens: ["analyze", "process"],
-  vinci: ["learn", "predict"],
 };
 
 for (const [svc, endpoints] of Object.entries(serviceStubs)) {
