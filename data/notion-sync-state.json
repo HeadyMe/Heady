@@ -1,0 +1,17 @@
+{
+  "pages": {
+    "vault": "30ede7a6-5427-8122-8719-e79b4945e897",
+    "guide": "30ede7a6-5427-81ec-92c8-f7d9a1748adb",
+    "status": "30ede7a6-5427-81cc-88db-e904e5708710",
+    "commands": "30ede7a6-5427-81e1-887f-fa1acffd74a2",
+    "history": "30ede7a6-5427-8141-a675-f702801a66c7",
+    "ip": "30ede7a6-5427-8120-aa4f-de3f288bdf81",
+    "services": "30ede7a6-5427-8147-a4e3-da12820ea953",
+    "domains": "30ede7a6-5427-8137-8479-ea43ead09947",
+    "configs": "30ede7a6-5427-81d2-be84-e91cc65a46e2",
+    "architecture": "30ede7a6-5427-8110-83c9-c198e5a6e7e8",
+    "financials": "30ede7a6-5427-810c-b3e1-d6bafc542846"
+  },
+  "lastSync": "2026-02-21T20:17:08.103Z",
+  "syncCount": 1
+}
