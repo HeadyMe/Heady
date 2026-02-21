@@ -203,6 +203,48 @@ const HEADY_TOOLS = [
       required: ['code'],
     },
   },
+  {
+    name: 'heady_jules_task',
+    description: 'Dispatch an asynchronous background coding task to HeadyJules agent.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        task: { type: 'string', description: 'Description of the background task' },
+        repository: { type: 'string', description: 'Target repository path' },
+        priority: { type: 'string', enum: ['low', 'normal', 'high', 'critical'], default: 'normal' },
+        autoCommit: { type: 'boolean', description: 'Whether Jules should automatically commit changes', default: false }
+      },
+      required: ['task', 'repository']
+    }
+  },
+  {
+    name: 'heady_perplexity_research',
+    description: 'Perform deep research or real-time web search using HeadyPerplexity (Sonar Pro).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Research query or topic' },
+        mode: { type: 'string', enum: ['quick', 'deep', 'academic', 'news'], default: 'deep' },
+        timeframe: { type: 'string', enum: ['day', 'week', 'month', 'year', 'all'], default: 'all' },
+        maxSources: { type: 'integer', description: 'Maximum number of sources to cite', default: 10 }
+      },
+      required: ['query']
+    }
+  },
+  {
+    name: 'heady_huggingface_model',
+    description: 'Search or interact with HuggingFace models via HeadyHuggingFace.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        action: { type: 'string', enum: ['search', 'info', 'inference'], description: 'Action to perform' },
+        modelId: { type: 'string', description: 'HuggingFace model ID (e.g., meta-llama/Llama-3-8b)' },
+        query: { type: 'string', description: 'Search query or inference input' },
+        task: { type: 'string', description: 'Pipeline task (e.g., text-generation, image-classification)' }
+      },
+      required: ['action']
+    }
+  }
 ];
 
 // ── List Tools ────────────────────────────────────────────────────────────────
@@ -320,6 +362,45 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         });
         return {
           content: [{ type: 'text', text: typeof result === 'string' ? result : JSON.stringify(result, null, 2) }],
+        };
+      }
+
+      case 'heady_jules_task': {
+        const result = await headyPost('/api/jules/task', {
+          task: args.task,
+          repository: args.repository,
+          priority: args.priority || 'normal',
+          autoCommit: args.autoCommit || false,
+          source: 'google-antigravity',
+        });
+        return {
+          content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
+        };
+      }
+
+      case 'heady_perplexity_research': {
+        const result = await headyPost('/api/perplexity/research', {
+          query: args.query,
+          mode: args.mode || 'deep',
+          timeframe: args.timeframe || 'all',
+          maxSources: args.maxSources || 10,
+          source: 'google-antigravity',
+        });
+        return {
+          content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
+        };
+      }
+
+      case 'heady_huggingface_model': {
+        const result = await headyPost('/api/huggingface/model', {
+          action: args.action,
+          modelId: args.modelId,
+          query: args.query,
+          task: args.task,
+          source: 'google-antigravity',
+        });
+        return {
+          content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
         };
       }
 
